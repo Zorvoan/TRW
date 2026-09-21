@@ -327,17 +327,8 @@ body.is-ready .hero__title .word{animation:wordUp .95s var(--ease) forwards}
    One authored group is cloned by JS until it covers the viewport twice;
    --shift is set to the exact group width so the wrap is invisible. */
 .marquee{--gap:26px;overflow:hidden}
-.marquee__track{
-  display:flex;width:max-content;will-change:transform;
-  animation:marquee 30s linear infinite;
-}
+.marquee__track{display:flex;width:max-content;will-change:transform;transform:translate3d(0,0,0)}
 .marquee__group{display:flex;align-items:center;flex:none;gap:var(--gap);padding-right:var(--gap)}
-.marquee[data-direction="reverse"] .marquee__track{animation-direction:reverse}
-@keyframes marquee{
-  from{transform:translate3d(0,0,0)}
-  to{transform:translate3d(calc(var(--shift,50%) * -1),0,0)}
-}
-
 /* ---------- Ticker ---------- */
 .ticker{border-block:1px solid var(--line);background:var(--red);padding:12px 0}
 .ticker span{font-family:var(--ff-display);font-size:1.5rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#fff}
@@ -495,7 +486,6 @@ body.is-ready .hero__title .word{animation:wordUp .95s var(--ease) forwards}
   transition:color .35s,-webkit-text-stroke-color .35s;
 }
 .logos span:hover{color:var(--red);-webkit-text-stroke-color:transparent}
-.logos:hover .marquee__track{animation-play-state:paused}
 
 /* ---------- CTA ---------- */
 .cta{position:relative;overflow:hidden;padding-block:clamp(70px,9vw,130px);text-align:center;border-top:1px solid var(--line)}
@@ -576,8 +566,12 @@ body.is-ready .hero__title .word{animation:wordUp .95s var(--ease) forwards}
 }
 
 @media (prefers-reduced-motion:reduce){
-  *,*::before,*::after{animation-duration:.01ms !important;animation-iteration-count:1 !important;transition-duration:.01ms !important;scroll-behavior:auto !important}
-  [data-reveal]{opacity:1;transform:none}
-  .marquee__track{animation:none !important}
-  .hero__title .word{opacity:1;transform:none}
+  html{scroll-behavior:auto}
+  [data-reveal]{opacity:1;transform:none;transition:none}
+  .hero__title .word{opacity:1;transform:none;animation:none}
+  .grain,.speedlines i,.preloader__slash,.preloader__grid,
+  .corner__pulse,.corner__chevrons polygon,.corner__apex-ring,
+  .eyebrow .dot,.scroll-hint i{animation:none}
+  .hero__corner,.corner__kerb .k{animation-duration:.01ms}
+  .corner__edge{animation:none;stroke-dashoffset:0}
 }

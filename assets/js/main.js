@@ -319,45 +319,80 @@
     });
   }
 
-  /* ---------- 14. Seamless marquees ----------
-     Clones the authored group until the track covers the container twice,
-     then shifts by exactly one group width so the loop never shows a seam. */
-  function buildMarquee(root) {
-    var track = $('.marquee__track', root);
-    if (!track) return;
-
-    if (!root._seed) root._seed = track.firstElementChild.outerHTML;
-    track.innerHTML = root._seed;
-
-    var group = track.firstElementChild;
-    var groupWidth = group.getBoundingClientRect().width;
-    if (!groupWidth) return;
-
-    // enough copies to fill the viewport plus one spare for the wrap
-    var copies = Math.ceil(root.offsetWidth / groupWidth) + 1;
-    var html = '';
-    for (var i = 0; i < copies; i++) html += root._seed;
-    track.innerHTML = html;
-
-    var speed = parseFloat(root.getAttribute('data-speed')) || 60; // px per second
-    track.style.setProperty('--shift', groupWidth + 'px');
-    track.style.animationDuration = (groupWidth / speed) + 's';
-  }
-
+  /* ---------- 14. Marquees ----------
+     Driven by rAF rather than a CSS animation: no keyframe/custom-property
+     quirks, exact direction control, and it cannot be switched off by a
+     blanket `animation` override. The authored group is cloned until the
+     track covers the container, and the offset wraps modulo one group
+     width, so the loop is seamless in both directions. */
   function initMarquees() {
     var roots = $$('[data-marquee]');
     if (!roots.length) return;
 
-    function buildAll() { roots.forEach(buildMarquee); }
-    buildAll();
+    roots.forEach(function (root) {
+      var track = $('.marquee__track', root);
+      if (!track) return;
 
-    // widths change once the display font lands, and on resize
-    if (document.fonts && document.fonts.ready) document.fonts.ready.then(buildAll);
+      root._track = track;
+      root._seed = track.firstElementChild.outerHTML;
+      root._offset = 0;
+      root._visible = true;
+      root._paused = false;
+      // +1 = content travels left (right-to-left), -1 = travels right
+      root._dir = root.getAttribute('data-direction') === 'reverse' ? -1 : 1;
+      // px per second; reduced-motion keeps the loop but takes the edge off
+      root._speed = (parseFloat(root.getAttribute('data-speed')) || 60) * (reduced ? 0.4 : 1);
+
+      root._build = function () {
+        track.innerHTML = root._seed;
+        var groupWidth = track.firstElementChild.getBoundingClientRect().width;
+        if (!groupWidth) return;
+        root._groupW = groupWidth;
+
+        var copies = Math.ceil(root.offsetWidth / groupWidth) + 2;
+        var html = '';
+        for (var i = 0; i < copies; i++) html += root._seed;
+        track.innerHTML = html;
+        root._offset = root._offset % groupWidth;
+      };
+
+      root._build();
+
+      if (root.hasAttribute('data-pause-on-hover')) {
+        root.addEventListener('mouseenter', function () { root._paused = true; });
+        root.addEventListener('mouseleave', function () { root._paused = false; });
+      }
+    });
+
+    // only animate what is on screen
+    if ('IntersectionObserver' in window) {
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (e) { e.target._visible = e.isIntersecting; });
+      }, { rootMargin: '120px 0px' });
+      roots.forEach(function (r) { io.observe(r); });
+    }
+
+    var last = performance.now();
+    (function frame(now) {
+      var dt = Math.min((now - last) / 1000, 0.05);
+      last = now;
+      roots.forEach(function (root) {
+        if (!root._groupW || !root._visible || root._paused) return;
+        var w = root._groupW;
+        root._offset = (root._offset + root._dir * root._speed * dt) % w;
+        if (root._offset < 0) root._offset += w;
+        root._track.style.transform = 'translate3d(' + (-root._offset).toFixed(2) + 'px,0,0)';
+      });
+      requestAnimationFrame(frame);
+    })(last);
+
+    function rebuild() { roots.forEach(function (r) { r._build(); }); }
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(rebuild);
 
     var t;
     window.addEventListener('resize', function () {
       clearTimeout(t);
-      t = setTimeout(buildAll, 200);
+      t = setTimeout(rebuild, 200);
     });
   }
 
