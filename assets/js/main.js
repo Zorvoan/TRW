@@ -231,39 +231,89 @@
     });
   }
 
-  /* ---------- 10. Custom cursor ---------- */
+  /* ---------- 10. Custom cursor ----------
+     The native cursor is hidden only while this one is actually running, and
+     the switch is a class on <html> so a touch device, a narrow window or a
+     script failure always leaves the real cursor in place. */
   function initCursor() {
     var cursor = $('#cursor');
-    if (!cursor || window.matchMedia('(pointer: coarse)').matches) {
-      if (cursor) cursor.style.display = 'none';
-      return;
-    }
+    if (!cursor) return;
+
     var dot = $('.cursor__dot', cursor), ring = $('.cursor__ring', cursor);
-    var mx = window.innerWidth / 2, my = window.innerHeight / 2, rx = mx, ry = my;
+    var supported = window.matchMedia('(hover: hover) and (pointer: fine) and (min-width: 1101px)');
+    var mx = 0, my = 0, rx = 0, ry = 0, on = false, raf = null;
 
-    document.addEventListener('mousemove', function (e) {
+    var LABELS = { view: 'View', read: 'Read' };
+
+    function move(e) {
       mx = e.clientX; my = e.clientY;
+      if (!on) {
+        // first move: drop it in place, and only now hide the OS cursor, so the
+        // page never sits there with no cursor at all before the mouse stirs
+        rx = mx; ry = my;
+        on = true;
+        cursor.classList.add('is-on');
+        document.documentElement.classList.add('has-cursor');
+      }
       dot.style.transform = 'translate(' + mx + 'px,' + my + 'px) translate(-50%,-50%)';
-    });
+    }
 
-    (function loop() {
+    function loop() {
       rx += (mx - rx) * 0.16;
       ry += (my - ry) * 0.16;
       ring.style.transform = 'translate(' + rx + 'px,' + ry + 'px) translate(-50%,-50%)';
-      requestAnimationFrame(loop);
-    })();
+      raf = requestAnimationFrame(loop);
+    }
 
-    $$('[data-cursor], a, button').forEach(function (node) {
-      node.addEventListener('mouseenter', function () {
-        cursor.classList.add('is-active');
-        ring.setAttribute('data-label', node.getAttribute('data-cursor') === 'view' ? 'View'
-          : node.getAttribute('data-cursor') === 'read' ? 'Read' : '');
-      });
-      node.addEventListener('mouseleave', function () {
-        cursor.classList.remove('is-active');
-        ring.removeAttribute('data-label');
-      });
-    });
+    // delegated, so cloned nodes (the marquee copies) behave like the originals
+    function over(e) {
+      var hit = e.target.closest && e.target.closest('a,button,input,textarea,select,[data-cursor]');
+      if (!hit) { return out(); }
+      var text = /^(INPUT|TEXTAREA)$/.test(hit.tagName);
+      cursor.classList.toggle('is-text', text);
+      cursor.classList.toggle('is-active', !text);
+      var label = LABELS[hit.getAttribute('data-cursor')];
+      if (label && !text) ring.setAttribute('data-label', label);
+      else ring.removeAttribute('data-label');
+    }
+
+    function out() {
+      cursor.classList.remove('is-active', 'is-text');
+      ring.removeAttribute('data-label');
+    }
+
+    function enable() {
+      document.addEventListener('mousemove', move);
+      document.addEventListener('mouseover', over);
+      document.addEventListener('mousedown', down);
+      document.addEventListener('mouseup', up);
+      document.addEventListener('mouseleave', leave);
+      document.addEventListener('mouseenter', back);
+      if (!raf) raf = requestAnimationFrame(loop);
+    }
+
+    function disable() {
+      document.documentElement.classList.remove('has-cursor');
+      document.removeEventListener('mousemove', move);
+      document.removeEventListener('mouseover', over);
+      document.removeEventListener('mousedown', down);
+      document.removeEventListener('mouseup', up);
+      document.removeEventListener('mouseleave', leave);
+      document.removeEventListener('mouseenter', back);
+      if (raf) { cancelAnimationFrame(raf); raf = null; }
+      cursor.classList.remove('is-on', 'is-active', 'is-text', 'is-down');
+      on = false;
+    }
+
+    function down() { cursor.classList.add('is-down'); }
+    function up()   { cursor.classList.remove('is-down'); }
+    function leave() { cursor.classList.remove('is-on'); }
+    function back()  { if (on) cursor.classList.add('is-on'); }
+
+    function sync() { supported.matches ? enable() : disable(); }
+    sync();
+    if (supported.addEventListener) supported.addEventListener('change', sync);
+    else if (supported.addListener) supported.addListener(sync);
   }
 
   /* ---------- 11. Countdown to next race ---------- */

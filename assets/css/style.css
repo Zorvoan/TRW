@@ -142,14 +142,28 @@ ul,ol{margin:0;padding:0;list-style:none}
 .scroll-progress{position:fixed;top:0;left:0;right:0;height:3px;z-index:900;background:rgba(255,255,255,.06)}
 .scroll-progress i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--red),#ff5a3c);box-shadow:0 0 14px rgba(225,6,0,.8)}
 
-.cursor{position:fixed;top:0;left:0;z-index:9998;pointer-events:none;mix-blend-mode:difference}
+/* Hide the OS cursor only while the custom one is live. The class is set by
+   the script, so no JS means no hidden cursor. */
+html.has-cursor,
+html.has-cursor *{cursor:none}
+
+.cursor{
+  position:fixed;top:0;left:0;z-index:9998;pointer-events:none;
+  mix-blend-mode:difference;opacity:0;transition:opacity .25s;
+}
+.cursor.is-on{opacity:1}
 .cursor__dot,.cursor__ring{position:absolute;transform:translate(-50%,-50%)}
-.cursor__dot{width:6px;height:6px;background:#fff}
+.cursor__dot{width:6px;height:6px;background:#fff;transition:width .2s var(--ease),height .2s var(--ease)}
 .cursor__ring{
   width:34px;height:34px;border:1px solid rgba(255,255,255,.65);
-  transition:width .3s var(--ease),height .3s var(--ease),opacity .3s;
+  transition:width .3s var(--ease),height .3s var(--ease),background-color .3s,border-color .3s;
 }
 .cursor.is-active .cursor__ring{width:62px;height:62px;background:rgba(255,255,255,.12)}
+.cursor.is-down .cursor__ring{width:26px;height:26px;background:rgba(255,255,255,.3)}
+.cursor.is-down .cursor__dot{width:10px;height:10px}
+/* stands in for the I-beam over text fields */
+.cursor.is-text .cursor__ring{width:2px;height:30px;background:#fff;border-color:transparent}
+.cursor.is-text .cursor__dot{width:0;height:0}
 .cursor__ring::after{
   content:attr(data-label);position:absolute;inset:0;display:grid;place-items:center;
   font-family:var(--ff-display);font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;opacity:0;
