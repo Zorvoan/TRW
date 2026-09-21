@@ -96,7 +96,7 @@ ul,ol{margin:0;padding:0;list-style:none}
 .btn span{position:relative;z-index:2}
 .btn::before{
   content:"";position:absolute;inset:0;background:var(--red);
-  transform:translateX(-118%) skewX(-16deg) scaleX(1.3);
+  transform:translateX(-142%) skewX(-16deg) scaleX(1.3);
   transition:transform .45s var(--ease);z-index:1;
 }
 .btn:hover::before{transform:translateX(0) skewX(-16deg) scaleX(1.3)}
@@ -199,9 +199,6 @@ ul,ol{margin:0;padding:0;list-style:none}
 .nav__link.is-active{color:var(--red)}
 
 .header__actions{display:flex;align-items:center;gap:14px;margin-left:8px}
-.lang{display:flex;border:1px solid var(--line);clip-path:var(--clip-tr)}
-.lang__btn{padding:7px 12px;font-family:var(--ff-display);font-size:.8rem;letter-spacing:.16em;color:var(--muted);transition:.3s}
-.lang__btn.is-active{background:var(--red);color:#fff}
 
 .burger{display:none;flex-direction:column;justify-content:center;gap:5px;width:44px;height:44px;border:1px solid var(--line)}
 .burger i{display:block;width:20px;height:2px;background:var(--white);margin-inline:auto;transition:transform .35s var(--ease),opacity .2s}
@@ -507,7 +504,6 @@ ul,ol{margin:0;padding:0;list-style:none}
   .news,.drivers{grid-template-columns:1fr}
   .card--wide{grid-column:auto}
   .tl{grid-template-columns:1fr;gap:8px}
-  .lang{display:none}
   .footer__inner{grid-template-columns:1fr}
   .spec{grid-template-columns:1fr}
 }

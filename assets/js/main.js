@@ -311,12 +311,6 @@
   function initMisc() {
     var year = $('#year');
     if (year) year.textContent = new Date().getFullYear();
-
-    $$('.lang__btn').forEach(function (btn) {
-      btn.addEventListener('click', function () {
-        $$('.lang__btn').forEach(function (b) { b.classList.toggle('is-active', b === btn); });
-      });
-    });
   }
 
   /* ---------- 14. Marquees ----------
