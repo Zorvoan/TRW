@@ -323,12 +323,25 @@ body.is-ready .hero__title .word{animation:wordUp .95s var(--ease) forwards}
 .scroll-hint i{display:block;width:2px;height:54px;background:linear-gradient(180deg,var(--red),transparent);animation:scrollPulse 1.8s var(--ease) infinite}
 @keyframes scrollPulse{0%{transform:scaleY(.2);transform-origin:top}50%{transform:scaleY(1);transform-origin:top}51%{transform-origin:bottom}100%{transform:scaleY(.2);transform-origin:bottom}}
 
+/* ---------- Marquee engine (seamless infinite loop) ----------
+   One authored group is cloned by JS until it covers the viewport twice;
+   --shift is set to the exact group width so the wrap is invisible. */
+.marquee{--gap:26px;overflow:hidden}
+.marquee__track{
+  display:flex;width:max-content;will-change:transform;
+  animation:marquee 30s linear infinite;
+}
+.marquee__group{display:flex;align-items:center;flex:none;gap:var(--gap);padding-right:var(--gap)}
+.marquee[data-direction="reverse"] .marquee__track{animation-direction:reverse}
+@keyframes marquee{
+  from{transform:translate3d(0,0,0)}
+  to{transform:translate3d(calc(var(--shift,50%) * -1),0,0)}
+}
+
 /* ---------- Ticker ---------- */
-.ticker{border-block:1px solid var(--line);background:var(--red);overflow:hidden;padding:12px 0}
-.ticker__track{display:flex;gap:26px;white-space:nowrap;width:max-content;animation:tick 26s linear infinite}
-.ticker__track span{font-family:var(--ff-display);font-size:1.5rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#fff}
-.ticker__track b{color:rgba(255,255,255,.45)}
-@keyframes tick{to{transform:translateX(-50%)}}
+.ticker{border-block:1px solid var(--line);background:var(--red);padding:12px 0}
+.ticker span{font-family:var(--ff-display);font-size:1.5rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#fff}
+.ticker b{color:rgba(255,255,255,.45)}
 
 /* ---------- Sections ---------- */
 .section{position:relative;padding-block:var(--sec-pad)}
@@ -474,16 +487,15 @@ body.is-ready .hero__title .word{animation:wordUp .95s var(--ease) forwards}
 .news__more{display:flex;justify-content:center;margin-top:48px}
 
 /* ---------- Partners ---------- */
-.logos{overflow:hidden;border-block:1px solid var(--line);padding:26px 0}
+.logos{--gap:clamp(40px,7vw,110px);border-block:1px solid var(--line);padding:26px 0}
 .logos+.logos{border-top:0}
-.logos__track{display:flex;gap:clamp(40px,7vw,110px);width:max-content;animation:tick 34s linear infinite}
-.logos--rev .logos__track{animation-duration:42s;animation-direction:reverse}
-.logos__track span{
+.logos span{
   font-family:var(--ff-display);font-weight:700;font-size:clamp(1.6rem,3vw,2.6rem);
-  letter-spacing:.14em;text-transform:uppercase;color:transparent;-webkit-text-stroke:1px rgba(255,255,255,.35);
+  letter-spacing:.14em;text-transform:uppercase;color:transparent;-webkit-text-stroke:1px rgba(255,255,255,.5);
   transition:color .35s,-webkit-text-stroke-color .35s;
 }
-.logos__track span:hover{color:var(--red);-webkit-text-stroke-color:transparent}
+.logos span:hover{color:var(--red);-webkit-text-stroke-color:transparent}
+.logos:hover .marquee__track{animation-play-state:paused}
 
 /* ---------- CTA ---------- */
 .cta{position:relative;overflow:hidden;padding-block:clamp(70px,9vw,130px);text-align:center;border-top:1px solid var(--line)}
@@ -566,5 +578,6 @@ body.is-ready .hero__title .word{animation:wordUp .95s var(--ease) forwards}
 @media (prefers-reduced-motion:reduce){
   *,*::before,*::after{animation-duration:.01ms !important;animation-iteration-count:1 !important;transition-duration:.01ms !important;scroll-behavior:auto !important}
   [data-reveal]{opacity:1;transform:none}
+  .marquee__track{animation:none !important}
   .hero__title .word{opacity:1;transform:none}
 }

@@ -319,6 +319,48 @@
     });
   }
 
+  /* ---------- 14. Seamless marquees ----------
+     Clones the authored group until the track covers the container twice,
+     then shifts by exactly one group width so the loop never shows a seam. */
+  function buildMarquee(root) {
+    var track = $('.marquee__track', root);
+    if (!track) return;
+
+    if (!root._seed) root._seed = track.firstElementChild.outerHTML;
+    track.innerHTML = root._seed;
+
+    var group = track.firstElementChild;
+    var groupWidth = group.getBoundingClientRect().width;
+    if (!groupWidth) return;
+
+    // enough copies to fill the viewport plus one spare for the wrap
+    var copies = Math.ceil(root.offsetWidth / groupWidth) + 1;
+    var html = '';
+    for (var i = 0; i < copies; i++) html += root._seed;
+    track.innerHTML = html;
+
+    var speed = parseFloat(root.getAttribute('data-speed')) || 60; // px per second
+    track.style.setProperty('--shift', groupWidth + 'px');
+    track.style.animationDuration = (groupWidth / speed) + 's';
+  }
+
+  function initMarquees() {
+    var roots = $$('[data-marquee]');
+    if (!roots.length) return;
+
+    function buildAll() { roots.forEach(buildMarquee); }
+    buildAll();
+
+    // widths change once the display font lands, and on resize
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(buildAll);
+
+    var t;
+    window.addEventListener('resize', function () {
+      clearTimeout(t);
+      t = setTimeout(buildAll, 200);
+    });
+  }
+
   /* ---------- Boot ---------- */
   function boot() {
     initPreloader();
@@ -333,6 +375,7 @@
     initCountdown();
     initForm();
     initMisc();
+    initMarquees();
   }
 
   if (document.readyState === 'loading') {
