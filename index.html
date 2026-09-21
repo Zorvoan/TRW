@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>TRW | Racing — Official Racing Team</title>
+<meta name="description" content="TRW is a leading global racing team competing in the FIA WEC Hypercar and LMGT3 classes, GT World Challenge and the Intercontinental GT Challenge." />
+<meta name="theme-color" content="#05060a" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,400;0,600;0,700;0,800;1,700&family=Chakra+Petch:wght@400;600;700&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="assets/css/style.css" />
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' fill='%2305060a'/><path d='M4 24 L10 8 h5 l-6 16z M14 24 L20 8 h5 l-6 16z' fill='%23e10600'/></svg>" />
+</head>
+<body class="is-loading">
+
+<!-- ============ PRELOADER ============ -->
+<div class="preloader" id="preloader" aria-hidden="true">
+  <div class="preloader__grid"></div>
+  <div class="preloader__inner">
+    <div class="preloader__mark">
+      <span class="preloader__slash"></span>
+      <span class="preloader__slash"></span>
+      <span class="preloader__slash"></span>
+    </div>
+    <div class="preloader__label">
+      <span>TRW</span> <em>Racing Division</em>
+    </div>
+    <div class="preloader__bar"><i id="preloaderBar"></i></div>
+    <div class="preloader__count"><span id="preloaderCount">0</span><small>%</small></div>
+  </div>
+  <div class="preloader__shutters">
+    <span></span><span></span><span></span><span></span><span></span>
+  </div>
+</div>
+
+<!-- ============ UI CHROME ============ -->
+<div class="scroll-progress"><i id="scrollBar"></i></div>
+<div class="cursor" id="cursor"><span class="cursor__dot"></span><span class="cursor__ring"></span></div>
+<div class="grain" aria-hidden="true"></div>
+
+<!-- ============ HEADER ============ -->
+<header class="header" id="header">
+  <div class="header__inner">
+    <a href="#top" class="logo" data-cursor="link">
+      <svg viewBox="0 0 64 32" class="logo__mark" aria-hidden="true">
+        <path d="M2 28 L12 4 h7 L9 28z" fill="currentColor" opacity=".35"/>
+        <path d="M14 28 L24 4 h7 L21 28z" fill="currentColor" opacity=".7"/>
+        <path d="M26 28 L36 4 h7 L33 28z" fill="currentColor"/>
+      </svg>
+      <span class="logo__text">TRW<em>Racing</em></span>
+    </a>
+
+    <nav class="nav" id="nav" aria-label="Main">
+      <a href="#racing" class="nav__link" data-cursor="link"><span>Racing</span></a>
+      <a href="#programs" class="nav__link" data-cursor="link"><span>Programs</span></a>
+      <a href="#drivers" class="nav__link" data-cursor="link"><span>Drivers</span></a>
+      <a href="#palmares" class="nav__link" data-cursor="link"><span>Palmarès</span></a>
+      <a href="#news" class="nav__link" data-cursor="link"><span>News</span></a>
+      <a href="#partners" class="nav__link" data-cursor="link"><span>Partners</span></a>
+    </nav>
+
+    <div class="header__actions">
+      <div class="lang" role="group" aria-label="Language">
+        <button class="lang__btn is-active" type="button">EN</button>
+        <button class="lang__btn" type="button">FR</button>
+      </div>
+      <a href="#contact" class="btn btn--sm" data-cursor="link"><span>Contact</span></a>
+      <button class="burger" id="burger" type="button" aria-label="Menu" aria-expanded="false">
+        <i></i><i></i><i></i>
+      </button>
+    </div>
+  </div>
+</header>
+
+<!-- ============ HERO ============ -->
+<main id="top">
+<section class="hero" id="hero">
+  <div class="hero__bg" data-parallax="0.25">
+    <div class="hero__mesh"></div>
+    <div class="hero__stripes"></div>
+    <div class="hero__car">
+      <svg viewBox="0 0 900 260" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
+        <defs>
+          <linearGradient id="carG" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0%" stop-color="#e10600"/>
+            <stop offset="55%" stop-color="#7a0400"/>
+            <stop offset="100%" stop-color="#14161d"/>
+          </linearGradient>
+        </defs>
+        <path fill="url(#carG)" d="M20 200 L120 196 L190 130 L330 110 L430 74 L560 72 L650 104 L760 122 L860 160 L880 200 L820 210 L760 206 Q740 160 700 160 T640 206 L300 206 Q286 158 244 158 T188 206 L60 208 Z"/>
+        <path fill="#05060a" opacity=".55" d="M360 112 L444 84 L546 84 L604 110 Z"/>
+        <circle cx="216" cy="200" r="44" fill="#0b0d12" stroke="#2a2e38" stroke-width="6"/>
+        <circle cx="672" cy="200" r="44" fill="#0b0d12" stroke="#2a2e38" stroke-width="6"/>
+        <path d="M120 196 L190 130 L330 110" fill="none" stroke="#fff" stroke-opacity=".35" stroke-width="3"/>
+      </svg>
+    </div>
+    <div class="speedlines">
+      <i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i>
+    </div>
+  </div>
+
+  <div class="hero__content container">
+    <p class="eyebrow reveal" data-reveal><span class="dot"></span>Season 2026 — FIA World Endurance Championship</p>
+    <h1 class="hero__title">
+      <span class="line"><span class="word" data-split>TRW</span> <span class="word outline" data-split>Racing</span></span>
+      <span class="line"><span class="word" data-split>Built</span> <span class="word" data-split>for</span> <span class="word accent" data-split>the</span> <span class="word accent" data-split>Limit</span></span>
+    </h1>
+    <p class="hero__lead reveal" data-reveal data-delay="200">
+      A leading global racing team with <strong>74 international titles</strong>, victories at the
+      24 Hours of Le Mans and the 24 Hours of Spa — competing in Hypercar, LMGT3 and GT World Challenge.
+    </p>
+    <div class="hero__cta reveal" data-reveal data-delay="320">
+      <a href="#programs" class="btn btn--primary" data-cursor="link"><span>Our Programs</span></a>
+      <a href="#news" class="btn btn--ghost" data-cursor="link"><span>Latest News</span></a>
+    </div>
+  </div>
+
+  <div class="hero__meta">
+    <div class="hero__next">
+      <span class="hero__next-label">Next Race</span>
+      <strong>6 Hours of Spa-Francorchamps</strong>
+      <div class="countdown" id="countdown" aria-live="polite">
+        <div><b data-cd="d">00</b><small>Days</small></div>
+        <div><b data-cd="h">00</b><small>Hrs</small></div>
+        <div><b data-cd="m">00</b><small>Min</small></div>
+        <div><b data-cd="s">00</b><small>Sec</small></div>
+      </div>
+    </div>
+    <a href="#racing" class="scroll-hint" data-cursor="link">
+      <span>Scroll</span><i></i>
+    </a>
+  </div>
+</section>
+
+<!-- ============ TICKER ============ -->
+<div class="ticker" aria-hidden="true">
+  <div class="ticker__track">
+    <span>Hypercar</span><b>/</b><span>LMGT3</span><b>/</b><span>GT World Challenge</span><b>/</b>
+    <span>24H Le Mans</span><b>/</b><span>24H Spa</span><b>/</b><span>Intercontinental GT</span><b>/</b>
+    <span>Hypercar</span><b>/</b><span>LMGT3</span><b>/</b><span>GT World Challenge</span><b>/</b>
+    <span>24H Le Mans</span><b>/</b><span>24H Spa</span><b>/</b><span>Intercontinental GT</span><b>/</b>
+  </div>
+</div>
+
+<!-- ============ RACING / INTRO ============ -->
+<section class="section section--racing" id="racing">
+  <div class="container grid-2">
+    <div class="sec-head">
+      <p class="eyebrow reveal" data-reveal><span class="dot"></span>Racing</p>
+      <h2 class="h2 reveal" data-reveal data-delay="80">Seventeen years<br><span class="outline">at full throttle</span></h2>
+      <p class="lead reveal" data-reveal data-delay="160">
+        Founded in 2009, TRW has grown from a national GT squad into one of the most successful
+        customer and works racing operations in the world. Engineering, logistics, simulator
+        development and driver coaching — everything under one roof.
+      </p>
+      <a href="#palmares" class="btn btn--ghost reveal" data-reveal data-delay="240" data-cursor="link"><span>See the Palmarès</span></a>
+    </div>
+
+    <div class="stats" id="stats">
+      <div class="stat reveal" data-reveal>
+        <b class="counter" data-target="74">0</b>
+        <span>International titles</span>
+      </div>
+      <div class="stat reveal" data-reveal data-delay="90">
+        <b class="counter" data-target="312">0</b>
+        <span>Race victories</span>
+      </div>
+      <div class="stat reveal" data-reveal data-delay="180">
+        <b class="counter" data-target="6">0</b>
+        <span>Le Mans class wins</span>
+      </div>
+      <div class="stat reveal" data-reveal data-delay="270">
+        <b class="counter" data-target="180">0</b><i>+</i>
+        <span>Team members</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PROGRAMS ============ -->
+<section class="section section--programs" id="programs">
+  <div class="container">
+    <div class="sec-top">
+      <div>
+        <p class="eyebrow reveal" data-reveal><span class="dot"></span>Programs</p>
+        <h2 class="h2 reveal" data-reveal data-delay="80">2026 <span class="accent">Campaigns</span></h2>
+      </div>
+      <p class="sec-top__note reveal" data-reveal data-delay="160">
+        Four championships. Three continents. One standard.
+      </p>
+    </div>
+
+    <div class="tabs reveal" data-reveal data-delay="120" id="tabs">
+      <button class="tab is-active" data-tab="wec" type="button" data-cursor="link"><span>FIA WEC · Hypercar</span></button>
+      <button class="tab" data-tab="gt3" type="button" data-cursor="link"><span>FIA WEC · LMGT3</span></button>
+      <button class="tab" data-tab="gtwc" type="button" data-cursor="link"><span>GT World Challenge</span></button>
+      <button class="tab" data-tab="igtc" type="button" data-cursor="link"><span>Intercontinental GT</span></button>
+      <i class="tabs__ink" id="tabsInk"></i>
+    </div>
+
+    <div class="panels">
+      <article class="panel is-active" data-panel="wec">
+        <div class="panel__visual visual visual--red">
+          <span class="visual__num">#15</span>
+          <span class="visual__tag">Hypercar</span>
+        </div>
+        <div class="panel__body">
+          <h3>FIA World Endurance Championship — Hypercar</h3>
+          <p>The flagship program. Two LMDh prototypes contesting the full eight-round world
+             championship, including the 24 Hours of Le Mans, with a full works engineering
+             structure and a 40-strong trackside crew.</p>
+          <ul class="spec">
+            <li><b>Cars</b><span>2 × LMDh Prototype</span></li>
+            <li><b>Rounds</b><span>8</span></li>
+            <li><b>Drivers</b><span>6</span></li>
+            <li><b>Debut</b><span>2024</span></li>
+          </ul>
+        </div>
+      </article>
+
+      <article class="panel" data-panel="gt3">
+        <div class="panel__visual visual visual--steel">
+          <span class="visual__num">#46</span>
+          <span class="visual__tag">LMGT3</span>
+        </div>
+        <div class="panel__body">
+          <h3>FIA World Endurance Championship — LMGT3</h3>
+          <p>Two GT3 machines in the most competitive GT field on the planet, pairing bronze-rated
+             talent with factory professionals across the full WEC calendar.</p>
+          <ul class="spec">
+            <li><b>Cars</b><span>2 × GT3</span></li>
+            <li><b>Rounds</b><span>8</span></li>
+            <li><b>Drivers</b><span>6</span></li>
+            <li><b>Debut</b><span>2016</span></li>
+          </ul>
+        </div>
+      </article>
+
+      <article class="panel" data-panel="gtwc">
+        <div class="panel__visual visual visual--carbon">
+          <span class="visual__num">#32</span>
+          <span class="visual__tag">GTWC</span>
+        </div>
+        <div class="panel__body">
+          <h3>GT World Challenge Europe</h3>
+          <p>Sprint and Endurance Cup entries on the continent's toughest GT stage, headlined by the
+             24 Hours of Spa — a race TRW treats as a home event.</p>
+          <ul class="spec">
+            <li><b>Cars</b><span>4 × GT3</span></li>
+            <li><b>Rounds</b><span>10</span></li>
+            <li><b>Drivers</b><span>12</span></li>
+            <li><b>Debut</b><span>2011</span></li>
+          </ul>
+        </div>
+      </article>
+
+      <article class="panel" data-panel="igtc">
+        <div class="panel__visual visual visual--gold">
+          <span class="visual__num">#7</span>
+          <span class="visual__tag">IGTC</span>
+        </div>
+        <div class="panel__body">
+          <h3>Intercontinental GT Challenge</h3>
+          <p>Four continents, four classics — Bathurst, Spa, Suzuka and Indianapolis — run with a
+             travelling core crew and locally embedded support.</p>
+          <ul class="spec">
+            <li><b>Cars</b><span>1 × GT3</span></li>
+            <li><b>Rounds</b><span>4</span></li>
+            <li><b>Drivers</b><span>3</span></li>
+            <li><b>Debut</b><span>2018</span></li>
+          </ul>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ============ DRIVERS ============ -->
+<section class="section section--drivers" id="drivers">
+  <div class="container">
+    <div class="sec-top">
+      <div>
+        <p class="eyebrow reveal" data-reveal><span class="dot"></span>Line-up</p>
+        <h2 class="h2 reveal" data-reveal data-delay="80">The <span class="outline">Drivers</span></h2>
+      </div>
+      <p class="sec-top__note reveal" data-reveal data-delay="160">Season 2026 roster</p>
+    </div>
+
+    <div class="drivers">
+      <article class="driver reveal" data-reveal data-cursor="view">
+        <div class="driver__img visual visual--red"><span class="driver__no">15</span></div>
+        <div class="driver__info">
+          <h3>Luca Fenn</h3>
+          <p>Hypercar · <span class="flag">BEL</span></p>
+        </div>
+        <span class="driver__arrow">↗</span>
+      </article>
+      <article class="driver reveal" data-reveal data-delay="80" data-cursor="view">
+        <div class="driver__img visual visual--steel"><span class="driver__no">15</span></div>
+        <div class="driver__info">
+          <h3>Mats Dornier</h3>
+          <p>Hypercar · <span class="flag">GER</span></p>
+        </div>
+        <span class="driver__arrow">↗</span>
+      </article>
+      <article class="driver reveal" data-reveal data-delay="160" data-cursor="view">
+        <div class="driver__img visual visual--carbon"><span class="driver__no">46</span></div>
+        <div class="driver__info">
+          <h3>Niko Valtera</h3>
+          <p>LMGT3 · <span class="flag">FIN</span></p>
+        </div>
+        <span class="driver__arrow">↗</span>
+      </article>
+      <article class="driver reveal" data-reveal data-delay="240" data-cursor="view">
+        <div class="driver__img visual visual--gold"><span class="driver__no">32</span></div>
+        <div class="driver__info">
+          <h3>Elena Rossi</h3>
+          <p>GTWC · <span class="flag">ITA</span></p>
+        </div>
+        <span class="driver__arrow">↗</span>
+      </article>
+      <article class="driver reveal" data-reveal data-delay="320" data-cursor="view">
+        <div class="driver__img visual visual--red"><span class="driver__no">7</span></div>
+        <div class="driver__info">
+          <h3>Tom Vasseur</h3>
+          <p>IGTC · <span class="flag">FRA</span></p>
+        </div>
+        <span class="driver__arrow">↗</span>
+      </article>
+      <article class="driver reveal" data-reveal data-delay="400" data-cursor="view">
+        <div class="driver__img visual visual--steel"><span class="driver__no">46</span></div>
+        <div class="driver__info">
+          <h3>Jan Novotný</h3>
+          <p>LMGT3 · <span class="flag">CZE</span></p>
+        </div>
+        <span class="driver__arrow">↗</span>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PALMARES ============ -->
+<section class="section section--palmares" id="palmares">
+  <div class="container">
+    <div class="sec-top">
+      <div>
+        <p class="eyebrow reveal" data-reveal><span class="dot"></span>Palmarès</p>
+        <h2 class="h2 reveal" data-reveal data-delay="80">Milestones</h2>
+      </div>
+    </div>
+    <ol class="timeline">
+      <li class="tl reveal" data-reveal>
+        <b>2009</b>
+        <div><h3>The beginning</h3><p>TRW is founded and enters its first national GT championship with a single car.</p></div>
+      </li>
+      <li class="tl reveal" data-reveal data-delay="80">
+        <b>2014</b>
+        <div><h3>First 24H Spa win</h3><p>A maiden overall victory in the blue riband event of GT racing.</p></div>
+      </li>
+      <li class="tl reveal" data-reveal data-delay="160">
+        <b>2019</b>
+        <div><h3>Into endurance prototypes</h3><p>The team expands into the European Le Mans Series and takes the title at the first attempt.</p></div>
+      </li>
+      <li class="tl reveal" data-reveal data-delay="240">
+        <b>2022</b>
+        <div><h3>Le Mans class victory</h3><p>Back-to-back class wins at the 24 Hours of Le Mans.</p></div>
+      </li>
+      <li class="tl reveal" data-reveal data-delay="320">
+        <b>2026</b>
+        <div><h3>Works Hypercar squad</h3><p>Full works status in the top class of the FIA World Endurance Championship.</p></div>
+      </li>
+    </ol>
+  </div>
+</section>
+
+<!-- ============ NEWS ============ -->
+<section class="section section--news" id="news">
+  <div class="container">
+    <div class="sec-top">
+      <div>
+        <p class="eyebrow reveal" data-reveal><span class="dot"></span>Newsroom</p>
+        <h2 class="h2 reveal" data-reveal data-delay="80">Latest <span class="accent">News</span></h2>
+      </div>
+      <div class="filters reveal" data-reveal data-delay="160" id="filters">
+        <button class="filter is-active" data-filter="all" type="button">All</button>
+        <button class="filter" data-filter="wec" type="button">WEC</button>
+        <button class="filter" data-filter="gtwc" type="button">GTWC</button>
+        <button class="filter" data-filter="team" type="button">Team</button>
+      </div>
+    </div>
+
+    <div class="news" id="newsGrid">
+      <article class="card card--wide reveal" data-reveal data-cat="wec" data-cursor="read">
+        <div class="card__img visual visual--red"></div>
+        <div class="card__body">
+          <span class="card__cat">WEC</span>
+          <h3>Double podium in the opening round of the season</h3>
+          <p>Both Hypercars finished inside the top three after a flawless six-hour run and a decisive final stint.</p>
+          <time>12 March 2026</time>
+        </div>
+      </article>
+      <article class="card reveal" data-reveal data-delay="80" data-cat="gtwc" data-cursor="read">
+        <div class="card__img visual visual--steel"></div>
+        <div class="card__body">
+          <span class="card__cat">GTWC</span>
+          <h3>Pole position at Monza in the closing seconds</h3>
+          <time>2 March 2026</time>
+        </div>
+      </article>
+      <article class="card reveal" data-reveal data-delay="160" data-cat="team" data-cursor="read">
+        <div class="card__img visual visual--carbon"></div>
+        <div class="card__body">
+          <span class="card__cat">Team</span>
+          <h3>New simulator facility opens at the Baudour base</h3>
+          <time>24 February 2026</time>
+        </div>
+      </article>
+      <article class="card reveal" data-reveal data-delay="240" data-cat="wec" data-cursor="read">
+        <div class="card__img visual visual--gold"></div>
+        <div class="card__body">
+          <span class="card__cat">WEC</span>
+          <h3>Prologue test concluded with 3,100 km on the board</h3>
+          <time>18 February 2026</time>
+        </div>
+      </article>
+      <article class="card reveal" data-reveal data-delay="320" data-cat="team" data-cursor="read">
+        <div class="card__img visual visual--red"></div>
+        <div class="card__body">
+          <span class="card__cat">Team</span>
+          <h3>TRW confirms its 2026 driver line-up</h3>
+          <time>9 January 2026</time>
+        </div>
+      </article>
+    </div>
+
+    <div class="news__more reveal" data-reveal>
+      <a href="#news" class="btn btn--ghost" data-cursor="link"><span>All articles</span></a>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PARTNERS ============ -->
+<section class="section section--partners" id="partners">
+  <div class="container">
+    <div class="sec-top">
+      <div>
+        <p class="eyebrow reveal" data-reveal><span class="dot"></span>Partners</p>
+        <h2 class="h2 reveal" data-reveal data-delay="80">Trusted by</h2>
+      </div>
+    </div>
+  </div>
+  <div class="logos" aria-label="Partners">
+    <div class="logos__track">
+      <span>APEX</span><span>VELOCITA</span><span>NORDKRAFT</span><span>OCTANE</span><span>KERBSTONE</span><span>HELIOS</span>
+      <span>APEX</span><span>VELOCITA</span><span>NORDKRAFT</span><span>OCTANE</span><span>KERBSTONE</span><span>HELIOS</span>
+    </div>
+  </div>
+  <div class="logos logos--rev">
+    <div class="logos__track">
+      <span>SLIPSTREAM</span><span>FERRO</span><span>AERODYN</span><span>MONZA LAB</span><span>PITWALL</span><span>TELEMETRIX</span>
+      <span>SLIPSTREAM</span><span>FERRO</span><span>AERODYN</span><span>MONZA LAB</span><span>PITWALL</span><span>TELEMETRIX</span>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CTA ============ -->
+<section class="cta" id="contact">
+  <div class="cta__bg" data-parallax="0.15"></div>
+  <div class="container cta__inner">
+    <h2 class="h2 reveal" data-reveal>Race with <span class="accent">TRW</span></h2>
+    <p class="reveal" data-reveal data-delay="100">Partnership enquiries, arrive-and-drive programs and media requests.</p>
+    <form class="cta__form reveal" data-reveal data-delay="180" id="ctaForm" novalidate>
+      <input type="email" name="email" placeholder="your@email.com" aria-label="Email" required />
+      <button class="btn btn--primary" type="submit" data-cursor="link"><span>Get in touch</span></button>
+    </form>
+    <p class="cta__msg" id="ctaMsg" role="status"></p>
+  </div>
+</section>
+</main>
+
+<!-- ============ FOOTER ============ -->
+<footer class="footer">
+  <div class="container footer__inner">
+    <div class="footer__brand">
+      <span class="logo__text">TRW<em>Racing</em></span>
+      <p>Rue du Circuit 9<br />7331 Baudour, Belgium</p>
+    </div>
+    <nav class="footer__col" aria-label="Racing">
+      <h4>Racing</h4>
+      <a href="#programs">Programs</a><a href="#drivers">Drivers</a><a href="#palmares">Palmarès</a>
+    </nav>
+    <nav class="footer__col" aria-label="Team">
+      <h4>Team</h4>
+      <a href="#racing">Profile</a><a href="#news">Newsroom</a><a href="#partners">Partners</a>
+    </nav>
+    <nav class="footer__col" aria-label="Follow">
+      <h4>Follow</h4>
+      <a href="#top">Instagram</a><a href="#top">YouTube</a><a href="#top">LinkedIn</a>
+    </nav>
+  </div>
+  <div class="footer__bar container">
+    <span>© <span id="year">2026</span> TRW Racing. All rights reserved.</span>
+    <span>Privacy · Cookies · Terms</span>
+  </div>
+</footer>
+
+<button class="to-top" id="toTop" type="button" aria-label="Back to top">↑</button>
+
+<script src="assets/js/main.js"></script>
+</body>
+</html>
