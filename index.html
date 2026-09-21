@@ -79,20 +79,64 @@
   <div class="hero__bg" data-parallax="0.25">
     <div class="hero__mesh"></div>
     <div class="hero__stripes"></div>
-    <div class="hero__car">
-      <svg viewBox="0 0 900 260" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
+    <div class="hero__corner" data-parallax-inner>
+      <svg viewBox="0 0 900 620" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
         <defs>
-          <linearGradient id="carG" x1="0" y1="0" x2="1" y2="1">
+          <linearGradient id="trackG" x1="0" y1="1" x2="1" y2="0">
             <stop offset="0%" stop-color="#e10600"/>
-            <stop offset="55%" stop-color="#7a0400"/>
+            <stop offset="42%" stop-color="#8a0400"/>
             <stop offset="100%" stop-color="#14161d"/>
           </linearGradient>
+          <linearGradient id="edgeG" x1="0" y1="1" x2="1" y2="0">
+            <stop offset="0%" stop-color="#ffffff" stop-opacity=".85"/>
+            <stop offset="70%" stop-color="#ffffff" stop-opacity=".12"/>
+            <stop offset="100%" stop-color="#ffffff" stop-opacity="0"/>
+          </linearGradient>
         </defs>
-        <path fill="url(#carG)" d="M20 200 L120 196 L190 130 L330 110 L430 74 L560 72 L650 104 L760 122 L860 160 L880 200 L820 210 L760 206 Q740 160 700 160 T640 206 L300 206 Q286 158 244 158 T188 206 L60 208 Z"/>
-        <path fill="#05060a" opacity=".55" d="M360 112 L444 84 L546 84 L604 110 Z"/>
-        <circle cx="216" cy="200" r="44" fill="#0b0d12" stroke="#2a2e38" stroke-width="6"/>
-        <circle cx="672" cy="200" r="44" fill="#0b0d12" stroke="#2a2e38" stroke-width="6"/>
-        <path d="M120 196 L190 130 L330 110" fill="none" stroke="#fff" stroke-opacity=".35" stroke-width="3"/>
+
+        <!-- cast shadow, offset and flattened -->
+        <path class="corner__shade"
+              d="M900,646 L534,646 L154,326 L164,214 L344,134 L900,204 L900,274 L394,214 L264,254 L264,324 L574,566 L900,566 Z"/>
+
+        <!-- track surface: one hairpin, straight segments only -->
+        <path class="corner__band"
+              d="M900,620 L520,620 L140,300 L150,190 L330,110 L900,180 L900,250 L380,190 L250,230 L250,300 L560,540 L900,540 Z"/>
+
+        <!-- outer edge highlight -->
+        <path class="corner__edge"
+              d="M900,620 L520,620 L140,300 L150,190 L330,110 L900,180"/>
+
+        <!-- kerbs on the apex -->
+        <g class="corner__kerb">
+          <polygon class="k k--white" points="250.0,300.0 276.0,295.0 276.0,282.0 250.0,287.0" style="--i:0"/>
+          <polygon class="k k--red" points="250.0,285.0 276.0,280.0 276.0,267.0 250.0,272.0" style="--i:1"/>
+          <polygon class="k k--white" points="250.0,270.0 276.0,265.0 276.0,252.0 250.0,257.0" style="--i:2"/>
+          <polygon class="k k--red" points="250.0,255.0 276.0,250.0 276.0,237.0 250.0,242.0" style="--i:3"/>
+          <polygon class="k k--white" points="250.0,240.0 276.0,235.0 276.0,222.0 250.0,227.0" style="--i:4"/>
+          <polygon class="k k--red" points="250.0,228.0 267.3,222.9 274.1,246.0 256.7,251.0" style="--i:5"/>
+          <polygon class="k k--white" points="271.7,221.7 289.0,216.6 295.7,239.6 278.4,244.7" style="--i:6"/>
+          <polygon class="k k--red" points="293.3,215.3 310.7,210.3 317.4,233.3 300.1,238.4" style="--i:7"/>
+          <polygon class="k k--white" points="315.0,209.0 332.3,203.9 339.1,227.0 321.7,232.0" style="--i:8"/>
+          <polygon class="k k--red" points="336.7,202.7 354.0,197.6 360.7,220.6 343.4,225.7" style="--i:9"/>
+          <polygon class="k k--white" points="358.3,196.3 375.7,191.3 382.4,214.3 365.1,219.4" style="--i:10"/>
+        </g>
+
+        <!-- ideal line through the apex -->
+        <path class="corner__line" d="M900,596 L556,596 L286,368 L282,252 L372,214 L900,236"/>
+        <path class="corner__pulse" d="M900,596 L556,596 L286,368 L282,252 L372,214 L900,236"/>
+
+        <!-- direction chevrons on the entry straight -->
+        <g class="corner__chevrons">
+          <polygon points="700,600 742,570 742,592 700,622" style="--i:0"/>
+          <polygon points="756,600 798,570 798,592 756,622" style="--i:1"/>
+          <polygon points="812,600 854,570 854,592 812,622" style="--i:2"/>
+        </g>
+
+        <!-- apex marker -->
+        <g class="corner__apex">
+          <polygon points="250,212 286,196 286,228 250,244"/>
+          <path class="corner__apex-ring" d="M224,212 L224,194 L242,194 M294,194 L312,194 L312,212 M312,236 L312,254 L294,254 M242,254 L224,254 L224,236"/>
+        </g>
       </svg>
     </div>
     <div class="speedlines">
