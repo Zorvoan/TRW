@@ -1,21 +1,20 @@
 # TRW Racing
 
-Statická webová prezentace závodního týmu **TRW** — replika stylu stránky
-`w-racingteam.com/racing`: ostré hrany, zkosené tvary, racing typografie,
-černo-červená paleta, scroll loading a animace.
+Statická webová prezentace závodního týmu **TRW** v motorsportovém stylu:
+startovní světla, živá telemetrie, timing tower, kalendář závodů a sekce,
+které se načítají až ve chvíli, kdy k nim uživatel doscrolluje.
 
 ## Struktura
 
 ```
-index.html            # celá stránka (hero, programy, jezdci, palmarès, news, partneři, CTA)
+index.html            # celá stránka (hero, tým, programy, jezdci, kalendář, palmarès, news, partneři, CTA)
 assets/css/style.css  # design systém — tokeny, sekce, responzivita
 assets/js/main.js     # veškeré interakce (bez závislostí)
 ```
 
 ## Spuštění
 
-Žádný build, žádné závislosti. Stačí otevřít `index.html`, nebo pro jistotu
-(kvůli relativním cestám) spustit statický server:
+Žádný build, žádné závislosti:
 
 ```bash
 python3 -m http.server 8000
@@ -24,32 +23,33 @@ python3 -m http.server 8000
 
 ## Co je uvnitř
 
+**Úvod a hero**
+- preloader ve stylu startovních světel (5 sloupců, náhodná pauza, „Lights out“); klik nebo klávesa ho přeskočí
+- nadpis se rozjíždí po písmenech, na pozadí canvas se „speed streaks“
+- telemetrický panel: auto objíždí trať, rychlost se počítá z křivosti trati
+  (brzdné zóny, akcelerace), z ní převodový stupeň, shift lights a časy sektorů
+  barvené jako v časomíře (fialová = nejlepší, zelená = osobní, žlutá = pomalejší)
+- odpočet do dalšího závodu
+
 **Scroll loading & animace**
-- úvodní preloader s počítadlem 0–100 % a lamelovým („shutter“) odkrytím stránky
-- scroll reveal přes `IntersectionObserver` se stagger prodlevami (`data-delay`)
-- progress bar průběhu scrollu v hlavičce
-- dopočítávaná čísla statistik (74 titulů, 312 vítězství…)
-- parallax vrstvy v heru a v CTA (`data-parallax`)
-- hero nadpis s postupným náběhem slov, speed-lines, animované SVG auto
-- nekonečné tickery (championshipy, loga partnerů)
-- vlastní kurzor s popiskem podle prvku (`data-cursor="view|read|link"`)
-- auto-skrývající se hlavička, zvýraznění aktivní sekce, tlačítko zpět nahoru
+- sekce s `data-lazy` (jezdci, kalendář, news, partneři) čekají za „pit boardem“,
+  po doscrollování se „načtou“ a jejich položky (`data-stagger`) najedou postupně
+- scroll reveal přes `IntersectionObserver` se zpožděním (`data-delay`)
+- progress „kola“ nahoře se značkami sektorů a HUD vlevo dole (S1/S2/S3 + aktuální sekce)
+- časová osa palmarès se vyplňuje podle scrollu, čítače statistik, nekonečné marquee
+- vlající šachovnicová vlajka (canvas) v CTA
 
 **Interaktivní části**
-- taby programů (WEC Hypercar / LMGT3 / GTWC / IGTC) s posuvným podtržením
-- filtrování novinek podle kategorie
-- odpočet do dalšího závodu
-- validace e-mailu v kontaktním formuláři
-- mobilní off-canvas menu
+- taby programů (šipky na klávesnici fungují), filtrování novinek, validace e-mailu,
+  mobilní off-canvas menu
 
 **Přístupnost a výkon**
-- plně respektuje `prefers-reduced-motion` (animace se vypnou)
-- responzivní od 360 px výš, bez horizontálního přetečení
-- vizuály jsou generované CSS/SVG — stránka nenačítá žádné obrázky
+- bez JS je vše viditelné (skrývání řídí třída `.js`)
+- respektuje `prefers-reduced-motion`
+- animace na canvasu a telemetrie běží jen když jsou vidět
+- responzivní od 360 px, bez horizontálního přetečení; žádné obrázky — vizuály jsou CSS/SVG/canvas
 
 ## Poznámky
 
-- Fonty (Barlow Condensed, Chakra Petch) se načítají z Google Fonts; bez
-  připojení stránka spadne na systémové bezpatkové písmo.
-- Texty, jména jezdců a novinky jsou ukázkový obsah — připraveno k výměně
-  za reálná data.
+- Fonty (Saira Condensed, Saira, JetBrains Mono) se načítají z Google Fonts.
+- Jména jezdců, časy, výsledky a novinky jsou ukázkový obsah.
