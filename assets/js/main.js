@@ -574,6 +574,106 @@
     window.addEventListener('resize', function () { clearTimeout(t); t = setTimeout(rebuild, 200); });
   }
 
+
+  /* ---------- 15. Ghost words slide with scroll ---------- */
+  function initGhosts() {
+    var ghosts = $$('[data-ghost]');
+    ghosts.forEach(function (g, i) {
+      var word = g.getAttribute('data-ghost');
+      g.textContent = new Array(7).join(word + ' · ');
+      g._dir = i % 2 ? 1 : -1;
+    });
+    if (reduced) return;
+    var ticking = false;
+    function update() {
+      ticking = false;
+      var vh = window.innerHeight;
+      ghosts.forEach(function (g) {
+        var r = g.parentElement.getBoundingClientRect();
+        if (r.bottom < 0 || r.top > vh) return;
+        var p = (vh - r.top) / (vh + r.height);           // 0 → 1 while the section crosses the screen
+        var w = g.scrollWidth;
+        var x = -w * 0.25 + g._dir * (p - 0.5) * w * 0.18;
+        g.style.transform = 'translate3d(' + x.toFixed(1) + 'px,0,0)';
+      });
+    }
+    window.addEventListener('scroll', function () { if (!ticking) { ticking = true; requestAnimationFrame(update); } }, { passive: true });
+    window.addEventListener('resize', update);
+    update();
+  }
+
+  /* ---------- 16. Garage carousel: the next car drives in ---------- */
+  function initGarage() {
+    var root = $('#garage');
+    if (!root) return;
+    var slides = $$('.slide', root), dots = $$('.dot', root), cur = 0;
+    function show(n, dir) {
+      n = (n + slides.length) % slides.length;
+      if (n === cur) return;
+      slides[cur].classList.remove('is-active', 'from-left');
+      cur = n;
+      var s = slides[cur];
+      s.classList.toggle('from-left', dir < 0);
+      void s.offsetWidth;
+      s.classList.add('is-active');
+      dots.forEach(function (d, i) { d.classList.toggle('is-active', i === cur); d.setAttribute('aria-current', i === cur ? 'true' : 'false'); });
+    }
+    $$('.garage__arrow', root).forEach(function (b) {
+      b.addEventListener('click', function () { var d = +b.getAttribute('data-dir'); show(cur + d, d); });
+    });
+    dots.forEach(function (d) { d.addEventListener('click', function () { var n = +d.getAttribute('data-go'); show(n, n > cur ? 1 : -1); }); });
+    root.addEventListener('keydown', function (e) {
+      if (e.key === 'ArrowRight') show(cur + 1, 1);
+      if (e.key === 'ArrowLeft') show(cur - 1, -1);
+    });
+    // swipe on touch screens
+    var x0 = null;
+    root.addEventListener('touchstart', function (e) { x0 = e.touches[0].clientX; }, { passive: true });
+    root.addEventListener('touchend', function (e) {
+      if (x0 === null) return;
+      var dx = e.changedTouches[0].clientX - x0; x0 = null;
+      if (Math.abs(dx) > 40) show(cur + (dx < 0 ? 1 : -1), dx < 0 ? 1 : -1);
+    });
+  }
+
+  /* ---------- 17. Driver line-up by season ---------- */
+  function initDrivers() {
+    var grid = $('#dgrid'), wrap = $('#years'), dataEl = $('#rosterData'), tpl = $('#helmetTpl');
+    if (!grid || !wrap || !dataEl) return;
+    var roster = JSON.parse(dataEl.textContent);
+    var helmet = tpl ? tpl.innerHTML : '';
+    var buttons = $$('.year', wrap);
+    var order = buttons.map(function (b) { return b.getAttribute('data-year'); });
+    var current = order[0];
+
+    function esc(t) { var d = document.createElement('div'); d.textContent = t; return d.innerHTML; }
+    function card(d, i) {
+      return '<article class="dcard" style="--i:' + i + ';--c1:' + d.c1 + ';--c2:' + d.c2 + '">' +
+        '<div class="dcard__art"><span class="dcard__logo">TRW</span><span class="dcard__no">' + esc(d.num) + '</span>' + helmet +
+        '<h3 class="dcard__name"><small>' + esc(d.first) + '</small>' + esc(d.last) + '</h3></div>' +
+        '<p class="dcard__meta"><span>' + esc(d.nat) + ' · ' + esc(d.cls) + '</span><span class="mono">' + esc(d.lap) + '</span></p></article>';
+    }
+    function select(year) {
+      if (year === current || !roster[year]) return;
+      current = year;
+      buttons.forEach(function (b) {
+        var on = b.getAttribute('data-year') === year;
+        b.classList.toggle('is-active', on);
+        b.setAttribute('aria-pressed', String(on));
+      });
+      grid.classList.remove('is-swap');
+      grid.innerHTML = roster[year].map(card).join('');
+      if (!reduced) { void grid.offsetWidth; grid.classList.add('is-swap'); }
+    }
+    buttons.forEach(function (b) { b.addEventListener('click', function () { select(b.getAttribute('data-year')); }); });
+    $$('.years__arrow', wrap).forEach(function (a) {
+      a.addEventListener('click', function () {
+        var i = order.indexOf(current) + parseInt(a.getAttribute('data-step'), 10);
+        if (i >= 0 && i < order.length) select(order[i]);
+      });
+    });
+  }
+
   /* ---------- Boot ---------- */
   function boot() {
     var year = $('#year');
@@ -590,6 +690,9 @@
     initStreaks();
     initFlag();
     initTelemetry();
+    initGhosts();
+    initGarage();
+    initDrivers();
     // reveals wait for the start so nothing animates behind the lights
     initLights(initReveal);
   }

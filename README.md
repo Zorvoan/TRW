@@ -31,6 +31,12 @@ python3 -m http.server 8000
   barvené jako v časomíře (fialová = nejlepší, zelená = osobní, žlutá = pomalejší)
 - odpočet do dalšího závodu
 
+**Sekce**
+- střídání černých, bílých a cihlově červených sekcí, za nadpisy obří „ghost“ text posouvaný scrollem
+- pruh s dalším závodem: odpočet v černých boxech a obrys trati, který se dokreslí
+- garáž: karusel vozů (SVG), další auto přijede s roztočenými koly; šipky, tečky, klávesnice, swipe
+- jezdci: karty s helmou a přepínáním sezón 2026 / 2025 / 2024
+
 **Scroll loading & animace**
 - sekce s `data-lazy` (jezdci, kalendář, news, partneři) čekají za „pit boardem“,
   po doscrollování se „načtou“ a jejich položky (`data-stagger`) najedou postupně

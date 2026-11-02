@@ -8,8 +8,8 @@
 <meta name="theme-color" content="#08090c" />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=Saira+Condensed:wght@500;700;800;900&family=Saira:wght@400;500;600&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet" />
-<link rel="stylesheet" href="assets/css/style.css?v=7" />
+<link href="https://fonts.googleapis.com/css2?family=Russo+One&family=Saira+Condensed:wght@500;700;800;900&family=Saira:wght@400;500;600&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="assets/css/style.css?v=8" />
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' fill='%2308090c'/><path d='M5 24 L11 8 h5 l-6 16z M15 24 L21 8 h5 l-6 16z' fill='%23e4002b'/></svg>" />
 <script>document.documentElement.classList.add('js')</script>
 </head>
@@ -53,7 +53,7 @@
 
     <nav class="nav" id="nav" aria-label="Main">
       <a href="#team" class="nav__link"><small>S1</small>Team</a>
-      <a href="#programs" class="nav__link"><small>S1</small>Programs</a>
+      <a href="#programs" class="nav__link"><small>S1</small>Garage</a>
       <a href="#drivers" class="nav__link"><small>S2</small>Drivers</a>
       <a href="#calendar" class="nav__link"><small>S2</small>Calendar</a>
       <a href="#palmares" class="nav__link"><small>S3</small>Palmarès</a>
@@ -91,14 +91,14 @@
       </p>
       <div class="hero__cta reveal" data-reveal data-delay="380">
         <a href="#programs" class="btn btn--primary"><span>2026 programs</span></a>
-        <a href="#drivers" class="btn btn--ghost"><span>Live timing</span></a>
+        <a href="#next" class="btn btn--ghost"><span>Next race</span></a>
       </div>
     </div>
 
     <!-- telemetry panel: a car lapping the test circuit, readouts driven by the track curvature -->
-    <aside class="tele reveal" data-reveal data-delay="150" aria-label="Simulated telemetry, car #15">
+    <aside class="tele reveal" data-reveal data-delay="150" aria-label="Simulated telemetry, car #27">
       <header class="tele__head">
-        <span><b>#15</b> Hypercar · onboard</span>
+        <span><b>#27</b> Hypercar · onboard</span>
         <span class="tele__track">Most Test Circuit · 4.212 km</span>
       </header>
 
@@ -135,16 +135,6 @@
   </div>
 
   <div class="container hero__foot">
-    <div class="next">
-      <span class="next__label">Next round · R8</span>
-      <strong>8 Hours of Bahrain</strong>
-      <div class="countdown" id="countdown" aria-live="off">
-        <div><b data-cd="d">00</b><small>Days</small></div>
-        <div><b data-cd="h">00</b><small>Hrs</small></div>
-        <div><b data-cd="m">00</b><small>Min</small></div>
-        <div><b data-cd="s">00</b><small>Sec</small></div>
-      </div>
-    </div>
     <a href="#team" class="scroll-cue"><span>Scroll to start the lap</span><i></i></a>
   </div>
 </section>
@@ -160,8 +150,33 @@
   <div class="chequer"></div>
 </div>
 
+<!-- ============ NEXT RACE ============ -->
+<section class="race" id="next" data-sector="S1" data-name="Next race">
+  <div class="ghost" data-ghost="Next race" aria-hidden="true"></div>
+  <div class="container race__grid">
+    <div class="race__left reveal" data-reveal>
+      <div class="countdown" id="countdown" aria-label="Time to race start">
+        <div><b data-cd="d">00</b><small>Days</small></div>
+        <div><b data-cd="h">00</b><small>Hours</small></div>
+        <div><b data-cd="m">00</b><small>Minutes</small></div>
+        <div><b data-cd="s">00</b><small>Seconds</small></div>
+      </div>
+      <svg class="race__track" id="raceTrack" viewBox="0 0 340 200" aria-hidden="true">
+        <path d="M40 150 L40 62 C40 40 62 30 82 42 L150 82 L200 52 C216 42 234 50 238 66 L250 118 L300 128 C322 133 322 160 300 165 L122 170 C102 171 92 160 86 150 Z"/>
+      </svg>
+    </div>
+    <div class="race__right reveal" data-reveal data-delay="120">
+      <p class="race__date"><span class="race__flag" aria-hidden="true"></span>12/11/2026 › 14/11/2026</p>
+      <h2 class="race__title">FIA WEC · 8 Hours of Bahrain</h2>
+      <p class="race__text">Round 8 and the season finale under the Sakhir floodlights. Car #27 arrives second in the drivers' standings, eleven points off the lead.</p>
+      <a href="#calendar" class="btn btn--dark"><span>Race info</span></a>
+    </div>
+  </div>
+</section>
+
 <!-- ============ TEAM / STATS ============ -->
 <section class="section" id="team" data-sector="S1" data-name="Team">
+  <div class="ghost" data-ghost="The team" aria-hidden="true"></div>
   <div class="container split">
     <div>
       <p class="kicker reveal" data-reveal><span class="kicker__s">S1</span>The team</p>
@@ -198,142 +213,53 @@
   </div>
 </section>
 
-<!-- ============ PROGRAMS ============ -->
-<section class="section section--alt" id="programs" data-sector="S1" data-name="Programs">
+<!-- ============ GARAGE (car carousel) ============ -->
+<section class="section section--light" id="programs" data-sector="S1" data-name="Garage">
+  <div class="ghost" data-ghost="The garage" aria-hidden="true"></div>
   <div class="container">
-    <div class="sec-top">
-      <div>
-        <p class="kicker reveal" data-reveal><span class="kicker__s">S1</span>Programs</p>
-        <h2 class="h2 reveal" data-reveal data-delay="80">2026 <span class="red">campaigns</span></h2>
+    <div class="sec-top sec-top--center">
+      <p class="kicker reveal" data-reveal><span class="kicker__s">S1</span>2026 programs</p>
+      <h2 class="h2 reveal" data-reveal data-delay="80">The <span class="red">garage</span></h2>
+    </div>
+    <div class="garage reveal" data-reveal data-delay="120" id="garage" aria-roledescription="carousel" aria-label="TRW cars">
+      <button class="garage__arrow garage__arrow--prev" type="button" aria-label="Previous car" data-dir="-1">‹</button>
+      <div class="garage__stage" aria-live="polite">
+        <figure class="slide is-active" data-slide="0" style="--car-body:#111318;--car-stripe:#e4002b" aria-roledescription="slide" aria-label="1 of 4"><div class="slide__car"><svg class="car" viewBox="0 0 800 260" aria-hidden="true"><defs><clipPath id="clip-hy"><path d="M 30 196 L 44 168 C 60 156 120 146 190 138 L 290 104 C 330 90 410 84 470 92 L 560 112 C 620 120 690 128 735 144 L 762 152 L 772 180 L 764 198 L 690 198 C 686 156 610 156 606 198 L 262 198 C 258 156 182 156 178 198 Z"/></clipPath></defs><ellipse cx="400" cy="236" rx="370" ry="13" class="car__shadow"/><path d="M640 120 L700 104 L760 110 L762 140 Z" fill="#0b0b0d"/><path d="M 30 196 L 44 168 C 60 156 120 146 190 138 L 290 104 C 330 90 410 84 470 92 L 560 112 C 620 120 690 128 735 144 L 762 152 L 772 180 L 764 198 L 690 198 C 686 156 610 156 606 198 L 262 198 C 258 156 182 156 178 198 Z" fill="var(--car-body)"/><g clip-path="url(#clip-hy)"><path d="M230 260 L410 0 H468 L288 260 Z" fill="var(--car-stripe)"/><path d="M300 260 L480 0 H494 L314 260 Z" fill="#fff" opacity=".85"/><rect x="0" y="178" width="800" height="22" fill="rgba(0,0,0,.35)"/></g><path d="M300 110 L340 97 C380 89 430 88 466 96 L522 110 L300 117 Z" fill="#0d0f14"/><path d="M50 166 L86 158 L82 168 L48 174 Z" fill="#ffe9a8"/><rect x="392" y="126" width="88" height="46" rx="6" fill="#fff"/><text x="436" y="162" class="car__num" text-anchor="middle">27</text><g class="wheel" style="transform-origin:220px 198px"><circle cx="220" cy="198" r="36" fill="#0b0b0d"/><circle cx="220" cy="198" r="24" fill="#2b2e36"/><path d="M220 176 V220 M198 198 H242 M204 182 L236 214 M236 182 L204 214" stroke="#9aa0ab" stroke-width="4"/><circle cx="220" cy="198" r="6" fill="var(--car-stripe)"/></g><g class="wheel" style="transform-origin:648px 198px"><circle cx="648" cy="198" r="36" fill="#0b0b0d"/><circle cx="648" cy="198" r="24" fill="#2b2e36"/><path d="M648 176 V220 M626 198 H670 M632 182 L664 214 M664 182 L632 214" stroke="#9aa0ab" stroke-width="4"/><circle cx="648" cy="198" r="6" fill="var(--car-stripe)"/></g></svg></div><figcaption class="slide__info"><span class="slide__class">FIA WEC · Hypercar</span><h3>LMDh #27</h3><p>The flagship. Two LMDh prototypes on the full eight-round world championship, the 24 Hours of Le Mans included, run by a works engineering group and a 40-strong trackside crew.</p><ul class="spec"><li><b>Cars</b><span>2 × LMDh</span></li><li><b>Power</b><span>520 kW cap</span></li><li><b>Min. weight</b><span>1,030 kg</span></li><li><b>Debut</b><span>2024</span></li></ul></figcaption></figure><figure class="slide" data-slide="1" style="--car-body:#f4f5f7;--car-stripe:#e4002b" aria-roledescription="slide" aria-label="2 of 4"><div class="slide__car"><svg class="car" viewBox="0 0 800 260" aria-hidden="true"><defs><clipPath id="clip-gt"><path d="M 30 196 L 44 168 C 60 156 120 146 190 138 L 290 104 C 330 90 410 84 470 92 L 560 112 C 620 120 690 128 735 144 L 762 152 L 772 180 L 764 198 L 690 198 C 686 156 610 156 606 198 L 262 198 C 258 156 182 156 178 198 Z"/></clipPath></defs><ellipse cx="400" cy="236" rx="370" ry="13" class="car__shadow"/><rect x="676" y="90" width="100" height="13" fill="#0b0b0d"/><path d="M700 103 H716 L724 130 H708 Z" fill="#0b0b0d"/><rect x="764" y="78" width="9" height="34" fill="var(--car-stripe)"/><path d="M 30 196 L 44 168 C 60 156 120 146 190 138 L 290 104 C 330 90 410 84 470 92 L 560 112 C 620 120 690 128 735 144 L 762 152 L 772 180 L 764 198 L 690 198 C 686 156 610 156 606 198 L 262 198 C 258 156 182 156 178 198 Z" fill="var(--car-body)"/><g clip-path="url(#clip-gt)"><path d="M230 260 L410 0 H468 L288 260 Z" fill="var(--car-stripe)"/><path d="M300 260 L480 0 H494 L314 260 Z" fill="#fff" opacity=".85"/><rect x="0" y="178" width="800" height="22" fill="rgba(0,0,0,.35)"/></g><path d="M300 110 L340 97 C380 89 430 88 466 96 L522 110 L300 117 Z" fill="#0d0f14"/><path d="M50 166 L86 158 L82 168 L48 174 Z" fill="#ffe9a8"/><rect x="392" y="126" width="88" height="46" rx="6" fill="#fff"/><text x="436" y="162" class="car__num" text-anchor="middle">64</text><g class="wheel" style="transform-origin:220px 198px"><circle cx="220" cy="198" r="36" fill="#0b0b0d"/><circle cx="220" cy="198" r="24" fill="#2b2e36"/><path d="M220 176 V220 M198 198 H242 M204 182 L236 214 M236 182 L204 214" stroke="#9aa0ab" stroke-width="4"/><circle cx="220" cy="198" r="6" fill="var(--car-stripe)"/></g><g class="wheel" style="transform-origin:648px 198px"><circle cx="648" cy="198" r="36" fill="#0b0b0d"/><circle cx="648" cy="198" r="24" fill="#2b2e36"/><path d="M648 176 V220 M626 198 H670 M632 182 L664 214 M664 182 L632 214" stroke="#9aa0ab" stroke-width="4"/><circle cx="648" cy="198" r="6" fill="var(--car-stripe)"/></g></svg></div><figcaption class="slide__info"><span class="slide__class">FIA WEC · LMGT3</span><h3>GT3 #64</h3><p>Two GT3 cars in the deepest GT field in the world, pairing bronze-rated drivers with factory professionals across the full WEC calendar.</p><ul class="spec"><li><b>Cars</b><span>2 × GT3</span></li><li><b>Line-up</b><span>Pro / Am</span></li><li><b>Tyres</b><span>Goodyear</span></li><li><b>Debut</b><span>2016</span></li></ul></figcaption></figure><figure class="slide" data-slide="2" style="--car-body:#3a404c;--car-stripe:#d9a43a" aria-roledescription="slide" aria-label="3 of 4"><div class="slide__car"><svg class="car" viewBox="0 0 800 260" aria-hidden="true"><defs><clipPath id="clip-gw"><path d="M 30 196 L 44 168 C 60 156 120 146 190 138 L 290 104 C 330 90 410 84 470 92 L 560 112 C 620 120 690 128 735 144 L 762 152 L 772 180 L 764 198 L 690 198 C 686 156 610 156 606 198 L 262 198 C 258 156 182 156 178 198 Z"/></clipPath></defs><ellipse cx="400" cy="236" rx="370" ry="13" class="car__shadow"/><rect x="676" y="90" width="100" height="13" fill="#0b0b0d"/><path d="M700 103 H716 L724 130 H708 Z" fill="#0b0b0d"/><rect x="764" y="78" width="9" height="34" fill="var(--car-stripe)"/><path d="M 30 196 L 44 168 C 60 156 120 146 190 138 L 290 104 C 330 90 410 84 470 92 L 560 112 C 620 120 690 128 735 144 L 762 152 L 772 180 L 764 198 L 690 198 C 686 156 610 156 606 198 L 262 198 C 258 156 182 156 178 198 Z" fill="var(--car-body)"/><g clip-path="url(#clip-gw)"><path d="M230 260 L410 0 H468 L288 260 Z" fill="var(--car-stripe)"/><path d="M300 260 L480 0 H494 L314 260 Z" fill="#fff" opacity=".85"/><rect x="0" y="178" width="800" height="22" fill="rgba(0,0,0,.35)"/></g><path d="M300 110 L340 97 C380 89 430 88 466 96 L522 110 L300 117 Z" fill="#0d0f14"/><path d="M50 166 L86 158 L82 168 L48 174 Z" fill="#ffe9a8"/><rect x="392" y="126" width="88" height="46" rx="6" fill="#fff"/><text x="436" y="162" class="car__num" text-anchor="middle">23</text><g class="wheel" style="transform-origin:220px 198px"><circle cx="220" cy="198" r="36" fill="#0b0b0d"/><circle cx="220" cy="198" r="24" fill="#2b2e36"/><path d="M220 176 V220 M198 198 H242 M204 182 L236 214 M236 182 L204 214" stroke="#9aa0ab" stroke-width="4"/><circle cx="220" cy="198" r="6" fill="var(--car-stripe)"/></g><g class="wheel" style="transform-origin:648px 198px"><circle cx="648" cy="198" r="36" fill="#0b0b0d"/><circle cx="648" cy="198" r="24" fill="#2b2e36"/><path d="M648 176 V220 M626 198 H670 M632 182 L664 214 M664 182 L632 214" stroke="#9aa0ab" stroke-width="4"/><circle cx="648" cy="198" r="6" fill="var(--car-stripe)"/></g></svg></div><figcaption class="slide__info"><span class="slide__class">GT World Challenge Europe</span><h3>GT3 #23</h3><p>Sprint and Endurance Cup entries on Europe's hardest GT stage, headlined by the 24 Hours of Spa.</p><ul class="spec"><li><b>Cars</b><span>4 × GT3</span></li><li><b>Rounds</b><span>10</span></li><li><b>Drivers</b><span>12</span></li><li><b>Debut</b><span>2013</span></li></ul></figcaption></figure><figure class="slide" data-slide="3" style="--car-body:#d9a43a;--car-stripe:#111318" aria-roledescription="slide" aria-label="4 of 4"><div class="slide__car"><svg class="car" viewBox="0 0 800 260" aria-hidden="true"><defs><clipPath id="clip-ig"><path d="M 30 196 L 44 168 C 60 156 120 146 190 138 L 290 104 C 330 90 410 84 470 92 L 560 112 C 620 120 690 128 735 144 L 762 152 L 772 180 L 764 198 L 690 198 C 686 156 610 156 606 198 L 262 198 C 258 156 182 156 178 198 Z"/></clipPath></defs><ellipse cx="400" cy="236" rx="370" ry="13" class="car__shadow"/><rect x="676" y="90" width="100" height="13" fill="#0b0b0d"/><path d="M700 103 H716 L724 130 H708 Z" fill="#0b0b0d"/><rect x="764" y="78" width="9" height="34" fill="var(--car-stripe)"/><path d="M 30 196 L 44 168 C 60 156 120 146 190 138 L 290 104 C 330 90 410 84 470 92 L 560 112 C 620 120 690 128 735 144 L 762 152 L 772 180 L 764 198 L 690 198 C 686 156 610 156 606 198 L 262 198 C 258 156 182 156 178 198 Z" fill="var(--car-body)"/><g clip-path="url(#clip-ig)"><path d="M230 260 L410 0 H468 L288 260 Z" fill="var(--car-stripe)"/><path d="M300 260 L480 0 H494 L314 260 Z" fill="#fff" opacity=".85"/><rect x="0" y="178" width="800" height="22" fill="rgba(0,0,0,.35)"/></g><path d="M300 110 L340 97 C380 89 430 88 466 96 L522 110 L300 117 Z" fill="#0d0f14"/><path d="M50 166 L86 158 L82 168 L48 174 Z" fill="#ffe9a8"/><rect x="392" y="126" width="88" height="46" rx="6" fill="#fff"/><text x="436" y="162" class="car__num" text-anchor="middle">9</text><g class="wheel" style="transform-origin:220px 198px"><circle cx="220" cy="198" r="36" fill="#0b0b0d"/><circle cx="220" cy="198" r="24" fill="#2b2e36"/><path d="M220 176 V220 M198 198 H242 M204 182 L236 214 M236 182 L204 214" stroke="#9aa0ab" stroke-width="4"/><circle cx="220" cy="198" r="6" fill="var(--car-stripe)"/></g><g class="wheel" style="transform-origin:648px 198px"><circle cx="648" cy="198" r="36" fill="#0b0b0d"/><circle cx="648" cy="198" r="24" fill="#2b2e36"/><path d="M648 176 V220 M626 198 H670 M632 182 L664 214 M664 182 L632 214" stroke="#9aa0ab" stroke-width="4"/><circle cx="648" cy="198" r="6" fill="var(--car-stripe)"/></g></svg></div><figcaption class="slide__info"><span class="slide__class">Intercontinental GT Challenge</span><h3>GT3 #9</h3><p>Four continents, four classics — Bathurst, Spa, Suzuka and Indianapolis — run by a travelling core crew.</p><ul class="spec"><li><b>Cars</b><span>1 × GT3</span></li><li><b>Rounds</b><span>4</span></li><li><b>Drivers</b><span>3</span></li><li><b>Debut</b><span>2018</span></li></ul></figcaption></figure>
       </div>
-      <p class="sec-top__note reveal" data-reveal data-delay="160">Four championships · three continents</p>
-    </div>
-
-    <div class="tabs reveal" data-reveal data-delay="120" id="tabs" role="tablist" aria-label="Programs">
-      <button class="tab is-active" id="tab-wec" data-tab="wec" type="button" role="tab" aria-selected="true">WEC · Hypercar</button>
-      <button class="tab" id="tab-gt3" data-tab="gt3" type="button" role="tab" aria-selected="false">WEC · LMGT3</button>
-      <button class="tab" id="tab-gtwc" data-tab="gtwc" type="button" role="tab" aria-selected="false">GT World Challenge</button>
-      <button class="tab" id="tab-igtc" data-tab="igtc" type="button" role="tab" aria-selected="false">Intercontinental GT</button>
-      <i class="tabs__ink" id="tabsInk"></i>
-    </div>
-
-    <div class="panels">
-      <article class="panel is-active" data-panel="wec" role="tabpanel" aria-labelledby="tab-wec">
-        <div class="livery livery--red"><span class="livery__num">15</span><span class="livery__class">Hypercar</span><span class="livery__stripe"></span></div>
-        <div class="panel__body">
-          <h3>FIA WEC — Hypercar</h3>
-          <p>The flagship. Two LMDh prototypes on the full eight-round world championship, the 24 Hours of Le Mans included, run by a works engineering group and a 40-strong trackside crew.</p>
-          <ul class="spec">
-            <li><b>Cars</b><span>2 × LMDh</span></li>
-            <li><b>Power</b><span>520 kW cap</span></li>
-            <li><b>Min. weight</b><span>1,030 kg</span></li>
-            <li><b>Debut</b><span>2024</span></li>
-          </ul>
-        </div>
-      </article>
-      <article class="panel" data-panel="gt3" role="tabpanel" aria-labelledby="tab-gt3">
-        <div class="livery livery--steel"><span class="livery__num">46</span><span class="livery__class">LMGT3</span><span class="livery__stripe"></span></div>
-        <div class="panel__body">
-          <h3>FIA WEC — LMGT3</h3>
-          <p>Two GT3 cars in the deepest GT field in the world, pairing bronze-rated drivers with factory professionals across the full WEC calendar.</p>
-          <ul class="spec">
-            <li><b>Cars</b><span>2 × GT3</span></li>
-            <li><b>Line-up</b><span>Pro / Am</span></li>
-            <li><b>Tyres</b><span>Goodyear</span></li>
-            <li><b>Debut</b><span>2016</span></li>
-          </ul>
-        </div>
-      </article>
-      <article class="panel" data-panel="gtwc" role="tabpanel" aria-labelledby="tab-gtwc">
-        <div class="livery livery--carbon"><span class="livery__num">32</span><span class="livery__class">GTWC</span><span class="livery__stripe"></span></div>
-        <div class="panel__body">
-          <h3>GT World Challenge Europe</h3>
-          <p>Sprint and Endurance Cup entries on Europe's hardest GT stage, headlined by the 24 Hours of Spa, the biggest GT3 race on the calendar.</p>
-          <ul class="spec">
-            <li><b>Cars</b><span>4 × GT3</span></li>
-            <li><b>Rounds</b><span>10</span></li>
-            <li><b>Drivers</b><span>12</span></li>
-            <li><b>Debut</b><span>2011</span></li>
-          </ul>
-        </div>
-      </article>
-      <article class="panel" data-panel="igtc" role="tabpanel" aria-labelledby="tab-igtc">
-        <div class="livery livery--gold"><span class="livery__num">7</span><span class="livery__class">IGTC</span><span class="livery__stripe"></span></div>
-        <div class="panel__body">
-          <h3>Intercontinental GT Challenge</h3>
-          <p>Four continents, four classics — Bathurst, Spa, Suzuka and Indianapolis — run by a travelling core crew with local support at each venue.</p>
-          <ul class="spec">
-            <li><b>Cars</b><span>1 × GT3</span></li>
-            <li><b>Rounds</b><span>4</span></li>
-            <li><b>Drivers</b><span>3</span></li>
-            <li><b>Debut</b><span>2018</span></li>
-          </ul>
-        </div>
-      </article>
+      <button class="garage__arrow garage__arrow--next" type="button" aria-label="Next car" data-dir="1">›</button>
+      <div class="garage__dots"><button type="button" class="dot is-active" data-go="0" aria-label="LMDh #27"></button><button type="button" class="dot" data-go="1" aria-label="GT3 #64"></button><button type="button" class="dot" data-go="2" aria-label="GT3 #23"></button><button type="button" class="dot" data-go="3" aria-label="GT3 #9"></button></div>
     </div>
   </div>
 </section>
 
-<!-- ============ DRIVERS: TIMING TOWER (lazy) ============ -->
-<section class="section" id="drivers" data-sector="S2" data-name="Drivers" data-lazy="Loading timing data">
+<!-- ============ DRIVERS (lazy) ============ -->
+<section class="section" id="drivers" data-sector="S2" data-name="Drivers" data-lazy="Loading driver line-up">
+  <div class="ghost" data-ghost="Drivers" aria-hidden="true"></div>
   <div class="container">
-    <div class="sec-top">
-      <div>
-        <p class="kicker reveal" data-reveal><span class="kicker__s kicker__s--2">S2</span>Line-up</p>
-        <h2 class="h2 reveal" data-reveal data-delay="80">Timing <span class="outline">tower</span></h2>
-      </div>
-      <p class="sec-top__note reveal" data-reveal data-delay="160">Best laps · 2026 prologue test</p>
-    </div>
-
-    <div class="tower" role="table" aria-label="Driver best laps">
-      <div class="tower__row tower__row--head" role="row">
-        <span role="columnheader">Pos</span><span role="columnheader">No.</span><span role="columnheader">Driver</span>
-        <span role="columnheader" class="hide-sm">Class</span><span role="columnheader">Best lap</span><span role="columnheader" class="hide-sm">Gap</span>
-      </div>
-      <div class="tower__row" role="row" data-stagger style="--i:0">
-        <span class="pos" role="cell">1</span><span class="no no--red" role="cell">15</span>
-        <span class="drv" role="cell"><b>Luca Fenn</b><em>BEL</em></span>
-        <span class="hide-sm" role="cell">Hypercar</span><span class="lapt lapt--purple mono" role="cell">1:46.218</span><span class="gap mono hide-sm" role="cell">Leader</span>
-      </div>
-      <div class="tower__row" role="row" data-stagger style="--i:1">
-        <span class="pos" role="cell">2</span><span class="no no--red" role="cell">15</span>
-        <span class="drv" role="cell"><b>Mats Dornier</b><em>GER</em></span>
-        <span class="hide-sm" role="cell">Hypercar</span><span class="lapt lapt--green mono" role="cell">1:46.551</span><span class="gap mono hide-sm" role="cell">+0.333</span>
-      </div>
-      <div class="tower__row" role="row" data-stagger style="--i:2">
-        <span class="pos" role="cell">3</span><span class="no no--carbon" role="cell">32</span>
-        <span class="drv" role="cell"><b>Elena Rossi</b><em>ITA</em></span>
-        <span class="hide-sm" role="cell">GTWC</span><span class="lapt mono" role="cell">1:58.904</span><span class="gap mono hide-sm" role="cell">+12.686</span>
-      </div>
-      <div class="tower__row" role="row" data-stagger style="--i:3">
-        <span class="pos" role="cell">4</span><span class="no no--steel" role="cell">46</span>
-        <span class="drv" role="cell"><b>Niko Valtera</b><em>FIN</em></span>
-        <span class="hide-sm" role="cell">LMGT3</span><span class="lapt lapt--green mono" role="cell">1:59.117</span><span class="gap mono hide-sm" role="cell">+12.899</span>
-      </div>
-      <div class="tower__row" role="row" data-stagger style="--i:4">
-        <span class="pos" role="cell">5</span><span class="no no--steel" role="cell">46</span>
-        <span class="drv" role="cell"><b>Jan Novotný</b><em>CZE</em></span>
-        <span class="hide-sm" role="cell">LMGT3</span><span class="lapt mono" role="cell">1:59.640</span><span class="gap mono hide-sm" role="cell">+13.422</span>
-      </div>
-      <div class="tower__row" role="row" data-stagger style="--i:5">
-        <span class="pos" role="cell">6</span><span class="no no--gold" role="cell">7</span>
-        <span class="drv" role="cell"><b>Tom Vasseur</b><em>FRA</em></span>
-        <span class="hide-sm" role="cell">IGTC</span><span class="lapt lapt--yellow mono" role="cell">2:00.032</span><span class="gap mono hide-sm" role="cell">+13.814</span>
+    <div class="sec-top sec-top--center">
+      <p class="kicker reveal" data-reveal><span class="kicker__s kicker__s--2">S2</span>Line-up</p>
+      <h2 class="h2 reveal" data-reveal data-delay="80">Meet the <span class="red">drivers</span></h2>
+      <div class="years reveal" data-reveal data-delay="140" id="years">
+        <button type="button" class="years__arrow" data-step="1" aria-label="Older season">‹</button><button type="button" class="year is-active" data-year="2026" aria-pressed="true">2026</button><button type="button" class="year" data-year="2025" aria-pressed="false">2025</button><button type="button" class="year" data-year="2024" aria-pressed="false">2024</button><button type="button" class="years__arrow" data-step="-1" aria-label="Newer season">›</button>
       </div>
     </div>
-    <p class="legend"><span class="lg lg--purple"></span>Overall best <span class="lg lg--green"></span>Personal best <span class="lg lg--yellow"></span>Slower than previous run</p>
+    <div class="dgrid" id="dgrid"><article class="dcard" data-stagger style="--i:0;--c1:#e4002b;--c2:#111318"><div class="dcard__art"><span class="dcard__logo">TRW</span><span class="dcard__no">27</span><svg class="dcard__helmet" viewBox="0 0 200 200" aria-hidden="true"><path d="M30 128 C26 70 66 34 112 34 C160 34 186 72 182 120 L180 150 C140 160 80 162 40 156 Z" fill="var(--c2)"/><path d="M38 122 C70 112 120 110 182 112 L181 130 C120 129 72 133 36 142 Z" fill="var(--c1)"/><path d="M96 70 C122 60 160 62 178 82 L182 104 L104 106 C90 98 88 80 96 70 Z" fill="#0d0f14"/><path d="M112 74 C132 68 154 70 168 80" stroke="rgba(255,255,255,.4)" stroke-width="4" fill="none"/></svg><h3 class="dcard__name"><small>Luca</small>Fenn</h3></div><p class="dcard__meta"><span>BEL · Hypercar</span><span class="mono">1:46.218</span></p></article><article class="dcard" data-stagger style="--i:1;--c1:#e4002b;--c2:#111318"><div class="dcard__art"><span class="dcard__logo">TRW</span><span class="dcard__no">27</span><svg class="dcard__helmet" viewBox="0 0 200 200" aria-hidden="true"><path d="M30 128 C26 70 66 34 112 34 C160 34 186 72 182 120 L180 150 C140 160 80 162 40 156 Z" fill="var(--c2)"/><path d="M38 122 C70 112 120 110 182 112 L181 130 C120 129 72 133 36 142 Z" fill="var(--c1)"/><path d="M96 70 C122 60 160 62 178 82 L182 104 L104 106 C90 98 88 80 96 70 Z" fill="#0d0f14"/><path d="M112 74 C132 68 154 70 168 80" stroke="rgba(255,255,255,.4)" stroke-width="4" fill="none"/></svg><h3 class="dcard__name"><small>Mats</small>Dornier</h3></div><p class="dcard__meta"><span>GER · Hypercar</span><span class="mono">1:46.551</span></p></article><article class="dcard" data-stagger style="--i:2;--c1:#d9a43a;--c2:#3a404c"><div class="dcard__art"><span class="dcard__logo">TRW</span><span class="dcard__no">23</span><svg class="dcard__helmet" viewBox="0 0 200 200" aria-hidden="true"><path d="M30 128 C26 70 66 34 112 34 C160 34 186 72 182 120 L180 150 C140 160 80 162 40 156 Z" fill="var(--c2)"/><path d="M38 122 C70 112 120 110 182 112 L181 130 C120 129 72 133 36 142 Z" fill="var(--c1)"/><path d="M96 70 C122 60 160 62 178 82 L182 104 L104 106 C90 98 88 80 96 70 Z" fill="#0d0f14"/><path d="M112 74 C132 68 154 70 168 80" stroke="rgba(255,255,255,.4)" stroke-width="4" fill="none"/></svg><h3 class="dcard__name"><small>Elena</small>Marchetti</h3></div><p class="dcard__meta"><span>ITA · GTWC</span><span class="mono">1:58.904</span></p></article><article class="dcard" data-stagger style="--i:3;--c1:#e4002b;--c2:#f4f5f7"><div class="dcard__art"><span class="dcard__logo">TRW</span><span class="dcard__no">64</span><svg class="dcard__helmet" viewBox="0 0 200 200" aria-hidden="true"><path d="M30 128 C26 70 66 34 112 34 C160 34 186 72 182 120 L180 150 C140 160 80 162 40 156 Z" fill="var(--c2)"/><path d="M38 122 C70 112 120 110 182 112 L181 130 C120 129 72 133 36 142 Z" fill="var(--c1)"/><path d="M96 70 C122 60 160 62 178 82 L182 104 L104 106 C90 98 88 80 96 70 Z" fill="#0d0f14"/><path d="M112 74 C132 68 154 70 168 80" stroke="rgba(255,255,255,.4)" stroke-width="4" fill="none"/></svg><h3 class="dcard__name"><small>Niko</small>Valtera</h3></div><p class="dcard__meta"><span>FIN · LMGT3</span><span class="mono">1:59.117</span></p></article><article class="dcard" data-stagger style="--i:4;--c1:#e4002b;--c2:#f4f5f7"><div class="dcard__art"><span class="dcard__logo">TRW</span><span class="dcard__no">64</span><svg class="dcard__helmet" viewBox="0 0 200 200" aria-hidden="true"><path d="M30 128 C26 70 66 34 112 34 C160 34 186 72 182 120 L180 150 C140 160 80 162 40 156 Z" fill="var(--c2)"/><path d="M38 122 C70 112 120 110 182 112 L181 130 C120 129 72 133 36 142 Z" fill="var(--c1)"/><path d="M96 70 C122 60 160 62 178 82 L182 104 L104 106 C90 98 88 80 96 70 Z" fill="#0d0f14"/><path d="M112 74 C132 68 154 70 168 80" stroke="rgba(255,255,255,.4)" stroke-width="4" fill="none"/></svg><h3 class="dcard__name"><small>Jan</small>Novotný</h3></div><p class="dcard__meta"><span>CZE · LMGT3</span><span class="mono">1:59.640</span></p></article><article class="dcard" data-stagger style="--i:5;--c1:#111318;--c2:#d9a43a"><div class="dcard__art"><span class="dcard__logo">TRW</span><span class="dcard__no">9</span><svg class="dcard__helmet" viewBox="0 0 200 200" aria-hidden="true"><path d="M30 128 C26 70 66 34 112 34 C160 34 186 72 182 120 L180 150 C140 160 80 162 40 156 Z" fill="var(--c2)"/><path d="M38 122 C70 112 120 110 182 112 L181 130 C120 129 72 133 36 142 Z" fill="var(--c1)"/><path d="M96 70 C122 60 160 62 178 82 L182 104 L104 106 C90 98 88 80 96 70 Z" fill="#0d0f14"/><path d="M112 74 C132 68 154 70 168 80" stroke="rgba(255,255,255,.4)" stroke-width="4" fill="none"/></svg><h3 class="dcard__name"><small>Tom</small>Vasseur</h3></div><p class="dcard__meta"><span>FRA · IGTC</span><span class="mono">2:00.032</span></p></article></div>
+    <p class="legend">Best lap of the season's prologue test</p>
   </div>
+  <script type="application/json" id="rosterData">{"2026": [{"first": "Luca", "last": "Fenn", "nat": "BEL", "cls": "Hypercar", "lap": "1:46.218", "num": "27", "c1": "#e4002b", "c2": "#111318"}, {"first": "Mats", "last": "Dornier", "nat": "GER", "cls": "Hypercar", "lap": "1:46.551", "num": "27", "c1": "#e4002b", "c2": "#111318"}, {"first": "Elena", "last": "Marchetti", "nat": "ITA", "cls": "GTWC", "lap": "1:58.904", "num": "23", "c1": "#d9a43a", "c2": "#3a404c"}, {"first": "Niko", "last": "Valtera", "nat": "FIN", "cls": "LMGT3", "lap": "1:59.117", "num": "64", "c1": "#e4002b", "c2": "#f4f5f7"}, {"first": "Jan", "last": "Novotný", "nat": "CZE", "cls": "LMGT3", "lap": "1:59.640", "num": "64", "c1": "#e4002b", "c2": "#f4f5f7"}, {"first": "Tom", "last": "Vasseur", "nat": "FRA", "cls": "IGTC", "lap": "2:00.032", "num": "9", "c1": "#111318", "c2": "#d9a43a"}], "2025": [{"first": "Luca", "last": "Fenn", "nat": "BEL", "cls": "Hypercar", "lap": "1:46.903", "num": "27", "c1": "#e4002b", "c2": "#111318"}, {"first": "Mats", "last": "Dornier", "nat": "GER", "cls": "Hypercar", "lap": "1:47.120", "num": "27", "c1": "#e4002b", "c2": "#111318"}, {"first": "Oskar", "last": "Lindqvist", "nat": "SWE", "cls": "Hypercar", "lap": "1:47.288", "num": "27", "c1": "#e4002b", "c2": "#111318"}, {"first": "Jan", "last": "Novotný", "nat": "CZE", "cls": "LMGT3", "lap": "1:59.981", "num": "64", "c1": "#e4002b", "c2": "#f4f5f7"}, {"first": "Ana", "last": "Pereira", "nat": "POR", "cls": "LMGT3", "lap": "2:00.214", "num": "64", "c1": "#e4002b", "c2": "#f4f5f7"}, {"first": "Tom", "last": "Vasseur", "nat": "FRA", "cls": "IGTC", "lap": "2:00.476", "num": "9", "c1": "#111318", "c2": "#d9a43a"}], "2024": [{"first": "Mats", "last": "Dornier", "nat": "GER", "cls": "Hypercar", "lap": "1:47.665", "num": "27", "c1": "#e4002b", "c2": "#111318"}, {"first": "Kai", "last": "Brenner", "nat": "AUT", "cls": "Hypercar", "lap": "1:47.902", "num": "27", "c1": "#e4002b", "c2": "#111318"}, {"first": "Oskar", "last": "Lindqvist", "nat": "SWE", "cls": "GTWC", "lap": "1:59.330", "num": "23", "c1": "#d9a43a", "c2": "#3a404c"}, {"first": "Ana", "last": "Pereira", "nat": "POR", "cls": "LMGT3", "lap": "2:00.590", "num": "64", "c1": "#e4002b", "c2": "#f4f5f7"}, {"first": "Ruben", "last": "Smets", "nat": "NED", "cls": "LMGT3", "lap": "2:00.811", "num": "64", "c1": "#e4002b", "c2": "#f4f5f7"}, {"first": "Tom", "last": "Vasseur", "nat": "FRA", "cls": "IGTC", "lap": "2:01.004", "num": "9", "c1": "#111318", "c2": "#d9a43a"}]}</script>
+  <template id="helmetTpl"><svg class="dcard__helmet" viewBox="0 0 200 200" aria-hidden="true"><path d="M30 128 C26 70 66 34 112 34 C160 34 186 72 182 120 L180 150 C140 160 80 162 40 156 Z" fill="var(--c2)"/><path d="M38 122 C70 112 120 110 182 112 L181 130 C120 129 72 133 36 142 Z" fill="var(--c1)"/><path d="M96 70 C122 60 160 62 178 82 L182 104 L104 106 C90 98 88 80 96 70 Z" fill="#0d0f14"/><path d="M112 74 C132 68 154 70 168 80" stroke="rgba(255,255,255,.4)" stroke-width="4" fill="none"/></svg></template>
 </section>
 
 <!-- ============ CALENDAR (lazy) ============ -->
-<section class="section section--alt" id="calendar" data-sector="S2" data-name="Calendar" data-lazy="Loading race calendar">
+<section class="section section--light" id="calendar" data-sector="S2" data-name="Calendar" data-lazy="Loading race calendar">
+  <div class="ghost" data-ghost="Calendar" aria-hidden="true"></div>
   <div class="container">
     <div class="sec-top">
       <div>
         <p class="kicker reveal" data-reveal><span class="kicker__s kicker__s--2">S2</span>WEC Hypercar</p>
         <h2 class="h2 reveal" data-reveal data-delay="80">2026 <span class="red">calendar</span></h2>
       </div>
-      <p class="sec-top__note reveal" data-reveal data-delay="160">Best class result, car #15</p>
+      <p class="sec-top__note reveal" data-reveal data-delay="160">Best class result, car #27</p>
     </div>
 
     <ol class="rounds">
@@ -351,6 +277,7 @@
 
 <!-- ============ PALMARES ============ -->
 <section class="section" id="palmares" data-sector="S3" data-name="Palmarès">
+  <div class="ghost" data-ghost="Palmarès" aria-hidden="true"></div>
   <div class="container">
     <div class="sec-top">
       <div>
@@ -370,7 +297,8 @@
 </section>
 
 <!-- ============ NEWS (lazy) ============ -->
-<section class="section section--alt" id="news" data-sector="S3" data-name="News" data-lazy="Loading pit wall feed">
+<section class="section section--red" id="news" data-sector="S3" data-name="News" data-lazy="Loading pit wall feed">
+  <div class="ghost" data-ghost="Pit wall" aria-hidden="true"></div>
   <div class="container">
     <div class="sec-top">
       <div>
@@ -387,16 +315,16 @@
 
     <div class="news" id="newsGrid">
       <article class="card card--wide" data-stagger style="--i:0" data-cat="wec">
-        <div class="card__img livery livery--red"><span class="livery__num">15</span><span class="livery__stripe"></span></div>
+        <div class="card__img livery livery--red"><span class="livery__num">27</span><span class="livery__stripe"></span></div>
         <div class="card__body">
           <span class="card__cat">WEC</span>
-          <h3>Le Mans: car #15 takes the class win after a 24-hour fight</h3>
+          <h3>Le Mans: car #27 takes the class win after a 24-hour fight</h3>
           <p>A triple-stint from Luca Fenn through the night and a clean final hour sealed a second Le Mans class victory.</p>
           <time datetime="2026-06-14">14 June 2026</time>
         </div>
       </article>
       <article class="card" data-stagger style="--i:1" data-cat="gtwc">
-        <div class="card__img livery livery--carbon"><span class="livery__num">32</span><span class="livery__stripe"></span></div>
+        <div class="card__img livery livery--carbon"><span class="livery__num">23</span><span class="livery__stripe"></span></div>
         <div class="card__body">
           <span class="card__cat">GTWC</span>
           <h3>Pole at Monza in the final seconds of qualifying</h3>
@@ -412,7 +340,7 @@
         </div>
       </article>
       <article class="card" data-stagger style="--i:3" data-cat="wec">
-        <div class="card__img livery livery--gold"><span class="livery__num">46</span><span class="livery__stripe"></span></div>
+        <div class="card__img livery livery--gold"><span class="livery__num">64</span><span class="livery__stripe"></span></div>
         <div class="card__body">
           <span class="card__cat">WEC</span>
           <h3>Prologue test wrapped with 3,100 km on the board</h3>
@@ -433,6 +361,7 @@
 
 <!-- ============ PARTNERS (lazy) ============ -->
 <section class="section section--partners" id="partners" data-sector="S3" data-name="Partners" data-lazy="Loading partners">
+  <div class="ghost" data-ghost="Partners" aria-hidden="true"></div>
   <div class="container">
     <p class="kicker reveal" data-reveal><span class="kicker__s kicker__s--3">S3</span>Partners</p>
     <h2 class="h2 reveal" data-reveal data-delay="80">On the <span class="outline">livery</span></h2>
@@ -451,6 +380,7 @@
 
 <!-- ============ CTA ============ -->
 <section class="cta" id="contact" data-sector="S3" data-name="Finish">
+  <div class="ghost" data-ghost="Join the grid" aria-hidden="true"></div>
   <canvas class="cta__flag" id="flag" aria-hidden="true"></canvas>
   <div class="container cta__inner">
     <p class="kicker reveal" data-reveal><span class="kicker__s kicker__s--f">F</span>Chequered flag</p>
@@ -494,6 +424,6 @@
 
 <button class="to-top" id="toTop" type="button" aria-label="Back to top">↑</button>
 
-<script src="assets/js/main.js?v=7"></script>
+<script src="assets/js/main.js?v=8"></script>
 </body>
 </html>
