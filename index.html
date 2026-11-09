@@ -9,7 +9,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Russo+One&family=Saira+Condensed:wght@500;700;800;900&family=Saira:wght@400;500;600&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet" />
-<link rel="stylesheet" href="assets/css/style.css?v=10" />
+<link rel="stylesheet" href="assets/css/style.css?v=11" />
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' fill='%2308090c'/><path d='M5 24 L11 8 h5 l-6 16z M15 24 L21 8 h5 l-6 16z' fill='%23e4002b'/></svg>" />
 <script>document.documentElement.classList.add('js')</script>
 </head>
@@ -100,15 +100,18 @@
   </div>
 </section>
 
-<!-- ============ TICKER ============ -->
+<!-- ============ TICKER: two crossing tapes ============ -->
 <div class="ticker" aria-hidden="true">
-  <div class="chequer"></div>
-  <div class="marquee" data-marquee data-speed="90" data-pause-on-hover>
+  <div class="tape tape--back marquee" data-marquee data-speed="40" data-direction="reverse">
     <div class="marquee__track"><div class="marquee__group">
-      <span>Hypercar</span><b>◆</b><span>LMGT3</span><b>◆</b><span>GT World Challenge</span><b>◆</b><span>24H Le Mans</span><b>◆</b><span>24H Spa</span><b>◆</b><span>Intercontinental GT</span><b>◆</b>
+      <span>TRW Racing</span><i></i><span>Season 2026</span><i></i><span>Most · Czechia</span><i></i><span>Built for the limit</span><i></i>
     </div></div>
   </div>
-  <div class="chequer"></div>
+  <div class="tape tape--front marquee" data-marquee data-speed="90" data-pause-on-hover>
+    <div class="marquee__track"><div class="marquee__group">
+      <span>Hypercar</span><b></b><span class="o">LMGT3</span><b></b><span>GT World Challenge</span><b></b><span class="o">24H Le Mans</span><b></b><span>24H Spa</span><b></b><span class="o">Intercontinental GT</span><b></b>
+    </div></div>
+  </div>
 </div>
 
 <!-- ============ NEXT RACE ============ -->
@@ -140,7 +143,7 @@
   <div class="ghost" data-ghost="The team" aria-hidden="true"></div>
   <div class="container split">
     <div>
-      <p class="kicker reveal" data-reveal><span class="kicker__s">S1</span>The team</p>
+      <p class="kicker reveal" data-reveal>The team</p>
       <h2 class="h2 reveal" data-reveal data-delay="80">Fifteen seasons <span class="outline">flat out</span></h2>
       <p class="lead reveal" data-reveal data-delay="160">
         Founded in 2011 with one GT car and a borrowed truck, TRW now runs a works Hypercar
@@ -179,7 +182,7 @@
   <div class="ghost" data-ghost="The garage" aria-hidden="true"></div>
   <div class="container">
     <div class="sec-top sec-top--center">
-      <p class="kicker reveal" data-reveal><span class="kicker__s">S1</span>2026 programs</p>
+      <p class="kicker reveal" data-reveal>2026 programs</p>
       <h2 class="h2 reveal" data-reveal data-delay="80">The <span class="red">garage</span></h2>
     </div>
     <div class="garage reveal" data-reveal data-delay="120" id="garage" aria-roledescription="carousel" aria-label="TRW cars">
@@ -198,7 +201,7 @@
   <div class="ghost" data-ghost="Drivers" aria-hidden="true"></div>
   <div class="container">
     <div class="sec-top sec-top--center">
-      <p class="kicker reveal" data-reveal><span class="kicker__s kicker__s--2">S2</span>Line-up</p>
+      <p class="kicker reveal" data-reveal>Line-up</p>
       <h2 class="h2 reveal" data-reveal data-delay="80">Meet the <span class="red">drivers</span></h2>
       <div class="years reveal" data-reveal data-delay="140" id="years">
         <button type="button" class="years__arrow" data-step="1" aria-label="Older season">‹</button><button type="button" class="year is-active" data-year="2026" aria-pressed="true">2026</button><button type="button" class="year" data-year="2025" aria-pressed="false">2025</button><button type="button" class="year" data-year="2024" aria-pressed="false">2024</button><button type="button" class="years__arrow" data-step="-1" aria-label="Newer season">›</button>
@@ -217,7 +220,7 @@
   <div class="container">
     <div class="sec-top">
       <div>
-        <p class="kicker reveal" data-reveal><span class="kicker__s kicker__s--2">S2</span>WEC Hypercar</p>
+        <p class="kicker reveal" data-reveal>WEC Hypercar</p>
         <h2 class="h2 reveal" data-reveal data-delay="80">2026 <span class="red">calendar</span></h2>
       </div>
       <p class="sec-top__note reveal" data-reveal data-delay="160">Best class result, car #27</p>
@@ -242,7 +245,7 @@
   <div class="container">
     <div class="sec-top">
       <div>
-        <p class="kicker reveal" data-reveal><span class="kicker__s kicker__s--3">S3</span>Palmarès</p>
+        <p class="kicker reveal" data-reveal>Palmarès</p>
         <h2 class="h2 reveal" data-reveal data-delay="80">Milestones</h2>
       </div>
     </div>
@@ -263,7 +266,7 @@
   <div class="container">
     <div class="sec-top">
       <div>
-        <p class="kicker reveal" data-reveal><span class="kicker__s kicker__s--3">S3</span>Pit wall</p>
+        <p class="kicker reveal" data-reveal>Pit wall</p>
         <h2 class="h2 reveal" data-reveal data-delay="80">Endurance <span class="red">news</span></h2>
       </div>
       <div class="filters reveal" data-reveal data-delay="160" id="filters">
@@ -328,7 +331,7 @@
 <section class="section section--partners" id="partners" data-sector="S3" data-name="Partners" data-lazy="Loading partners">
   <div class="ghost" data-ghost="Partners" aria-hidden="true"></div>
   <div class="container">
-    <p class="kicker reveal" data-reveal><span class="kicker__s kicker__s--3">S3</span>Partners</p>
+    <p class="kicker reveal" data-reveal>Partners</p>
     <h2 class="h2 reveal" data-reveal data-delay="80">On the <span class="outline">livery</span></h2>
   </div>
   <div class="logos marquee" data-marquee data-speed="60" data-pause-on-hover data-stagger style="--i:0">
@@ -348,7 +351,7 @@
   <div class="ghost" data-ghost="Join the grid" aria-hidden="true"></div>
   <canvas class="cta__flag" id="flag" aria-hidden="true"></canvas>
   <div class="container cta__inner">
-    <p class="kicker reveal" data-reveal><span class="kicker__s kicker__s--f">F</span>Chequered flag</p>
+    <p class="kicker reveal" data-reveal>Chequered flag</p>
     <h2 class="h2 reveal" data-reveal data-delay="80">Join the <span class="red">grid</span></h2>
     <p class="cta__text reveal" data-reveal data-delay="140">Partnerships, arrive-and-drive programs and media requests.</p>
     <form class="cta__form reveal" data-reveal data-delay="200" id="ctaForm" novalidate>
@@ -389,6 +392,6 @@
 
 <button class="to-top" id="toTop" type="button" aria-label="Back to top">↑</button>
 
-<script src="assets/js/main.js?v=10"></script>
+<script src="assets/js/main.js?v=11"></script>
 </body>
 </html>

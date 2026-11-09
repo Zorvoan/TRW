@@ -326,19 +326,33 @@ html:not(.js) .lights{display:none}
 @keyframes cue{0%{transform:scaleY(.15)}50%{transform:scaleY(1)}100%{transform:scaleY(.15);opacity:0}}
 
 /* ---------- Ticker ---------- */
-.ticker{background:var(--red);position:relative}
-.chequer{height:12px;background:repeating-conic-gradient(#fff 0 25%,#0b0b0d 0 50%) 0 0/12px 12px}
-.ticker .marquee{padding:12px 0}
-.ticker span{
-  display:inline-block;font-family:var(--ff-display);font-weight:900;font-style:italic;font-size:1.6rem;
-  letter-spacing:.08em;text-transform:uppercase;color:#fff;cursor:default;
-  transition:color .45s var(--ease),transform .5s var(--ease),text-shadow .45s var(--ease),opacity .45s var(--ease);
+/* two tapes crossing the seam between the hero and the race band:
+   a dark front tape with the championships, a red one behind running the other way */
+.ticker{
+  --tape-h:clamp(120px,12vw,160px);
+  position:relative;z-index:3;height:var(--tape-h);overflow:hidden;overflow:clip;
+  background:linear-gradient(180deg,var(--bg) 50%,var(--brick) 50%);
 }
-.ticker b{display:inline-block;color:rgba(255,255,255,.5);font-size:.8rem;transition:transform .6s var(--ease),color .45s var(--ease)}
-/* hovering the strip dims every word; the one under the cursor lifts and turns black */
-.ticker .marquee:hover span{opacity:.55}
-.ticker .marquee span:hover{opacity:1;color:#0b0b0d;transform:translateY(-3px) skewX(-8deg) scale(1.06);text-shadow:0 6px 18px rgba(0,0,0,.25)}
-.ticker .marquee:hover b{transform:rotate(180deg);color:#fff}
+.tape{position:absolute;left:-6%;right:-6%;top:50%}
+.tape--front{
+  z-index:2;padding:16px 0;background:#0b0b0d;transform:translateY(-50%) rotate(-2deg);
+  border-block:1px solid rgba(255,255,255,.1);box-shadow:0 18px 40px rgba(0,0,0,.45);
+}
+.tape--back{z-index:1;padding:9px 0;background:var(--red);transform:translateY(-50%) rotate(2.4deg)}
+.tape--front .marquee__group{--gap:30px}
+.tape--front span{
+  display:inline-block;font-family:var(--ff-block);font-size:clamp(1.25rem,2.2vw,1.9rem);line-height:1;
+  text-transform:uppercase;color:#fff;cursor:default;
+  transition:color .45s var(--ease),-webkit-text-stroke-color .45s var(--ease),transform .5s var(--ease),opacity .45s var(--ease);
+}
+.tape--front span.o{color:transparent;-webkit-text-stroke:1.2px rgba(255,255,255,.85)}
+/* separators stay put on hover: no dimming, no movement */
+.tape--front b{display:inline-block;width:10px;height:26px;background:var(--red);transform:skewX(-22deg);pointer-events:none}
+.tape--back span{font-family:var(--ff-mono);font-size:.72rem;font-weight:600;letter-spacing:.32em;text-transform:uppercase;color:rgba(255,255,255,.9)}
+.tape--back i{display:inline-block;width:5px;height:5px;background:#fff;transform:rotate(45deg)}
+/* hover: the row eases down, the rest dims, the word under the cursor lights up red */
+.tape--front:hover span{opacity:.45}
+.tape--front span:hover{opacity:1;color:var(--red);-webkit-text-stroke-color:transparent;transform:translateY(-2px) scale(1.06)}
 
 /* ---------- Marquee engine ---------- */
 .marquee{--gap:28px;overflow:hidden}
@@ -816,7 +830,7 @@ html:not(.js) .race__track path{stroke-dashoffset:0}
   html{scroll-behavior:auto}
   .js .hero__photo img{opacity:1;transform:none;filter:saturate(1.05) contrast(1.06) brightness(.86)}
   *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important}
-  .ticker span:hover,.logos span:hover{transform:none}
+  .tape--front span:hover,.logos span:hover{transform:none}
   .js [data-reveal],.js .hero__line .ch{opacity:1;transform:none;filter:none}
   .js [data-lazy] [data-stagger]{opacity:1;translate:none}
 }
