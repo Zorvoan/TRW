@@ -11,6 +11,12 @@
   var $$ = function (s, c) { return Array.prototype.slice.call((c || document).querySelectorAll(s)); };
   var clamp = function (v, a, b) { return Math.max(a, Math.min(b, v)); };
   var hasIO = 'IntersectionObserver' in window;
+  // palette channels for canvas drawing ("228,0,43"), read from the CSS palette
+  function rgbVar(name, fallback) {
+    var v = getComputedStyle(document.documentElement).getPropertyValue(name).trim();
+    return v ? v.split(/[\s,]+/).join(',') : fallback;
+  }
+  var RED = rgbVar('--red-rgb', '228,0,43'), WHITE = rgbVar('--white-rgb', '255,255,255'), EMBER = rgbVar('--ember-rgb', '255,106,61');
 
   /* ---------- 1. Start lights ----------
      Five columns light one by one, hold for a random beat, then go out
@@ -373,7 +379,7 @@
           l.x -= l.sp * dt;
           if (l.x + l.len < 0) lines[i] = l = spawn(false);
           var g = ctx.createLinearGradient(l.x, 0, l.x + l.len, 0);
-          var col = l.red ? '228,0,43' : '255,255,255';
+          var col = l.red ? RED : WHITE;
           g.addColorStop(0, 'rgba(' + col + ',' + l.a + ')');
           g.addColorStop(1, 'rgba(' + col + ',0)');
           ctx.fillStyle = g;
@@ -420,7 +426,7 @@
         tr.x += tr.sp * dt;
         if (tr.x - tr.len > w) trails[i] = tr = spawn(false);
         var y = tr.y + Math.sin(t * 0.6 + tr.wob) * 6;
-        var col = tr.red ? '228,0,43' : '255,255,255';
+        var col = tr.red ? RED : WHITE;
         var g = ctx.createLinearGradient(tr.x - tr.len, 0, tr.x, 0);
         g.addColorStop(0, 'rgba(' + col + ',0)');
         g.addColorStop(1, 'rgba(' + col + ',' + tr.a + ')');
@@ -428,7 +434,7 @@
         ctx.fillRect(tr.x - tr.len, y - 0.75, tr.len, 1.5);
         ctx.shadowColor = 'rgba(' + col + ',0.9)';
         ctx.shadowBlur = 12;
-        ctx.fillStyle = tr.red ? 'rgba(255,140,120,' + tr.a + ')' : 'rgba(255,255,255,' + tr.a + ')';
+        ctx.fillStyle = tr.red ? 'rgba(' + EMBER + ',' + tr.a + ')' : 'rgba(' + WHITE + ',' + tr.a + ')';
         ctx.beginPath(); ctx.arc(tr.x, y, 2, 0, Math.PI * 2); ctx.fill();
         ctx.shadowBlur = 0;
       });
@@ -711,6 +717,62 @@
     update();
   }
 
+
+  /* ---------- 19. Power: text-mask zoom reveal ----------
+     Phase A (0–.22): the word rises from below into the middle.
+     Phase B (.22–.78): zoom into the middle of the H, exponentially,
+       so the photo inside the letters grows until it covers the screen.
+     Phase C (.70–1): the unmasked photo fades in and settles, caption rises. */
+  function initPower() {
+    var sec = $('#power');
+    if (!sec) return;
+    if (reduced) { sec.classList.add('is-static'); return; }
+    var svg = $('#powerSvg'), bg = $('#powerMaskBg'), img = $('#powerImg'), text = $('#powerText'), group = $('#powerGroup');
+    var full = $('#powerFull'), cap = $('#powerCap');
+    var W = 0, H = 0, fs = 0, ox = 0, oy = 0, ticking = false;
+    var ease = function (t) { return 1 - Math.pow(1 - t, 3); };
+    var seg = function (p, a, b) { return clamp((p - a) / (b - a), 0, 1); };
+
+    function layout() {
+      W = svg.clientWidth; H = svg.clientHeight;
+      svg.setAttribute('viewBox', '0 0 ' + W + ' ' + H);
+      [bg, img].forEach(function (n) { n.setAttribute('width', W); n.setAttribute('height', H); });
+      fs = Math.min(W * 0.24, H * 0.5);
+      text.setAttribute('font-size', fs);
+      text.setAttribute('x', W / 2);
+      text.setAttribute('y', H / 2 + fs * 0.36);
+      // zoom target: the middle of the H's crossbar (character index 4 in "697 HP")
+      try {
+        var e = text.getExtentOfChar(4);
+        ox = e.x + e.width / 2; oy = e.y + e.height * 0.52;
+      } catch (err) { ox = W / 2; oy = H / 2; }
+      update();
+    }
+
+    function update() {
+      ticking = false;
+      var r = sec.getBoundingClientRect(), vh = window.innerHeight;
+      var p = clamp(-r.top / (r.height - vh), 0, 1);
+      var a = ease(seg(p, 0, 0.22));
+      var b = seg(p, 0.22, 0.78);
+      var lift = (1 - a) * H * 0.55;                 // starts low, ends centred
+      var s = (0.78 + 0.22 * a) * Math.pow(70, b * b); // up to ~70× inside the H
+      group.setAttribute('transform',
+        'translate(' + ox.toFixed(1) + ' ' + (oy + lift).toFixed(1) + ') scale(' + s.toFixed(4) + ') translate(' + (-ox).toFixed(1) + ' ' + (-oy).toFixed(1) + ')');
+      var c = seg(p, 0.66, 0.84);
+      full.style.opacity = c.toFixed(3);
+      full.style.transform = 'scale(' + (1.12 - 0.12 * ease(seg(p, 0.66, 1))).toFixed(4) + ')';
+      var t = ease(seg(p, 0.82, 0.96));
+      cap.style.opacity = t.toFixed(3);
+      cap.style.transform = 'translateY(' + ((1 - t) * 24).toFixed(1) + 'px)';
+    }
+
+    layout();
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(layout);
+    window.addEventListener('resize', layout);
+    window.addEventListener('scroll', function () { if (!ticking) { ticking = true; requestAnimationFrame(update); } }, { passive: true });
+  }
+
   /* ---------- Boot ---------- */
   function boot() {
     var year = $('#year');
@@ -731,6 +793,7 @@
     initGarage();
     initDrivers();
     initHeroPhoto();
+    initPower();
     // reveals wait for the start so nothing animates behind the lights
     initLights(initReveal);
   }
