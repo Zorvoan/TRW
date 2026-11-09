@@ -1110,12 +1110,11 @@ html:not(.js) .power__caption,.power.is-static .power__caption{opacity:1;transfo
 html:not(.js) .loader{display:none}
 
 /* ============================================================
-   COUNTDOWN — glass units, digits roll in, a hairline under each
-   unit shows how much of it is left
+   COUNTDOWN — glass units, digits roll in on change
    ============================================================ */
 .race .countdown{display:flex;align-items:stretch;gap:0}
 .race .countdown .cd{
-  position:relative;flex:none;width:auto;min-width:clamp(72px,7.4vw,96px);padding:14px 14px 16px;text-align:left;
+  position:relative;flex:none;width:auto;min-width:clamp(72px,7.4vw,96px);padding:14px 16px;text-align:left;
   background:rgb(var(--black-rgb) / .22);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
   border:1px solid rgb(var(--white-rgb) / .16);border-radius:16px;box-shadow:inset 0 1px 0 rgb(var(--white-rgb) / .12);
 }
@@ -1123,25 +1122,15 @@ html:not(.js) .loader{display:none}
 .race .countdown .cd b{display:block;font-size:inherit;line-height:inherit;font-variant-numeric:tabular-nums;color:var(--c-white)}
 .cd b.is-tick{animation:cdRoll .45s var(--ease)}
 @keyframes cdRoll{from{transform:translateY(70%);opacity:0;filter:blur(2px)}to{transform:none;opacity:1;filter:none}}
-.race .countdown .cd small{display:block;margin:6px 0 12px;font-family:var(--ff-mono);font-size:.58rem;letter-spacing:.2em;color:rgb(var(--white-rgb) / .75)}
-.cd__bar{position:absolute;left:14px;right:14px;bottom:12px;height:2px;border-radius:2px;background:rgb(var(--white-rgb) / .18)}
-.cd__bar>i{
-  position:absolute;inset:0;border-radius:2px;transform-origin:left;transform:scaleX(var(--f,1));
-  background:linear-gradient(90deg,rgb(var(--white-rgb) / .2),var(--c-white));transition:transform .6s var(--ease);
-}
-.cd__bar>i::after{
-  content:"";position:absolute;right:-3px;top:50%;width:6px;height:6px;margin-top:-3px;border-radius:50%;background:var(--c-white);
-  box-shadow:0 0 10px 2px rgb(var(--white-rgb) / .8);transform:scaleX(calc(1 / max(var(--f,1), .02)));
-}
+.race .countdown .cd small{display:block;margin:6px 0 0;font-family:var(--ff-mono);font-size:.58rem;letter-spacing:.2em;color:rgb(var(--white-rgb) / .75)}
 .cd__sep{width:clamp(8px,1.2vw,16px);flex:none;align-self:center;height:40%;position:relative}
 .cd__sep::before,.cd__sep::after{content:"";position:absolute;left:50%;width:4px;height:4px;margin-left:-2px;border-radius:50%;background:rgb(var(--white-rgb) / .55)}
 .cd__sep::before{top:30%}
 .cd__sep::after{bottom:30%}
 @media (max-width:720px){
-  .race .countdown .cd{min-width:0;flex:1;padding:12px 10px 14px}
+  .race .countdown .cd{min-width:0;flex:1;padding:12px 10px}
   .cd__num{font-size:1.7rem}
   .race .countdown .cd small{font-size:.5rem;letter-spacing:.14em}
-  .cd__bar{left:10px;right:10px;bottom:10px}
   .cd__sep{width:6px}
   .race .countdown{width:100%}
 }

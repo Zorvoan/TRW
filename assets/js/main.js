@@ -498,9 +498,8 @@
     var target = new Date(2026, 10, 14, 14, 0, 0);
     if (target < new Date()) { target = new Date(); target.setDate(target.getDate() + 12); target.setHours(14, 0, 0, 0); }
     var keys = ['d', 'h', 'm', 's'];
-    var num = {}, bar = {}, last = {};
-    keys.forEach(function (k) { num[k] = $('[data-cd="' + k + '"]', root); bar[k] = $('[data-cdbar="' + k + '"]', root); });
-    var span = { d: 30, h: 24, m: 60, s: 60 };   // what each hairline is a fraction of
+    var num = {}, last = {};
+    keys.forEach(function (k) { num[k] = $('[data-cd="' + k + '"]', root); });
     function pad(n) { return n < 10 ? '0' + n : String(n); }
     function tick() {
       var s = Math.floor(Math.max(target - new Date(), 0) / 1000);
@@ -514,7 +513,6 @@
           }
           last[k] = txt;
         }
-        if (bar[k]) bar[k].style.setProperty('--f', Math.min(v[k] / span[k], 1).toFixed(4));
       });
     }
     tick();

@@ -34,7 +34,7 @@ python3 -m http.server 8000
 **Sekce**
 - „697 HP“: sticky sekce, kde fotka prosvítá jen nápisem; scroll ho zvedne doprostřed, pak se přiblíží do písmene H, až fotka zaplní obrazovku
 - střídání černých, bílých a cihlově červených sekcí, za nadpisy obří „ghost“ text posouvaný scrollem
-- pruh s dalším závodem: skleněný odpočet (číslice vyjíždějí, svítící linka ukazuje zbytek jednotky) a obrys trati, který se dokreslí
+- pruh s dalším závodem: skleněný odpočet (číslice při změně vyjíždějí) a obrys trati, který se dokreslí
 - garáž: karusel vozů (SVG), další auto přijede s roztočenými koly; šipky, tečky, klávesnice, swipe
 - jezdci: karty s helmou a přepínáním sezón 2026 / 2025 / 2024
 
