@@ -1120,3 +1120,13 @@ html:not(.js) .power__caption,.power.is-static .power__caption{opacity:1;transfo
   /* garage: let the car use the full width */
   .slide__car--photo{width:100%}
 }
+
+/* hero photo parallax runs on the image (individual translate/scale compose with
+   the entrance transform), the masked frame stays put; plus a fade into the ticker */
+.hero__photo img{translate:0 var(--py,0px);scale:var(--ps,1)}
+.hero::before{
+  content:"";position:absolute;left:0;right:0;bottom:0;height:22%;z-index:1;pointer-events:none;
+  background:linear-gradient(180deg,rgb(var(--carbon-rgb) / 0),var(--bg));
+}
+/* tablet/phone: nav is off-canvas, so the actions need their own push to the right */
+@media (max-width:1180px){.header__actions{margin-left:auto}}

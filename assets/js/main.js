@@ -711,7 +711,9 @@
       var h = hero.offsetHeight, y = window.scrollY;
       if (y > h) return;
       var p = clamp(y / h, 0, 1);
-      fig.style.transform = 'translate3d(0,' + (y * 0.35).toFixed(1) + 'px,0) scale(' + (1 + p * 0.08).toFixed(3) + ')';
+      // move the photo inside its masked frame, so the frame's soft edges never slide out of view
+      fig.style.setProperty('--py', (y * 0.35).toFixed(1) + 'px');
+      fig.style.setProperty('--ps', (1 + p * 0.08).toFixed(3));
       fig.style.setProperty('--sink', (1 - p * 0.85).toFixed(3));
     }
     window.addEventListener('scroll', function () { if (!ticking) { ticking = true; requestAnimationFrame(update); } }, { passive: true });
