@@ -18,44 +18,43 @@
   }
   var RED = rgbVar('--red-rgb', '228,0,43'), WHITE = rgbVar('--white-rgb', '255,255,255'), EMBER = rgbVar('--ember-rgb', '255,106,61');
 
-  /* ---------- 1. Start lights ----------
-     Five columns light one by one, hold for a random beat, then go out
-     together: that is the start. Click or any key skips it. */
-  function initLights(onGo) {
-    var root = $('#lights'), msg = $('#lightsMsg');
-    var cols = root ? $$('.lights__col', root) : [];
-    var timers = [], done = false;
-
-    function go() {
+  /* ---------- 1. Loader ----------
+     A hairline fills toward ~90% while the page loads, jumps to 100% on
+     window load (never shorter than a beat, never longer than 3.5 s),
+     then the panel slides up. */
+  function initLoader(onGo) {
+    var root = $('#loader'), bar = root && $('.loader__bar', root), pct = $('#loaderPct');
+    var done = false, value = 0, t0 = performance.now(), loaded = false;
+    function set(v) {
+      value = v;
+      if (bar) bar.style.setProperty('--p', (v / 100).toFixed(4));
+      if (pct) pct.textContent = Math.round(v);
+    }
+    function finish() {
       if (done) return;
       done = true;
-      timers.forEach(clearTimeout);
-      if (root) {
-        cols.forEach(function (c) { c.classList.remove('is-on'); });
-        root.classList.add('is-go');
-        if (msg) msg.textContent = 'Lights out';
-        setTimeout(function () { root.classList.add('is-out'); }, reduced ? 0 : 380);
-        setTimeout(function () { root.classList.add('is-gone'); }, reduced ? 0 : 1300);
-      }
+      set(100);
       setTimeout(function () {
+        if (root) root.classList.add('is-done');
         document.body.classList.remove('is-loading');
         document.body.classList.add('is-ready');
         onGo();
-      }, reduced ? 0 : 420);
+        setTimeout(function () { if (root) root.classList.add('is-gone'); }, 950);
+      }, reduced ? 0 : 260);
     }
-
-    if (!root || reduced) { go(); return; }
-
-    cols.forEach(function (c, i) {
-      timers.push(setTimeout(function () {
-        c.classList.add('is-on');
-        if (msg) msg.textContent = i < 4 ? 'Lights ' + (i + 1) : 'Hold';
-      }, 350 + i * 420));
-    });
-    timers.push(setTimeout(go, 350 + 4 * 420 + 450 + Math.random() * 450));
-
-    root.addEventListener('click', go);
-    document.addEventListener('keydown', function once() { go(); document.removeEventListener('keydown', once); });
+    if (!root || reduced) { if (root) root.classList.add('is-gone'); finish(); return; }
+    (function step(now) {
+      if (done) return;
+      var t = (now - t0) / 1000;
+      // ease toward 90% while waiting; once loaded and past the minimum, close out
+      var target = loaded ? 100 : 90 * (1 - Math.exp(-t * 1.6));
+      set(value + (target - value) * (loaded ? 0.22 : 0.12));
+      if (loaded && value > 99.2 && t > 0.9) return finish();
+      requestAnimationFrame(step);
+    })(t0);
+    window.addEventListener('load', function () { loaded = true; });
+    if (document.readyState === 'complete') loaded = true;
+    setTimeout(function () { loaded = true; }, 3500);
   }
 
   /* ---------- 2. Hero title: split into letters ---------- */
@@ -498,14 +497,25 @@
     if (!root) return;
     var target = new Date(2026, 10, 14, 14, 0, 0);
     if (target < new Date()) { target = new Date(); target.setDate(target.getDate() + 12); target.setHours(14, 0, 0, 0); }
-    var f = { d: $('[data-cd="d"]', root), h: $('[data-cd="h"]', root), m: $('[data-cd="m"]', root), s: $('[data-cd="s"]', root) };
+    var keys = ['d', 'h', 'm', 's'];
+    var num = {}, bar = {}, last = {};
+    keys.forEach(function (k) { num[k] = $('[data-cd="' + k + '"]', root); bar[k] = $('[data-cdbar="' + k + '"]', root); });
+    var span = { d: 30, h: 24, m: 60, s: 60 };   // what each hairline is a fraction of
     function pad(n) { return n < 10 ? '0' + n : String(n); }
     function tick() {
       var s = Math.floor(Math.max(target - new Date(), 0) / 1000);
-      f.d.textContent = pad(Math.floor(s / 86400));
-      f.h.textContent = pad(Math.floor(s / 3600) % 24);
-      f.m.textContent = pad(Math.floor(s / 60) % 60);
-      f.s.textContent = pad(s % 60);
+      var v = { d: Math.floor(s / 86400), h: Math.floor(s / 3600) % 24, m: Math.floor(s / 60) % 60, s: s % 60 };
+      keys.forEach(function (k) {
+        var txt = pad(v[k]);
+        if (last[k] !== txt) {
+          num[k].textContent = txt;
+          if (last[k] !== undefined && !reduced) {
+            num[k].classList.remove('is-tick'); void num[k].offsetWidth; num[k].classList.add('is-tick');
+          }
+          last[k] = txt;
+        }
+        if (bar[k]) bar[k].style.setProperty('--f', Math.min(v[k] / span[k], 1).toFixed(4));
+      });
     }
     tick();
     setInterval(tick, 1000);
@@ -755,7 +765,7 @@
     layout();
     if (document.fonts && document.fonts.ready) document.fonts.ready.then(layout);
     // re-measure whenever the stage itself changes size: a scrollbar appearing after the
-    // start lights narrows the page without firing a window resize
+    // loader narrows the page without firing a window resize
     if ('ResizeObserver' in window) new ResizeObserver(function () { layout(); }).observe(svg);
     else window.addEventListener('resize', layout);
     window.addEventListener('scroll', function () { if (!ticking) { ticking = true; requestAnimationFrame(update); } }, { passive: true });
@@ -782,8 +792,8 @@
     initDrivers();
     initHeroPhoto();
     initPower();
-    // reveals wait for the start so nothing animates behind the lights
-    initLights(initReveal);
+    // reveals wait for the loader so nothing animates behind it
+    initLoader(initReveal);
   }
 
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot);

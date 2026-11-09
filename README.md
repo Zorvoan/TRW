@@ -24,7 +24,7 @@ python3 -m http.server 8000
 ## Co je uvnitř
 
 **Úvod a hero**
-- preloader ve stylu startovních světel (5 sloupců, náhodná pauza, „Lights out“); klik nebo klávesa ho přeskočí
+- loader: logo, tenká svítící linka se zářící špičkou a procenta; po načtení panel odjede nahoru
 - nadpis se rozjíždí po písmenech, na pozadí canvas se „speed streaks“
 - telemetrický panel: auto objíždí trať, rychlost se počítá z křivosti trati
   (brzdné zóny, akcelerace), z ní převodový stupeň, shift lights a časy sektorů
@@ -34,7 +34,7 @@ python3 -m http.server 8000
 **Sekce**
 - „697 HP“: sticky sekce, kde fotka prosvítá jen nápisem; scroll ho zvedne doprostřed, pak se přiblíží do písmene H, až fotka zaplní obrazovku
 - střídání černých, bílých a cihlově červených sekcí, za nadpisy obří „ghost“ text posouvaný scrollem
-- pruh s dalším závodem: odpočet v černých boxech a obrys trati, který se dokreslí
+- pruh s dalším závodem: skleněný odpočet (číslice vyjíždějí, svítící linka ukazuje zbytek jednotky) a obrys trati, který se dokreslí
 - garáž: karusel vozů (SVG), další auto přijede s roztočenými koly; šipky, tečky, klávesnice, swipe
 - jezdci: karty s helmou a přepínáním sezón 2026 / 2025 / 2024
 

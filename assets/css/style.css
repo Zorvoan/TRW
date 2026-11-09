@@ -175,39 +175,6 @@ ul,ol{margin:0;padding:0;list-style:none}
 .btn--dark:hover{color:var(--c-pitch)}
 
 /* ============================================================
-   START LIGHTS
-   ============================================================ */
-.lights{position:fixed;inset:0;z-index:9999;display:grid;place-content:center;justify-items:center;gap:34px}
-.lights__panes{position:absolute;inset:0;z-index:-1;display:flex}
-.lights__panes span{flex:1;background:var(--bg);transition:transform .7s var(--ease-in)}
-.lights__gantry{
-  display:flex;gap:clamp(8px,2vw,18px);padding:16px clamp(12px,2.4vw,22px);
-  background:var(--c-carbon-950);border:1px solid var(--line);box-shadow:0 30px 80px rgb(var(--black-rgb) / .6);
-}
-.lights__col{display:grid;gap:10px;padding:10px;background:var(--c-carbon-800);border:1px solid var(--c-carbon-600)}
-.lights__col i{
-  width:clamp(30px,6vw,52px);aspect-ratio:1;border-radius:50%;
-  background:radial-gradient(circle at 35% 30%,rgb(var(--red-rgb) / .16),var(--c-carbon-950) 70%);
-  box-shadow:inset 0 0 0 2px var(--c-carbon-600);transition:background .08s,box-shadow .08s;
-}
-.lights__col.is-on i{
-  background:radial-gradient(circle at 35% 30%,var(--c-red-glow),var(--red) 45%,var(--c-red-deep) 100%);
-  box-shadow:0 0 26px rgb(var(--red-rgb) / .85),0 0 70px rgb(var(--red-rgb) / .35),inset 0 0 0 2px rgb(var(--red-rgb) / .3);
-}
-.lights__msg{
-  margin:0;font-family:var(--ff-display);font-weight:900;font-style:italic;
-  font-size:clamp(1.4rem,4vw,2.4rem);letter-spacing:.12em;text-transform:uppercase;color:var(--muted);
-}
-.lights.is-go .lights__msg{color:var(--fg)}
-.lights.is-out .lights__gantry,.lights.is-out .lights__msg{opacity:0;transform:scale(.96);transition:opacity .3s,transform .3s}
-.lights.is-out .lights__panes span{transform:translateY(-101%)}
-.lights.is-out .lights__panes span:nth-child(2){transition-delay:.06s}
-.lights.is-out .lights__panes span:nth-child(3){transition-delay:.12s}
-.lights.is-out .lights__panes span:nth-child(4){transition-delay:.18s}
-.lights.is-gone{display:none}
-html:not(.js) .lights{display:none}
-
-/* ============================================================
    HUD: lap progress + sector readout
    ============================================================ */
 /* reading progress: a hairline that fades in once you scroll, with a glowing head riding its tip */
@@ -305,7 +272,7 @@ html:not(.js) .lights{display:none}
 .hero__line--outline{color:transparent;-webkit-text-stroke:2px var(--fg)}
 .hero__line--red{color:var(--red);text-shadow:0 0 40px rgb(var(--red-rgb) / .35)}
 .hero__line .ch{display:inline-block;will-change:transform}
-/* letters wait off-grid until the lights go out (JS only — no JS shows the title as-is) */
+/* letters wait off-grid until the loader finishes (JS only — no JS shows the title as-is) */
 .js .hero__line .ch{opacity:0;transform:translateX(-0.6em) skewX(-24deg);filter:blur(6px)}
 .is-ready .hero__line .ch{animation:chIn .7s var(--ease) forwards;animation-delay:calc(var(--c) * 28ms + var(--l) * 140ms)}
 @keyframes chIn{to{opacity:1;transform:none;filter:none}}
@@ -1111,3 +1078,70 @@ html:not(.js) .power__caption,.power.is-static .power__caption{opacity:1;transfo
 }
 /* tablet/phone: nav is off-canvas, so the actions need their own push to the right */
 @media (max-width:1180px){.header__actions{margin-left:auto}}
+
+/* ============================================================
+   LOADER — logo, a 2px hairline filling with a glowing head and
+   a percentage; on finish the panel slides up and away.
+   ============================================================ */
+.loader{
+  position:fixed;inset:0;z-index:9999;display:grid;place-items:center;background:var(--bg);
+  transition:transform .9s var(--ease-in),opacity .9s var(--ease-in);
+}
+.loader::before{
+  content:"";position:absolute;inset:0;pointer-events:none;
+  background:radial-gradient(40% 35% at 50% 50%,rgb(var(--red-rgb) / .12),transparent 70%);
+}
+.loader__inner{position:relative;width:min(340px,76vw);display:grid;gap:22px;transition:opacity .35s,transform .5s var(--ease)}
+.loader__brand{display:flex;align-items:center;gap:14px;color:var(--red)}
+.loader__mark{width:54px;height:27px;flex:none;animation:markIn 1.2s var(--ease) both}
+@keyframes markIn{from{opacity:0;transform:translateX(-14px) skewX(-14deg)}to{opacity:1;transform:none}}
+.loader__brand .logo__text{animation:rise .8s var(--ease) .1s both}
+.loader__bar{--p:0;position:relative;height:2px;border-radius:2px;background:rgb(var(--white-rgb) / .08)}
+.loader__fill{position:absolute;inset:0;border-radius:2px;transform-origin:left;transform:scaleX(var(--p));background:var(--hair)}
+.loader__head{
+  position:absolute;top:50%;left:calc(var(--p) * 100%);width:7px;height:7px;margin:-3.5px 0 0 -3.5px;border-radius:50%;
+  background:var(--c-white);box-shadow:0 0 0 2px rgb(var(--ember-rgb) / .4),0 0 12px 3px rgb(var(--red-rgb) / .85);
+}
+.loader__meta{display:flex;justify-content:space-between;font-family:var(--ff-mono);font-size:.7rem;letter-spacing:.2em;text-transform:uppercase;color:var(--muted)}
+.loader__meta b{color:var(--fg);font-weight:600;font-variant-numeric:tabular-nums}
+.loader.is-done .loader__inner{opacity:0;transform:translateY(-12px)}
+.loader.is-done{transform:translateY(-100%)}
+.loader.is-gone{display:none}
+html:not(.js) .loader{display:none}
+
+/* ============================================================
+   COUNTDOWN — glass units, digits roll in, a hairline under each
+   unit shows how much of it is left
+   ============================================================ */
+.race .countdown{display:flex;align-items:stretch;gap:0}
+.race .countdown .cd{
+  position:relative;flex:none;width:auto;min-width:clamp(72px,7.4vw,96px);padding:14px 14px 16px;text-align:left;
+  background:rgb(var(--black-rgb) / .22);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
+  border:1px solid rgb(var(--white-rgb) / .16);border-radius:16px;box-shadow:inset 0 1px 0 rgb(var(--white-rgb) / .12);
+}
+.cd__num{display:block;height:1.05em;overflow:hidden;font-family:var(--ff-block);font-size:clamp(2rem,3.6vw,2.9rem);line-height:1.05}
+.race .countdown .cd b{display:block;font-size:inherit;line-height:inherit;font-variant-numeric:tabular-nums;color:var(--c-white)}
+.cd b.is-tick{animation:cdRoll .45s var(--ease)}
+@keyframes cdRoll{from{transform:translateY(70%);opacity:0;filter:blur(2px)}to{transform:none;opacity:1;filter:none}}
+.race .countdown .cd small{display:block;margin:6px 0 12px;font-family:var(--ff-mono);font-size:.58rem;letter-spacing:.2em;color:rgb(var(--white-rgb) / .75)}
+.cd__bar{position:absolute;left:14px;right:14px;bottom:12px;height:2px;border-radius:2px;background:rgb(var(--white-rgb) / .18)}
+.cd__bar>i{
+  position:absolute;inset:0;border-radius:2px;transform-origin:left;transform:scaleX(var(--f,1));
+  background:linear-gradient(90deg,rgb(var(--white-rgb) / .2),var(--c-white));transition:transform .6s var(--ease);
+}
+.cd__bar>i::after{
+  content:"";position:absolute;right:-3px;top:50%;width:6px;height:6px;margin-top:-3px;border-radius:50%;background:var(--c-white);
+  box-shadow:0 0 10px 2px rgb(var(--white-rgb) / .8);transform:scaleX(calc(1 / max(var(--f,1), .02)));
+}
+.cd__sep{width:clamp(8px,1.2vw,16px);flex:none;align-self:center;height:40%;position:relative}
+.cd__sep::before,.cd__sep::after{content:"";position:absolute;left:50%;width:4px;height:4px;margin-left:-2px;border-radius:50%;background:rgb(var(--white-rgb) / .55)}
+.cd__sep::before{top:30%}
+.cd__sep::after{bottom:30%}
+@media (max-width:720px){
+  .race .countdown .cd{min-width:0;flex:1;padding:12px 10px 14px}
+  .cd__num{font-size:1.7rem}
+  .race .countdown .cd small{font-size:.5rem;letter-spacing:.14em}
+  .cd__bar{left:10px;right:10px;bottom:10px}
+  .cd__sep{width:6px}
+  .race .countdown{width:100%}
+}
