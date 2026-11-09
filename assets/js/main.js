@@ -180,7 +180,7 @@
         lap.style.setProperty('--x', (p * document.documentElement.clientWidth).toFixed(1) + 'px');
         lap.classList.toggle('is-on', y > 8);
       }
-      if (toTop) toTop.classList.toggle('is-visible', y > vh);
+      if (toTop) { toTop.classList.toggle('is-visible', y > vh); toTop.style.setProperty('--p', p.toFixed(4)); }
 
       var current = sectors[0];
       sectors.forEach(function (s) { if (s.getBoundingClientRect().top <= vh * 0.4) current = s; });
@@ -188,7 +188,7 @@
 
       if (rail && timeline) {
         var r = timeline.getBoundingClientRect();
-        rail.style.transform = 'scaleY(' + clamp((vh * 0.65 - r.top) / r.height, 0, 1) + ')';
+        rail.style.setProperty('--t', clamp((vh * 0.65 - r.top) / r.height, 0, 1).toFixed(4));
       }
     }
 
@@ -390,43 +390,58 @@
 
   /* ---------- 9. Chequered flag (canvas, CTA) ---------- */
   function initFlag() {
+    /* light trails: thin red/white streaks with glowing heads drifting across the CTA,
+       the same hairline-and-glow language as the progress bar */
     var cv = $('#flag'), sec = $('#contact');
     if (!cv) return;
-    var ctx = cv.getContext('2d'), w = 0, h = 0, dpr = 1, visible = false, cell = 44;
+    var ctx = cv.getContext('2d'), w = 0, h = 0, dpr = 1, visible = false, trails = [];
+    function spawn(anywhere) {
+      return {
+        x: anywhere ? Math.random() * w : -Math.random() * w * 0.4,
+        y: h * (0.08 + Math.random() * 0.84),
+        len: 120 + Math.random() * 320,
+        sp: 60 + Math.random() * 180,
+        a: 0.25 + Math.random() * 0.6,
+        red: Math.random() < 0.7,
+        wob: Math.random() * Math.PI * 2
+      };
+    }
     function size() {
       dpr = Math.min(window.devicePixelRatio || 1, 2);
       w = cv.clientWidth; h = cv.clientHeight;
       cv.width = w * dpr; cv.height = h * dpr;
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      trails = [];
+      for (var i = 0; i < Math.round(w / 70); i++) trails.push(spawn(true));
     }
-    function draw(t) {
+    function draw(dt, t) {
       ctx.clearRect(0, 0, w, h);
-      var cols = Math.ceil(w / cell) + 2, rows = Math.ceil(h / cell) + 2;
-      function P(cx, cy) {
-        var x = cx * cell - cell, y = cy * cell - cell;
-        var wave = Math.sin(x * 0.012 + t * 2.2) * 14 + Math.sin(x * 0.02 + y * 0.01 + t * 1.3) * 6;
-        return [x + wave * 0.3, y + wave];
-      }
-      for (var cy = 0; cy < rows; cy++) {
-        for (var cx = 0; cx < cols; cx++) {
-          var a = P(cx, cy), b = P(cx + 1, cy), c = P(cx + 1, cy + 1), d = P(cx, cy + 1);
-          var shade = 0.55 + 0.45 * Math.cos((cx * cell) * 0.012 + t * 2.2);
-          var dark = (cx + cy) % 2;
-          var g = dark ? Math.round(20 * shade) : Math.round(255 * shade);
-          ctx.fillStyle = 'rgb(' + g + ',' + g + ',' + g + ')';
-          ctx.beginPath();
-          ctx.moveTo(a[0], a[1]); ctx.lineTo(b[0], b[1]); ctx.lineTo(c[0], c[1]); ctx.lineTo(d[0], d[1]);
-          ctx.closePath(); ctx.fill();
-        }
-      }
+      trails.forEach(function (tr, i) {
+        tr.x += tr.sp * dt;
+        if (tr.x - tr.len > w) trails[i] = tr = spawn(false);
+        var y = tr.y + Math.sin(t * 0.6 + tr.wob) * 6;
+        var col = tr.red ? '228,0,43' : '255,255,255';
+        var g = ctx.createLinearGradient(tr.x - tr.len, 0, tr.x, 0);
+        g.addColorStop(0, 'rgba(' + col + ',0)');
+        g.addColorStop(1, 'rgba(' + col + ',' + tr.a + ')');
+        ctx.fillStyle = g;
+        ctx.fillRect(tr.x - tr.len, y - 0.75, tr.len, 1.5);
+        ctx.shadowColor = 'rgba(' + col + ',0.9)';
+        ctx.shadowBlur = 12;
+        ctx.fillStyle = tr.red ? 'rgba(255,140,120,' + tr.a + ')' : 'rgba(255,255,255,' + tr.a + ')';
+        ctx.beginPath(); ctx.arc(tr.x, y, 2, 0, Math.PI * 2); ctx.fill();
+        ctx.shadowBlur = 0;
+      });
     }
+    var last = performance.now();
     function frame(now) {
-      if (visible) draw(now / 1000);
+      var dt = clamp((now - last) / 1000, 0, 0.05); last = now;
+      if (visible) draw(dt, now / 1000);
       requestAnimationFrame(frame);
     }
     size();
     window.addEventListener('resize', size);
-    if (reduced) { draw(0); return; }
+    if (reduced) { draw(0, 0); return; }
     if (hasIO && sec) new IntersectionObserver(function (e) { visible = e[0].isIntersecting; }).observe(sec);
     else visible = true;
     requestAnimationFrame(frame);
