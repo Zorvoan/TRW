@@ -9,7 +9,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Russo+One&family=Saira+Condensed:wght@500;700;800;900&family=Saira:wght@400;500;600&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet" />
-<link rel="stylesheet" href="assets/css/style.css?v=9" />
+<link rel="stylesheet" href="assets/css/style.css?v=10" />
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' fill='%2308090c'/><path d='M5 24 L11 8 h5 l-6 16z M15 24 L21 8 h5 l-6 16z' fill='%23e4002b'/></svg>" />
 <script>document.documentElement.classList.add('js')</script>
 </head>
@@ -76,6 +76,9 @@
 <section class="hero" id="hero" data-sector="S1" data-name="Grid">
   <canvas class="hero__streaks" id="streaks" aria-hidden="true"></canvas>
   <div class="hero__glow" aria-hidden="true"></div>
+  <figure class="hero__photo" id="heroPhoto" aria-hidden="true">
+    <img src="assets/img/hero-car.webp" alt="" width="1350" height="1799" fetchpriority="high" decoding="async" />
+  </figure>
 
   <div class="container hero__grid">
     <div class="hero__copy">
@@ -95,47 +98,6 @@
       </div>
     </div>
 
-    <!-- telemetry panel: a car lapping the test circuit, readouts driven by the track curvature -->
-    <aside class="tele reveal" data-reveal data-delay="150" aria-label="Simulated telemetry, car #27">
-      <header class="tele__head">
-        <span><b>#27</b> Hypercar · onboard</span>
-        <span class="tele__track">Most Test Circuit · 4.212 km</span>
-      </header>
-
-      <div class="tele__map">
-        <svg viewBox="0 0 600 400" aria-hidden="true">
-          <defs>
-            <path id="trackPath" d="M 120 300 C 80 300 62 272 74 242 L 128 112 C 140 84 168 70 198 76 L 300 98 C 330 104 346 90 362 68 C 380 44 412 38 442 50 L 530 88 C 562 102 568 136 546 156 L 470 222 C 450 240 456 264 480 276 L 520 298 C 548 314 538 346 506 346 L 250 346 C 224 346 210 332 196 318 C 180 302 160 300 140 300 Z"/>
-          </defs>
-          <use href="#trackPath" class="map__asphalt"/>
-          <use href="#trackPath" class="map__edge"/>
-          <path class="map__trail" id="mapTrail" d="M 120 300 C 80 300 62 272 74 242 L 128 112 C 140 84 168 70 198 76 L 300 98 C 330 104 346 90 362 68 C 380 44 412 38 442 50 L 530 88 C 562 102 568 136 546 156 L 470 222 C 450 240 456 264 480 276 L 520 298 C 548 314 538 346 506 346 L 250 346 C 224 346 210 332 196 318 C 180 302 160 300 140 300 Z"/>
-          <g class="map__finish"><rect x="117" y="289" width="6" height="22"/></g>
-          <g id="sectorMarks"></g>
-          <circle class="map__car-glow" id="carGlow" r="14" cx="120" cy="300"/>
-          <circle class="map__car" id="car" r="6" cx="120" cy="300"/>
-        </svg>
-      </div>
-
-      <div class="tele__readouts">
-        <div class="ro ro--speed"><small>Speed</small><b id="roSpeed">0</b><em>km/h</em></div>
-        <div class="ro"><small>Gear</small><b id="roGear">N</b></div>
-        <div class="ro"><small>Lap</small><b id="roLap" class="mono">0:00.000</b></div>
-      </div>
-      <div class="shift" id="shift" aria-hidden="true">
-        <i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i>
-      </div>
-      <div class="tele__sectors">
-        <div class="sec" data-s="0"><small>S1</small><b class="mono">—</b></div>
-        <div class="sec" data-s="1"><small>S2</small><b class="mono">—</b></div>
-        <div class="sec" data-s="2"><small>S3</small><b class="mono">—</b></div>
-        <div class="sec sec--best"><small>Best</small><b class="mono" id="roBest">—</b></div>
-      </div>
-    </aside>
-  </div>
-
-  <div class="container hero__foot">
-    <a href="#team" class="scroll-cue"><span>Scroll to start the lap</span><i></i></a>
   </div>
 </section>
 
@@ -297,62 +259,66 @@
 </section>
 
 <!-- ============ NEWS (lazy) ============ -->
-<section class="section section--red" id="news" data-sector="S3" data-name="News" data-lazy="Loading pit wall feed">
+<section class="section section--red" id="news" data-sector="S3" data-name="News" data-lazy="Loading endurance news">
   <div class="ghost" data-ghost="Pit wall" aria-hidden="true"></div>
   <div class="container">
     <div class="sec-top">
       <div>
         <p class="kicker reveal" data-reveal><span class="kicker__s kicker__s--3">S3</span>Pit wall</p>
-        <h2 class="h2 reveal" data-reveal data-delay="80">Latest <span class="red">news</span></h2>
+        <h2 class="h2 reveal" data-reveal data-delay="80">Endurance <span class="red">news</span></h2>
       </div>
       <div class="filters reveal" data-reveal data-delay="160" id="filters">
         <button class="filter is-active" data-filter="all" type="button" aria-pressed="true">All</button>
         <button class="filter" data-filter="wec" type="button" aria-pressed="false">WEC</button>
-        <button class="filter" data-filter="gtwc" type="button" aria-pressed="false">GTWC</button>
-        <button class="filter" data-filter="team" type="button" aria-pressed="false">Team</button>
+        <button class="filter" data-filter="imsa" type="button" aria-pressed="false">IMSA</button>
+        <button class="filter" data-filter="gt" type="button" aria-pressed="false">GT</button>
       </div>
     </div>
 
     <div class="news" id="newsGrid">
       <article class="card card--wide" data-stagger style="--i:0" data-cat="wec">
-        <div class="card__img livery livery--red"><span class="livery__num">27</span><span class="livery__stripe"></span></div>
+        <div class="card__img livery livery--red"><span class="livery__num">7</span><span class="livery__class">Le Mans</span><span class="livery__stripe"></span></div>
         <div class="card__body">
           <span class="card__cat">WEC</span>
-          <h3>Le Mans: car #27 takes the class win after a 24-hour fight</h3>
-          <p>A triple-stint from Luca Fenn through the night and a clean final hour sealed a second Le Mans class victory.</p>
-          <time datetime="2026-06-14">14 June 2026</time>
+          <h3><a class="card__link" href="https://www.fiawec.com/en/race/summary/4951" target="_blank" rel="noopener">Toyota's #7 wins the 94th 24 Hours of Le Mans by 10.9 seconds</a></h3>
+          <p>Mike Conway, Kamui Kobayashi and Nyck de Vries held off the #20 BMW M Hybrid V8 after 381 laps. It is Toyota's sixth Le Mans victory and a first overall win for de Vries.</p>
+          <p class="card__src"><time datetime="2026-06-14">14 June 2026</time><span>FIA WEC ↗</span></p>
         </div>
       </article>
-      <article class="card" data-stagger style="--i:1" data-cat="gtwc">
-        <div class="card__img livery livery--carbon"><span class="livery__num">23</span><span class="livery__stripe"></span></div>
-        <div class="card__body">
-          <span class="card__cat">GTWC</span>
-          <h3>Pole at Monza in the final seconds of qualifying</h3>
-          <time datetime="2026-04-12">12 April 2026</time>
-        </div>
-      </article>
-      <article class="card" data-stagger style="--i:2" data-cat="team">
-        <div class="card__img livery livery--steel"><span class="livery__num">S</span><span class="livery__stripe"></span></div>
-        <div class="card__body">
-          <span class="card__cat">Team</span>
-          <h3>New driver-in-the-loop simulator opens in Most</h3>
-          <time datetime="2026-02-24">24 February 2026</time>
-        </div>
-      </article>
-      <article class="card" data-stagger style="--i:3" data-cat="wec">
-        <div class="card__img livery livery--gold"><span class="livery__num">64</span><span class="livery__stripe"></span></div>
+      <article class="card" data-stagger style="--i:1" data-cat="wec">
+        <div class="card__img livery livery--steel"><span class="livery__num">8</span><span class="livery__class">Fuji</span><span class="livery__stripe"></span></div>
         <div class="card__body">
           <span class="card__cat">WEC</span>
-          <h3>Prologue test wrapped with 3,100 km on the board</h3>
-          <time datetime="2026-02-18">18 February 2026</time>
+          <h3><a class="card__link" href="https://racingnews365.com/2026-wec-six-hours-of-fuji-results" target="_blank" rel="noopener">Hirakawa brings the #8 Toyota from eighth to win at Fuji</a></h3>
+          <p>The Buemi / Hartley / Hirakawa car beat the #36 Alpine by 0.591 s, with BMW's #15 third.</p>
+          <p class="card__src"><span>6 Hours of Fuji</span><span>RacingNews365 ↗</span></p>
         </div>
       </article>
-      <article class="card" data-stagger style="--i:4" data-cat="team">
-        <div class="card__img livery livery--red"><span class="livery__num">26</span><span class="livery__stripe"></span></div>
+      <article class="card" data-stagger style="--i:2" data-cat="gt">
+        <div class="card__img livery livery--gold"><span class="livery__num">80</span><span class="livery__class">Spa 24H</span><span class="livery__stripe"></span></div>
         <div class="card__body">
-          <span class="card__cat">Team</span>
-          <h3>TRW confirms its 2026 driver line-up</h3>
-          <time datetime="2026-01-09">9 January 2026</time>
+          <span class="card__cat">GT</span>
+          <h3><a class="card__link" href="https://www.gt-world-challenge-europe.com/news/3258/porsche-triumphs-in-record-breaking-crowdstrike-24-hours-of-spa-as-lionspeed-gp-storms-to-victory" target="_blank" rel="noopener">Lionspeed GP Porsche wins Spa from a pit-lane start</a></h3>
+          <p>Feller, Preining and Buus gave Porsche its first overall Spa 24 Hours win since 2020.</p>
+          <p class="card__src"><time datetime="2026-06-28">28 June 2026</time><span>GTWC Europe ↗</span></p>
+        </div>
+      </article>
+      <article class="card" data-stagger style="--i:3" data-cat="imsa">
+        <div class="card__img livery livery--carbon"><span class="livery__num">6</span><span class="livery__class">Petit LM</span><span class="livery__stripe"></span></div>
+        <div class="card__body">
+          <span class="card__cat">IMSA</span>
+          <h3><a class="card__link" href="https://www.imsa.com/news/2026/10/04/porsche-finally-takes-motul-petit-le-mans-overall-win/" target="_blank" rel="noopener">Porsche Penske finally takes a Petit Le Mans overall win</a></h3>
+          <p>Vanthoor, Estre and Campbell beat the #24 BMW by 1.205 s after 16 full-course yellows.</p>
+          <p class="card__src"><time datetime="2026-10-04">4 October 2026</time><span>IMSA ↗</span></p>
+        </div>
+      </article>
+      <article class="card" data-stagger style="--i:4" data-cat="wec">
+        <div class="card__img livery livery--red"><span class="livery__num">10</span><span class="livery__class">Bahrain</span><span class="livery__stripe"></span></div>
+        <div class="card__body">
+          <span class="card__cat">WEC</span>
+          <h3><a class="card__link" href="https://www.fiawec.com/en/news/bahrain-to-host-fia-wec-for-next-ten-years/13611" target="_blank" rel="noopener">Bahrain signs on to host the WEC for the next ten years</a></h3>
+          <p>The Bahrain International Circuit stays on the calendar until at least 2036.</p>
+          <p class="card__src"><span>Season finale venue</span><span>FIA WEC ↗</span></p>
         </div>
       </article>
     </div>
@@ -424,6 +390,6 @@
 
 <button class="to-top" id="toTop" type="button" aria-label="Back to top">↑</button>
 
-<script src="assets/js/main.js?v=9"></script>
+<script src="assets/js/main.js?v=10"></script>
 </body>
 </html>
