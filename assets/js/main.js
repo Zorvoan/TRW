@@ -739,7 +739,12 @@
     function layoutOnly() {
       W = svg.clientWidth; H = svg.clientHeight;
       svg.setAttribute('viewBox', '0 0 ' + W + ' ' + H);
-      [maskBg, veil, img].forEach(function (n) { n.setAttribute('width', W); n.setAttribute('height', H); });
+      img.setAttribute('width', W); img.setAttribute('height', H);
+      // the veil (and its mask) overhang the stage, so no edge of the photo can ever peek out
+      [maskBg, veil].forEach(function (n) {
+        n.setAttribute('x', -40); n.setAttribute('y', -40);
+        n.setAttribute('width', W + 80); n.setAttribute('height', H + 80);
+      });
       // phones get a relatively larger word so it still reads at the start
       var fs = Math.min(W * (W < 720 ? 0.25 : 0.2), H * 0.42);
       text.setAttribute('font-size', fs);
@@ -766,7 +771,10 @@
 
     layout();
     if (document.fonts && document.fonts.ready) document.fonts.ready.then(layout);
-    window.addEventListener('resize', layout);
+    // re-measure whenever the stage itself changes size: a scrollbar appearing after the
+    // start lights narrows the page without firing a window resize
+    if ('ResizeObserver' in window) new ResizeObserver(function () { layout(); }).observe(svg);
+    else window.addEventListener('resize', layout);
     window.addEventListener('scroll', function () { if (!ticking) { ticking = true; requestAnimationFrame(update); } }, { passive: true });
   }
 
