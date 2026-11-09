@@ -95,35 +95,18 @@
      until the reader scrolls to it, loads, then its [data-stagger]
      children drive in one after another. */
   function initLazy() {
+    /* [data-lazy] sections hold their [data-stagger] items back until the
+       reader scrolls to them, then the items drive in one after another. */
     var sections = $$('[data-lazy]');
-    sections.forEach(function (sec) {
-      var board = document.createElement('div');
-      board.className = 'pitboard';
-      board.setAttribute('aria-hidden', 'true');
-      board.innerHTML = '<div class="pitboard__row"><span></span><em>Box</em></div><div class="pitboard__bar"><i></i></div>';
-      board.querySelector('span').textContent = sec.getAttribute('data-lazy');
-      sec.appendChild(board);
-    });
 
     function load(sec) {
-      if (sec.classList.contains('is-loading') || sec.classList.contains('is-loaded')) return;
-      var ms = reduced ? 0 : 550 + Math.round(Math.random() * 350);
-      sec.style.setProperty('--load', ms + 'ms');
-      // next frame so the bar transition starts from zero
-      requestAnimationFrame(function () {
-        sec.classList.add('is-loading');
-        setTimeout(function () {
-          sec.classList.remove('is-loading');
-          sec.classList.add('is-loaded');
-          var items = $$('[data-stagger]', sec);
-          var settle = reduced ? 0 : items.length * 75 + 900;
-          setTimeout(function () {
-            items.forEach(function (n) { n.removeAttribute('data-stagger'); });
-            var b = $('.pitboard', sec);
-            if (b) b.remove();
-          }, settle);
-        }, ms);
-      });
+      if (sec.classList.contains('is-loaded')) return;
+      sec.classList.add('is-loaded');
+      var items = $$('[data-stagger]', sec);
+      // once the entrance is over, drop the attribute so hover transitions are the items' own again
+      setTimeout(function () {
+        items.forEach(function (n) { n.removeAttribute('data-stagger'); });
+      }, reduced ? 0 : items.length * 75 + 900);
     }
 
     if (!hasIO) { sections.forEach(load); return; }
@@ -133,7 +116,7 @@
         load(e.target);
         io.unobserve(e.target);
       });
-    }, { threshold: 0, rootMargin: '0px 0px -25% 0px' });
+    }, { threshold: 0, rootMargin: '0px 0px -15% 0px' });
     sections.forEach(function (s) { io.observe(s); });
   }
 

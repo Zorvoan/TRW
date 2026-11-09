@@ -626,7 +626,7 @@ html:not(.js) .lights{display:none}
 .js [data-reveal]{opacity:0;transform:translateY(36px) skewY(1.5deg);transition:opacity .8s var(--ease),transform .8s var(--ease)}
 .js [data-reveal].is-in{opacity:1;transform:none}
 
-/* a lazy section waits behind a pit board until the reader gets there */
+/* a lazy section holds its items back until the reader gets there, then they drive in */
 .js [data-lazy]{isolation:isolate}
 .js [data-lazy] [data-stagger]{opacity:0;translate:-46px 0}
 /* individual `translate` keeps the entrance off `transform`, which hover states use;
@@ -636,26 +636,7 @@ html:not(.js) .lights{display:none}
   transition:opacity .6s var(--ease),translate .7s var(--ease);
   transition-delay:calc(var(--i,0) * 75ms);
 }
-.pitboard{
-  position:absolute;z-index:5;left:50%;top:clamp(140px,22vw,240px);
-  width:min(420px,calc(100% - 32px));transform:translateX(-50%);
-  padding:18px 22px;background:var(--c-carbon-950);border:1px solid var(--line-2);border-left:4px solid var(--yellow);
-  font-family:var(--ff-mono);font-size:.74rem;letter-spacing:.16em;text-transform:uppercase;color:var(--fg);
-  transition:opacity .35s,transform .45s var(--ease);
-}
-.pitboard__row{display:flex;justify-content:space-between;gap:12px}
-.pitboard__row em{font-style:normal;color:var(--yellow)}
-.pitboard__bar{margin-top:12px;height:4px;background:var(--c-carbon-600);overflow:hidden}
-.pitboard__bar i{display:block;height:100%;width:100%;background:var(--yellow);transform:scaleX(0);transform-origin:left}
-[data-lazy].is-loading .pitboard__bar i{transform:scaleX(1);transition:transform var(--load,700ms) linear}
-[data-lazy].is-loaded .pitboard{opacity:0;transform:translateX(-50%) translateY(-16px);pointer-events:none}
-/* shimmer skeleton lines inside a waiting section */
-.js [data-lazy]:not(.is-loaded)::after{
-  content:"";position:absolute;inset:0;z-index:-1;pointer-events:none;
-  background:linear-gradient(100deg,transparent 30%,rgb(var(--white-rgb) / .035) 50%,transparent 70%) 0 0/200% 100%;
-  animation:shimmer 1.4s linear infinite;
-}
-@keyframes shimmer{from{background-position:150% 0}to{background-position:-50% 0}}
+
 
 
 /* ============================================================
