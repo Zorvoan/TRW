@@ -9,7 +9,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Russo+One&family=Saira+Condensed:wght@500;700;800;900&family=Saira:wght@400;500;600&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet" />
-<link rel="stylesheet" href="assets/css/style.css?v=12" />
+<link rel="stylesheet" href="assets/css/style.css?v=13" />
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' fill='%2308090c'/><path d='M5 24 L11 8 h5 l-6 16z M15 24 L21 8 h5 l-6 16z' fill='%23e4002b'/></svg>" />
 <script>document.documentElement.classList.add('js')</script>
 </head>
@@ -29,9 +29,9 @@
 </div>
 
 <!-- ============ HUD CHROME ============ -->
-<div class="lap" aria-hidden="true">
-  <div class="lap__fill" id="lapFill"></div>
-  <div class="lap__marks"><i style="--p:0"></i><i style="--p:.333"></i><i style="--p:.666"></i><i style="--p:1"></i></div>
+<div class="lap" id="lap" aria-hidden="true">
+  <div class="lap__fill"></div>
+  <i class="lap__head"></i>
 </div>
 
 <!-- ============ HEADER ============ -->
@@ -387,6 +387,6 @@
 
 <button class="to-top" id="toTop" type="button" aria-label="Back to top">↑</button>
 
-<script src="assets/js/main.js?v=12"></script>
+<script src="assets/js/main.js?v=13"></script>
 </body>
 </html>

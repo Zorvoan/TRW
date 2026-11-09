@@ -159,7 +159,7 @@
   function initChrome() {
     var header = $('#header'), nav = $('#nav'), burger = $('#burger');
     var links = $$('.nav__link');
-    var lapFill = $('#lapFill');
+    var lap = $('#lap');
     var toTop = $('#toTop');
     var sectors = $$('[data-sector]');
     var rail = $('#railFill'), timeline = $('#timeline');
@@ -175,7 +175,11 @@
       header.classList.toggle('is-hidden', y > 500 && y > lastY && !nav.classList.contains('is-open'));
       lastY = y;
 
-      if (lapFill) lapFill.style.transform = 'scaleX(' + p + ')';
+      if (lap) {
+        lap.style.setProperty('--p', p.toFixed(4));
+        lap.style.setProperty('--x', (p * document.documentElement.clientWidth).toFixed(1) + 'px');
+        lap.classList.toggle('is-on', y > 8);
+      }
       if (toTop) toTop.classList.toggle('is-visible', y > vh);
 
       var current = sectors[0];
