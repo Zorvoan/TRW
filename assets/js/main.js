@@ -159,7 +159,7 @@
   function initChrome() {
     var header = $('#header'), nav = $('#nav'), burger = $('#burger');
     var links = $$('.nav__link');
-    var lapFill = $('#lapFill'), hud = $('#hud'), hudSector = $('#hudSector'), hudName = $('#hudName'), hudPct = $('#hudPct');
+    var lapFill = $('#lapFill');
     var toTop = $('#toTop');
     var sectors = $$('[data-sector]');
     var rail = $('#railFill'), timeline = $('#timeline');
@@ -180,13 +180,6 @@
 
       var current = sectors[0];
       sectors.forEach(function (s) { if (s.getBoundingClientRect().top <= vh * 0.4) current = s; });
-      if (hud && current) {
-        hud.classList.toggle('is-visible', y > vh * 0.5);
-        var s = current.getAttribute('data-sector');
-        if (hudSector.textContent !== s) { hudSector.textContent = s; hudSector.setAttribute('data-s', s); }
-        hudName.textContent = current.getAttribute('data-name');
-        hudPct.textContent = Math.round(p * 100);
-      }
       links.forEach(function (a) { a.classList.toggle('is-active', current && a.getAttribute('href') === '#' + current.id); });
 
       if (rail && timeline) {
@@ -550,8 +543,9 @@
       };
       root._build();
       // hovering eases the row down to a crawl instead of stopping it dead
+      // only a word under the cursor counts: separators and gaps do nothing
       if (root.hasAttribute('data-pause-on-hover')) {
-        root.addEventListener('mouseenter', function () { root._paused = true; });
+        root.addEventListener('mouseover', function (e) { root._paused = !!(e.target.closest && e.target.closest('span')); });
         root.addEventListener('mouseleave', function () { root._paused = false; });
       }
     });
