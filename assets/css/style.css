@@ -327,8 +327,16 @@ html:not(.js) .lights{display:none}
 .ticker{background:var(--red);position:relative}
 .chequer{height:12px;background:repeating-conic-gradient(#fff 0 25%,#0b0b0d 0 50%) 0 0/12px 12px}
 .ticker .marquee{padding:12px 0}
-.ticker span{font-family:var(--ff-display);font-weight:900;font-style:italic;font-size:1.6rem;letter-spacing:.08em;text-transform:uppercase;color:#fff}
-.ticker b{color:rgba(255,255,255,.5);font-size:.8rem}
+.ticker span{
+  display:inline-block;font-family:var(--ff-display);font-weight:900;font-style:italic;font-size:1.6rem;
+  letter-spacing:.08em;text-transform:uppercase;color:#fff;cursor:default;
+  transition:color .45s var(--ease),transform .5s var(--ease),text-shadow .45s var(--ease),opacity .45s var(--ease);
+}
+.ticker b{display:inline-block;color:rgba(255,255,255,.5);font-size:.8rem;transition:transform .6s var(--ease),color .45s var(--ease)}
+/* hovering the strip dims every word; the one under the cursor lifts and turns black */
+.ticker .marquee:hover span{opacity:.55}
+.ticker .marquee span:hover{opacity:1;color:#0b0b0d;transform:translateY(-3px) skewX(-8deg) scale(1.06);text-shadow:0 6px 18px rgba(0,0,0,.25)}
+.ticker .marquee:hover b{transform:rotate(180deg);color:#fff}
 
 /* ---------- Marquee engine ---------- */
 .marquee{--gap:28px;overflow:hidden}
@@ -500,9 +508,11 @@ html:not(.js) .lights{display:none}
 .logos span{
   font-family:var(--ff-display);font-weight:900;font-style:italic;font-size:clamp(1.8rem,3.4vw,2.8rem);
   letter-spacing:.08em;text-transform:uppercase;color:transparent;-webkit-text-stroke:1px rgba(255,255,255,.45);
-  transition:color .3s,-webkit-text-stroke-color .3s;
 }
-.logos span:hover{color:var(--red);-webkit-text-stroke-color:transparent}
+.logos span{display:inline-block;cursor:default;transition:color .5s var(--ease),-webkit-text-stroke-color .5s var(--ease),transform .55s var(--ease),opacity .5s var(--ease),filter .5s var(--ease)}
+/* the row under the cursor dims; the partner under it fills red and leans in */
+.logos:hover span{opacity:.4}
+.logos span:hover{opacity:1;color:var(--red);-webkit-text-stroke-color:transparent;transform:scale(1.1) skewX(-6deg);filter:drop-shadow(0 8px 22px rgba(228,0,43,.45))}
 
 /* ---------- CTA ---------- */
 .cta{position:relative;overflow:hidden;overflow:clip;padding-block:clamp(90px,12vw,160px);text-align:center;background:var(--bg);border-top:1px solid var(--line)}
@@ -765,7 +775,8 @@ html:not(.js) .race__track path{stroke-dashoffset:0}
 
 @media (prefers-reduced-motion:reduce){
   html{scroll-behavior:auto}
-  *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
+  *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important}
+  .ticker span:hover,.logos span:hover{transform:none}
   .js [data-reveal],.js .hero__line .ch{opacity:1;transform:none;filter:none}
   .js [data-lazy] [data-stagger]{opacity:1;translate:none}
 }

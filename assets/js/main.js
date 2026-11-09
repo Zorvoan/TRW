@@ -533,8 +533,11 @@
       root._offset = 0;
       root._visible = true;
       root._paused = false;
+      // +1 = content travels right-to-left, -1 = left-to-right
       root._dir = root.getAttribute('data-direction') === 'reverse' ? -1 : 1;
-      root._speed = (parseFloat(root.getAttribute('data-speed')) || 60) * (reduced ? 0 : 1);
+      // reduced motion keeps the loop but at a calm pace
+      root._speed = (parseFloat(root.getAttribute('data-speed')) || 60) * (reduced ? 0.35 : 1);
+      root._cur = root._speed;
       root._build = function () {
         track.innerHTML = root._seed;
         var gw = track.firstElementChild.getBoundingClientRect().width;
@@ -546,6 +549,7 @@
         root._offset = root._offset % gw;
       };
       root._build();
+      // hovering eases the row down to a crawl instead of stopping it dead
       if (root.hasAttribute('data-pause-on-hover')) {
         root.addEventListener('mouseenter', function () { root._paused = true; });
         root.addEventListener('mouseleave', function () { root._paused = false; });
@@ -561,8 +565,10 @@
     (function frame(now) {
       var dt = clamp((now - last) / 1000, 0, 0.05); last = now;
       roots.forEach(function (r) {
-        if (!r._groupW || !r._visible || r._paused) return;
-        r._offset = (r._offset + r._dir * r._speed * dt) % r._groupW;
+        if (!r._groupW || !r._visible) return;
+        var target = r._paused ? r._speed * 0.12 : r._speed;
+        r._cur += (target - r._cur) * Math.min(1, dt * 3.5);
+        r._offset = (r._offset + r._dir * r._cur * dt) % r._groupW;
         if (r._offset < 0) r._offset += r._groupW;
         r._track.style.transform = 'translate3d(' + (-r._offset).toFixed(2) + 'px,0,0)';
       });

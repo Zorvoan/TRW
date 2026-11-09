@@ -9,7 +9,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Russo+One&family=Saira+Condensed:wght@500;700;800;900&family=Saira:wght@400;500;600&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet" />
-<link rel="stylesheet" href="assets/css/style.css?v=8" />
+<link rel="stylesheet" href="assets/css/style.css?v=9" />
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' fill='%2308090c'/><path d='M5 24 L11 8 h5 l-6 16z M15 24 L21 8 h5 l-6 16z' fill='%23e4002b'/></svg>" />
 <script>document.documentElement.classList.add('js')</script>
 </head>
@@ -142,7 +142,7 @@
 <!-- ============ TICKER ============ -->
 <div class="ticker" aria-hidden="true">
   <div class="chequer"></div>
-  <div class="marquee" data-marquee data-speed="90">
+  <div class="marquee" data-marquee data-speed="90" data-pause-on-hover>
     <div class="marquee__track"><div class="marquee__group">
       <span>Hypercar</span><b>◆</b><span>LMGT3</span><b>◆</b><span>GT World Challenge</span><b>◆</b><span>24H Le Mans</span><b>◆</b><span>24H Spa</span><b>◆</b><span>Intercontinental GT</span><b>◆</b>
     </div></div>
@@ -366,12 +366,12 @@
     <p class="kicker reveal" data-reveal><span class="kicker__s kicker__s--3">S3</span>Partners</p>
     <h2 class="h2 reveal" data-reveal data-delay="80">On the <span class="outline">livery</span></h2>
   </div>
-  <div class="logos marquee" data-marquee data-speed="60" data-direction="reverse" data-pause-on-hover data-stagger style="--i:0">
+  <div class="logos marquee" data-marquee data-speed="60" data-pause-on-hover data-stagger style="--i:0">
     <div class="marquee__track"><div class="marquee__group">
       <span>APEX</span><span>VELOCITA</span><span>NORDKRAFT</span><span>OCTANE</span><span>KERBSTONE</span><span>HELIOS</span>
     </div></div>
   </div>
-  <div class="logos marquee" data-marquee data-speed="45" data-pause-on-hover data-stagger style="--i:1" aria-hidden="true">
+  <div class="logos marquee" data-marquee data-speed="45" data-direction="reverse" data-pause-on-hover data-stagger style="--i:1" aria-hidden="true">
     <div class="marquee__track"><div class="marquee__group">
       <span>SLIPSTREAM</span><span>FERRO</span><span>AERODYN</span><span>MONZA LAB</span><span>PITWALL</span><span>TELEMETRIX</span>
     </div></div>
@@ -424,6 +424,6 @@
 
 <button class="to-top" id="toTop" type="button" aria-label="Back to top">↑</button>
 
-<script src="assets/js/main.js?v=8"></script>
+<script src="assets/js/main.js?v=9"></script>
 </body>
 </html>
