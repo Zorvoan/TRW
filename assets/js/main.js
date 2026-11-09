@@ -183,7 +183,8 @@
 
       if (lap) {
         lap.style.setProperty('--p', p.toFixed(4));
-        lap.style.setProperty('--x', (p * document.documentElement.clientWidth).toFixed(1) + 'px');
+        var cw = document.documentElement.clientWidth;
+        lap.style.setProperty('--x', Math.min(p * cw, cw - 4).toFixed(1) + 'px');
         lap.classList.toggle('is-on', y > 8);
       }
       if (toTop) { toTop.classList.toggle('is-visible', y > vh); toTop.style.setProperty('--p', p.toFixed(4)); }
@@ -737,7 +738,8 @@
       W = svg.clientWidth; H = svg.clientHeight;
       svg.setAttribute('viewBox', '0 0 ' + W + ' ' + H);
       [maskBg, veil, img].forEach(function (n) { n.setAttribute('width', W); n.setAttribute('height', H); });
-      var fs = Math.min(W * 0.2, H * 0.42);
+      // phones get a relatively larger word so it still reads at the start
+      var fs = Math.min(W * (W < 720 ? 0.25 : 0.2), H * 0.42);
       text.setAttribute('font-size', fs);
       text.setAttribute('x', W / 2);
       text.setAttribute('y', H / 2 + fs * 0.36);
@@ -752,7 +754,8 @@
       var sc = 1 + g * 2.4;
       var cx = W / 2, cy = H / 2;
       group.setAttribute('transform', 'translate(' + cx + ' ' + cy + ') scale(' + sc.toFixed(4) + ') translate(' + (-cx) + ' ' + (-cy) + ')');
-      veil.style.opacity = (0.94 * (1 - g)).toFixed(3);
+      // the veil stays solid for the first stretch, then lifts
+      veil.style.opacity = (1 - ease(seg(p, 0.14, 0.9))).toFixed(3);
       img.style.transform = 'scale(' + (1.12 - 0.12 * g).toFixed(4) + ')';
       var t = ease(seg(p, 0.8, 0.96));
       cap.style.opacity = t.toFixed(3);

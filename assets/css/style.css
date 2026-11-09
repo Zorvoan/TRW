@@ -1084,3 +1084,39 @@ html:not(.js) .power__caption,.power.is-static .power__caption{opacity:1;transfo
   background:radial-gradient(50% 50% at 50% 50%,rgb(var(--black-rgb) / .45),rgb(var(--black-rgb) / 0) 70%);
 }
 .slide__car--photo .slide__floor{bottom:-7%}
+
+/* ============================================================
+   PHONE PASS — fixes found walking the page at 390px
+   ============================================================ */
+@media (max-width:720px){
+  /* hero: a dark wash behind the copy so the lead reads over the photo */
+  .hero::after{
+    content:"";position:absolute;inset:0;z-index:1;pointer-events:none;
+    background:linear-gradient(180deg,rgb(var(--carbon-rgb) / .2) 0,rgb(var(--carbon-rgb) / .55) 45%,rgb(var(--carbon-rgb) / .85) 100%);
+  }
+  .hero__lead{color:var(--c-snow);text-shadow:0 1px 12px rgb(var(--black-rgb) / .6)}
+
+  /* calendar: two compact tiles per row instead of one long column */
+  .rounds{grid-template-columns:1fr 1fr;gap:10px}
+  .round{min-height:0;padding:14px 14px 12px;gap:2px}
+  .round b{font-size:1.08rem}
+  .round__venue{font-size:.76rem}
+  .round__res{margin-top:10px;margin-bottom:12px;font-size:.72rem}
+  .round::after{left:14px;right:14px;bottom:10px}
+
+  /* footer: brand on top, the three link columns side by side */
+  .footer__inner{grid-template-columns:repeat(3,minmax(0,1fr));gap:28px 16px}
+  .footer__brand{grid-column:1/-1}
+  .footer__col a{font-size:.86rem}
+  .footer__bar{flex-direction:column;gap:6px;padding-bottom:max(22px,env(safe-area-inset-bottom,0px));padding-right:64px}
+
+  /* back-to-top: smaller and tucked into the corner */
+  .to-top{width:44px;height:44px;right:max(12px,env(safe-area-inset-right,0px));bottom:max(12px,env(safe-area-inset-bottom,0px))}
+
+  /* news source line: date and source on one row */
+  .card__src{flex-wrap:nowrap}
+  .card__src span:first-child,.card__src time{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;min-width:0}
+
+  /* garage: let the car use the full width */
+  .slide__car--photo{width:100%}
+}
