@@ -1048,21 +1048,20 @@ html:not(.js) .race__track path{stroke-dashoffset:0}
 @keyframes driveInL{0%{transform:translateX(-60%) skewX(6deg);opacity:0;filter:blur(6px)}60%{filter:blur(0)}100%{transform:none;opacity:1;filter:none}}
 
 /* ============================================================
-   POWER — scroll-driven text-mask zoom
-   The photo shows only through "697 HP". Scrolling lifts the
-   word into the middle, then zooms into the H until the photo
-   fills the screen. The section is tall; its stage is sticky.
+   POWER — the photo shows through "697 HP"; a dark veil covers
+   the rest. Scrolling grows the word and lifts the veil until
+   the whole photo is visible. The stage is sticky.
    ============================================================ */
-.power{position:relative;height:320vh;background:var(--bg)}
+.power{position:relative;height:260vh;background:var(--bg)}
 .power__sticky{position:sticky;top:0;height:100vh;height:100svh;overflow:hidden;overflow:clip}
-.power__blur{position:absolute;inset:-8%;width:116%;height:116%;max-width:none;object-fit:cover;filter:blur(48px) saturate(.6) brightness(.35);opacity:.9}
 .power__svg{position:absolute;inset:0;width:100%;height:100%;display:block}
 #powerText{font-family:var(--ff-block);letter-spacing:-.01em}
-.power__full{position:absolute;inset:0;width:100%;height:100%;max-width:none;object-fit:cover;object-position:52% 45%;opacity:0;will-change:opacity,transform}
-.power__full::after{content:""}
+#powerImg{transform-box:view-box;transform-origin:50% 50%}
+.power__veil{fill:var(--bg)}
 .power__caption{
-  position:absolute;left:0;right:0;bottom:0;z-index:2;padding:0 max(var(--gutter),env(safe-area-inset-left,0px)) clamp(28px,6vh,64px);
-  background:linear-gradient(0deg,rgb(var(--carbon-rgb) / .92),rgb(var(--carbon-rgb) / 0));padding-top:120px;
+  position:absolute;left:0;right:0;bottom:0;z-index:2;
+  padding:120px max(var(--gutter),env(safe-area-inset-left,0px)) clamp(28px,6vh,64px);
+  background:linear-gradient(0deg,rgb(var(--carbon-rgb) / .92),rgb(var(--carbon-rgb) / 0));
   opacity:0;transform:translateY(24px);
 }
 .power__caption>*{max-width:var(--container);margin-inline:auto}
@@ -1070,9 +1069,18 @@ html:not(.js) .race__track path{stroke-dashoffset:0}
 .power__big span{color:var(--red)}
 .power__note{margin:12px auto 0;color:var(--muted)}
 .power .kicker{margin-bottom:12px}
-/* without JS or with reduced motion: show the finished frame */
+/* without JS or with reduced motion: the finished frame */
 html:not(.js) .power,.power.is-static{height:auto}
 html:not(.js) .power__sticky,.power.is-static .power__sticky{position:relative;height:80vh}
-html:not(.js) .power__full,.power.is-static .power__full{opacity:1}
+html:not(.js) .power__veil,.power.is-static .power__veil{opacity:0}
 html:not(.js) .power__caption,.power.is-static .power__caption{opacity:1;transform:none}
-html:not(.js) .power__svg,.power.is-static .power__svg{display:none}
+
+/* ---------- garage photos: cut-out cars on the stage ---------- */
+.slide__car--photo{width:min(980px,100%);margin-bottom:5%}
+.slide__car--photo img{display:block;width:100%;height:auto;position:relative;z-index:1}
+/* contact shadow under the tyres, since a cut-out brings none of its own */
+.slide__car--photo::before{
+  content:"";position:absolute;z-index:0;left:5%;right:5%;bottom:-3%;height:9%;border-radius:50%;
+  background:radial-gradient(50% 50% at 50% 50%,rgb(var(--black-rgb) / .45),rgb(var(--black-rgb) / 0) 70%);
+}
+.slide__car--photo .slide__floor{bottom:-7%}

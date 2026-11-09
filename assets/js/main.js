@@ -718,51 +718,43 @@
   }
 
 
-  /* ---------- 19. Power: text-mask zoom reveal ----------
-     Phase A (0–.22): the word rises from below into the middle.
-     Phase B (.22–.78): zoom into the middle of the H, exponentially,
-       so the photo inside the letters grows until it covers the screen.
-     Phase C (.70–1): the unmasked photo fades in and settles, caption rises. */
+  /* ---------- 19. Power: the word grows, the veil lifts ----------
+     The word sits in the middle from the start, filled with the photo.
+     Over the scroll it grows (about 1× → 3.4×) while the dark veil
+     around it fades out, so the rest of the photo comes up behind it.
+     The caption rises at the very end. */
   function initPower() {
     var sec = $('#power');
     if (!sec) return;
-    if (reduced) { sec.classList.add('is-static'); return; }
-    var svg = $('#powerSvg'), bg = $('#powerMaskBg'), img = $('#powerImg'), text = $('#powerText'), group = $('#powerGroup');
-    var full = $('#powerFull'), cap = $('#powerCap');
-    var W = 0, H = 0, fs = 0, ox = 0, oy = 0, ticking = false;
-    var ease = function (t) { return 1 - Math.pow(1 - t, 3); };
+    var svg = $('#powerSvg'), maskBg = $('#powerMaskBg'), veil = $('#powerVeil'), img = $('#powerImg');
+    var text = $('#powerText'), group = $('#powerGroup'), cap = $('#powerCap');
+    if (reduced) { sec.classList.add('is-static'); layoutOnly(); return; }
+    var W = 0, H = 0, ticking = false;
+    var ease = function (t) { return t < .5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2; };
     var seg = function (p, a, b) { return clamp((p - a) / (b - a), 0, 1); };
 
-    function layout() {
+    function layoutOnly() {
       W = svg.clientWidth; H = svg.clientHeight;
       svg.setAttribute('viewBox', '0 0 ' + W + ' ' + H);
-      [bg, img].forEach(function (n) { n.setAttribute('width', W); n.setAttribute('height', H); });
-      fs = Math.min(W * 0.24, H * 0.5);
+      [maskBg, veil, img].forEach(function (n) { n.setAttribute('width', W); n.setAttribute('height', H); });
+      var fs = Math.min(W * 0.2, H * 0.42);
       text.setAttribute('font-size', fs);
       text.setAttribute('x', W / 2);
       text.setAttribute('y', H / 2 + fs * 0.36);
-      // zoom target: the middle of the H's crossbar (character index 4 in "697 HP")
-      try {
-        var e = text.getExtentOfChar(4);
-        ox = e.x + e.width / 2; oy = e.y + e.height * 0.52;
-      } catch (err) { ox = W / 2; oy = H / 2; }
-      update();
     }
+    function layout() { layoutOnly(); update(); }
 
     function update() {
       ticking = false;
       var r = sec.getBoundingClientRect(), vh = window.innerHeight;
       var p = clamp(-r.top / (r.height - vh), 0, 1);
-      var a = ease(seg(p, 0, 0.22));
-      var b = seg(p, 0.22, 0.78);
-      var lift = (1 - a) * H * 0.55;                 // starts low, ends centred
-      var s = (0.78 + 0.22 * a) * Math.pow(70, b * b); // up to ~70× inside the H
-      group.setAttribute('transform',
-        'translate(' + ox.toFixed(1) + ' ' + (oy + lift).toFixed(1) + ') scale(' + s.toFixed(4) + ') translate(' + (-ox).toFixed(1) + ' ' + (-oy).toFixed(1) + ')');
-      var c = seg(p, 0.66, 0.84);
-      full.style.opacity = c.toFixed(3);
-      full.style.transform = 'scale(' + (1.12 - 0.12 * ease(seg(p, 0.66, 1))).toFixed(4) + ')';
-      var t = ease(seg(p, 0.82, 0.96));
+      var g = ease(seg(p, 0.04, 0.86));
+      var sc = 1 + g * 2.4;
+      var cx = W / 2, cy = H / 2;
+      group.setAttribute('transform', 'translate(' + cx + ' ' + cy + ') scale(' + sc.toFixed(4) + ') translate(' + (-cx) + ' ' + (-cy) + ')');
+      veil.style.opacity = (0.94 * (1 - g)).toFixed(3);
+      img.style.transform = 'scale(' + (1.12 - 0.12 * g).toFixed(4) + ')';
+      var t = ease(seg(p, 0.8, 0.96));
       cap.style.opacity = t.toFixed(3);
       cap.style.transform = 'translateY(' + ((1 - t) * 24).toFixed(1) + 'px)';
     }
