@@ -769,6 +769,20 @@
     window.addEventListener('scroll', function () { if (!ticking) { ticking = true; requestAnimationFrame(update); } }, { passive: true });
   }
 
+
+  /* ---------- 20. Stat cards: spotlight follows the cursor ---------- */
+  function initStatGlow() {
+    var wrap = $('.stats');
+    if (!wrap || !window.matchMedia('(hover: hover)').matches) return;
+    wrap.addEventListener('pointermove', function (e) {
+      var card = e.target.closest && e.target.closest('.stat');
+      if (!card) return;
+      var r = card.getBoundingClientRect();
+      card.style.setProperty('--mx', (e.clientX - r.left).toFixed(0) + 'px');
+      card.style.setProperty('--my', (e.clientY - r.top).toFixed(0) + 'px');
+    });
+  }
+
   /* ---------- Boot ---------- */
   function boot() {
     var year = $('#year');
@@ -790,6 +804,7 @@
     initDrivers();
     initHeroPhoto();
     initPower();
+    initStatGlow();
     // reveals wait for the loader so nothing animates behind it
     initLoader(initReveal);
   }
