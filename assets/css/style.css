@@ -1175,3 +1175,5 @@ html:not(.js) .loader{display:none}
 .card:hover .card__img--photo img{transform:scale(1.05);filter:saturate(1.1)}
 .card__img--photo .livery__class{position:absolute;z-index:2;right:16px;top:16px;padding:5px 10px;border:1px solid rgb(var(--white-rgb) / .4);font-family:var(--ff-mono);font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;color:var(--c-white)}
 .card--wide .card__img--photo img{object-position:50% 40%}
+/* desktop: five cards in a 3-column grid leave a hole; the last one spans two columns */
+@media (min-width:1181px){ .news .card:nth-child(5){grid-column:span 2} .news .card:nth-child(5) .card__img--photo{aspect-ratio:32/9} }
