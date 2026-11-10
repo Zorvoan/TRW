@@ -1157,8 +1157,9 @@ html:not(.js) .loader{display:none}
 .stat:hover::before{opacity:1}
 .stat__num{transition:translate .5s var(--ease)}
 .stat:hover .stat__num{translate:4px 0}
-.stat__num i{display:inline-block;transition:transform .55s var(--ease)}
-.stat:hover .stat__num i{transform:rotate(90deg) scale(1.1)}
+.stat__num i{display:inline-block;transform-origin:30% 60%;transition:transform .5s var(--ease),text-shadow .5s var(--ease)}
+/* the italic plus would look broken rotated, so it only grows a touch and glows */
+.stat:hover .stat__num i{transform:scale(1.15);text-shadow:0 0 14px rgb(var(--red-rgb) / .8)}
 .stat span{transition:color .4s var(--ease)}
 .stat:hover span{color:var(--fg)}
 .stat__bar i{transition:transform 1.6s var(--ease) .2s,filter .45s var(--ease)}
