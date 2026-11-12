@@ -1191,3 +1191,14 @@ html:not(.js) .loader{display:none}
 /* milestones light when the rail reaches them, not when they scroll into view */
 .tl.is-in::before{background:var(--bg);border-color:rgb(var(--white-rgb) / .25);box-shadow:none}
 .tl.is-lit::before{background:var(--red);border-color:var(--red);box-shadow:0 0 12px rgb(var(--red-rgb) / .8);transition:background .45s var(--ease),border-color .45s var(--ease),box-shadow .45s var(--ease)}
+
+/* ---------- buttons: one source of truth for the hover state ----------
+   Each variant names its hover text colour in a variable, and a single rule with
+   higher specificity applies it, so no two rules compete for the colour. The fill
+   also lands on the button's own background (no reliance on the skewed wipe being
+   clipped correctly, which Safari can get wrong on rounded, overflow-hidden boxes). */
+.btn{--b-fg-h:var(--c-white);-webkit-mask-image:-webkit-radial-gradient(white,black)}
+.btn--primary,.btn--dark{--b-fg-h:var(--c-pitch)}
+.btn.btn:hover,.btn.btn:focus-visible{color:var(--b-fg-h);border-color:var(--b-wipe);background-color:var(--b-wipe)}
+.btn span{color:inherit}
+.btn{transition:color .3s var(--ease),border-color .3s var(--ease),background-color .25s linear .25s}
