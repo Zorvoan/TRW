@@ -834,6 +834,24 @@
     follower(target, render, 7);
   }
 
+
+  /* ---------- 22. Buttons: the wipe exits to the right on mouse leave ---------- */
+  function initButtons() {
+    if (reduced || !window.matchMedia('(hover: hover)').matches) return;
+    $$('.btn').forEach(function (btn) {
+      btn.addEventListener('mouseenter', function () { btn.classList.remove('is-out', 'is-reset'); });
+      btn.addEventListener('mouseleave', function () { btn.classList.add('is-out'); });
+      btn.addEventListener('transitionend', function (e) {
+        if (e.pseudoElement !== '::before' || e.propertyName !== 'transform' || !btn.classList.contains('is-out')) return;
+        // park the wipe back on the left without animating, ready for the next hover
+        btn.classList.add('is-reset');
+        btn.classList.remove('is-out');
+        void btn.offsetWidth;
+        btn.classList.remove('is-reset');
+      });
+    });
+  }
+
   /* ---------- Boot ---------- */
   function boot() {
     var year = $('#year');
@@ -857,6 +875,7 @@
     initPower();
     initStatGlow();
     initTimeline();
+    initButtons();
     // reveals wait for the loader so nothing animates behind it
     initLoader(initReveal);
   }

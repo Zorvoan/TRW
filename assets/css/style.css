@@ -160,7 +160,6 @@ ul,ol{margin:0;padding:0;list-style:none}
   transition:color .35s var(--ease),border-color .35s var(--ease),background-color .2s linear .3s;
 }
 /* once the wipe has crossed, the button's own fill follows it so no sliver of the old colour shows at the rounded edge */
-.btn:hover,.btn:focus-visible{background-color:var(--b-wipe)}
 .btn::before{
   /* wider than the button so the skewed edge clears both rounded corners */
   content:"";position:absolute;top:-2px;bottom:-2px;left:-30%;right:-30%;z-index:-1;background:var(--b-wipe);
@@ -1194,11 +1193,15 @@ html:not(.js) .loader{display:none}
 
 /* ---------- buttons: one source of truth for the hover state ----------
    Each variant names its hover text colour in a variable, and a single rule with
-   higher specificity applies it, so no two rules compete for the colour. The fill
-   also lands on the button's own background (no reliance on the skewed wipe being
-   clipped correctly, which Safari can get wrong on rounded, overflow-hidden boxes). */
-.btn{--b-fg-h:var(--c-white);-webkit-mask-image:-webkit-radial-gradient(white,black)}
+   higher specificity applies it, so no two rules compete for the colour. Only the
+   wipe paints the fill; it is oversized so its skewed edge clears the rounded corners. */
+.btn{--b-fg-h:var(--c-white)}
 .btn--primary,.btn--dark{--b-fg-h:var(--c-pitch)}
-.btn.btn:hover,.btn.btn:focus-visible{color:var(--b-fg-h);border-color:var(--b-wipe);background-color:var(--b-wipe)}
-.btn span{color:inherit}
-.btn{transition:color .3s var(--ease),border-color .3s var(--ease),background-color .25s linear .25s}
+.btn.btn:hover,.btn.btn:focus-visible{color:var(--b-fg-h);border-color:var(--b-wipe)}
+.btn span{position:relative;z-index:2;color:inherit}
+.btn{transition:color .3s var(--ease),border-color .3s var(--ease)}
+/* leaving: the wipe carries on out to the right instead of snapping back,
+   and the text colour follows a beat later so it never sits white on white */
+.btn.is-out::before{transform:translateX(110%) skewX(-20deg)}
+.btn.is-reset::before{transition:none}
+.btn:not(:hover):not(:focus-visible){transition:color .35s var(--ease) .14s,border-color .35s var(--ease) .14s}
