@@ -11,6 +11,29 @@
   var $$ = function (s, c) { return Array.prototype.slice.call((c || document).querySelectorAll(s)); };
   var clamp = function (v, a, b) { return Math.max(a, Math.min(b, v)); };
   var hasIO = 'IntersectionObserver' in window;
+
+  /* Smoothed scroll value: scroll events on phones arrive in coarse bursts, so
+     driving an animation straight from them looks stepped. This keeps a value
+     that chases its target every frame and stops the loop once it has settled. */
+  function follower(read, render, speed) {
+    var cur = null, raf = null, last = 0;
+    function frame(now) {
+      var target = read();
+      var dt = last ? Math.min((now - last) / 1000, 0.05) : 0.016;
+      last = now;
+      if (cur === null || reduced) cur = target;
+      else cur += (target - cur) * (1 - Math.exp(-dt * (speed || 7)));
+      if (Math.abs(target - cur) < 0.0004) cur = target;
+      render(cur);
+      raf = cur === target ? null : requestAnimationFrame(frame);
+      if (!raf) last = 0;
+    }
+    function kick() { if (!raf) raf = requestAnimationFrame(frame); }
+    window.addEventListener('scroll', kick, { passive: true });
+    window.addEventListener('resize', kick);
+    kick();
+    return kick;
+  }
   // palette channels for canvas drawing ("228,0,43"), read from the CSS palette
   function rgbVar(name, fallback) {
     var v = getComputedStyle(document.documentElement).getPropertyValue(name).trim();
@@ -175,10 +198,6 @@
       sectors.forEach(function (s) { if (s.getBoundingClientRect().top <= vh * 0.4) current = s; });
       links.forEach(function (a) { a.classList.toggle('is-active', current && a.getAttribute('href') === '#' + current.id); });
 
-      if (rail && timeline) {
-        var r = timeline.getBoundingClientRect();
-        rail.style.setProperty('--t', clamp((vh * 0.65 - r.top) / r.height, 0, 1).toFixed(4));
-      }
     }
 
     function closeMenu() {
@@ -723,7 +742,7 @@
     var svg = $('#powerSvg'), maskBg = $('#powerMaskBg'), veil = $('#powerVeil'), img = $('#powerImg');
     var text = $('#powerText'), group = $('#powerGroup'), cap = $('#powerCap');
     if (reduced) { sec.classList.add('is-static'); layoutOnly(); return; }
-    var W = 0, H = 0, ticking = false;
+    var W = 0, H = 0;
     var ease = function (t) { return t < .5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2; };
     var seg = function (p, a, b) { return clamp((p - a) / (b - a), 0, 1); };
 
@@ -742,12 +761,14 @@
       text.setAttribute('x', W / 2);
       text.setAttribute('y', H / 2 + fs * 0.36);
     }
-    function layout() { layoutOnly(); update(); }
+    var kick = function () {};
+    function layout() { layoutOnly(); render(progress()); kick(); }
 
-    function update() {
-      ticking = false;
+    function progress() {
       var r = sec.getBoundingClientRect(), vh = window.innerHeight;
-      var p = clamp(-r.top / (r.height - vh), 0, 1);
+      return clamp(-r.top / (r.height - vh), 0, 1);
+    }
+    function render(p) {
       var g = ease(seg(p, 0.04, 0.86));
       var sc = 1 + g * 2.4;
       var cx = W / 2, cy = H / 2;
@@ -766,7 +787,7 @@
     // loader narrows the page without firing a window resize
     if ('ResizeObserver' in window) new ResizeObserver(function () { layout(); }).observe(svg);
     else window.addEventListener('resize', layout);
-    window.addEventListener('scroll', function () { if (!ticking) { ticking = true; requestAnimationFrame(update); } }, { passive: true });
+    kick = follower(progress, render, 6);
   }
 
 
@@ -781,6 +802,36 @@
       card.style.setProperty('--mx', (e.clientX - r.left).toFixed(0) + 'px');
       card.style.setProperty('--my', (e.clientY - r.top).toFixed(0) + 'px');
     });
+  }
+
+
+  /* ---------- 21. Timeline rail: fills smoothly, lights each milestone as it passes ---------- */
+  function initTimeline() {
+    var timeline = $('#timeline'), rail = $('#railFill');
+    if (!timeline || !rail) return;
+    var head = document.createElement('span');
+    head.className = 'timeline__head';
+    rail.parentNode.appendChild(head);
+    var items = $$('.tl', timeline), marks = [];
+    function measure() {
+      var top = timeline.getBoundingClientRect().top;
+      marks = items.map(function (it) { return it.getBoundingClientRect().top - top + 44; });
+    }
+    function target() {
+      var r = timeline.getBoundingClientRect();
+      return clamp((window.innerHeight * 0.65 - r.top) / r.height, 0, 1);
+    }
+    function render(t) {
+      var h = timeline.offsetHeight, y = t * h;
+      rail.style.transform = 'scaleY(' + t.toFixed(4) + ')';
+      head.style.transform = 'translate3d(0,' + y.toFixed(1) + 'px,0)';
+      head.style.opacity = t > 0.002 && t < 0.998 ? 1 : 0;
+      items.forEach(function (it, i) { it.classList.toggle('is-lit', y >= marks[i]); });
+    }
+    measure();
+    window.addEventListener('resize', measure);
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(measure);
+    follower(target, render, 7);
   }
 
   /* ---------- Boot ---------- */
@@ -805,6 +856,7 @@
     initHeroPhoto();
     initPower();
     initStatGlow();
+    initTimeline();
     // reveals wait for the loader so nothing animates behind it
     initLoader(initReveal);
   }

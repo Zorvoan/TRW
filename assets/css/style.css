@@ -1180,3 +1180,14 @@ html:not(.js) .loader{display:none}
 /* per-photo crops: keep the subject in frame */
 .card__img--photo img.pos-bottom{object-position:50% 92%}
 .card__img--photo img[src*="news-spa"]{object-position:50% 25%}
+
+/* ---------- timeline rail: transform-only fill + separate glowing head ---------- */
+.timeline__rail i{height:100%;transform:scaleY(0);transform-origin:top}
+.timeline__rail i::after{content:none}
+.timeline__head{
+  position:absolute;left:50%;top:0;width:8px;height:8px;margin:-4px 0 0 -4px;border-radius:50%;
+  background:var(--c-white);box-shadow:var(--glow);opacity:0;transition:opacity .3s;will-change:transform;
+}
+/* milestones light when the rail reaches them, not when they scroll into view */
+.tl.is-in::before{background:var(--bg);border-color:rgb(var(--white-rgb) / .25);box-shadow:none}
+.tl.is-lit::before{background:var(--red);border-color:var(--red);box-shadow:0 0 12px rgb(var(--red-rgb) / .8);transition:background .45s var(--ease),border-color .45s var(--ease),box-shadow .45s var(--ease)}
