@@ -739,20 +739,30 @@
   function initPower() {
     var sec = $('#power');
     if (!sec) return;
-    var img = $('#powerBg img'), motto = $('#motto');
+    var img = $('#powerBg img'), motto = $('#motto'), cue = $('.power__cue', sec);
+    var lines = $$('.motto__line', sec);
     if (reduced) { sec.classList.add('is-static'); return; }
-    // the entrance is CSS (after the loader); scrolling only carries the opening screen away
+    var out = function (t) { return 1 - Math.pow(1 - t, 3); };
+    var seg = function (p, a, b) { return clamp((p - a) / (b - a), 0, 1); };
+    // the photo arrives on load (CSS); the words only come in as the reader scrolls
     function progress() {
       var r = sec.getBoundingClientRect();
-      return clamp(-r.top / Math.max(r.height, 1), 0, 1);
+      return clamp(-r.top / Math.max(r.height - window.innerHeight, 1), 0, 1);
     }
     function render(p) {
-      img.style.transform = 'translate3d(0,' + (p * 28).toFixed(2) + '%,0) scale(' + (1 + p * 0.06).toFixed(4) + ')';
-      motto.style.transform = 'translate3d(0,' + (p * 18).toFixed(2) + 'vh,0) scale(' + (1 + p * 0.12).toFixed(4) + ')';
-      motto.style.opacity = (1 - clamp(p * 1.5, 0, 1)).toFixed(3);
+      lines.forEach(function (ln, i) {
+        var t = out(seg(p, 0.04 + i * 0.15, 0.36 + i * 0.15));
+        var dir = i % 2 ? 1 : -1;
+        ln.style.opacity = t.toFixed(3);
+        ln.style.transform = 'translate3d(' + (dir * (1 - t) * 18).toFixed(2) + 'vw,0,0)';
+      });
+      motto.style.transform = 'scale(' + (0.96 + 0.06 * out(p)).toFixed(4) + ')';
+      img.style.transform = 'scale(' + (1 + 0.06 * p).toFixed(4) + ')';
+      // the scroll hint steps aside as soon as the first word starts to move
+      if (cue) cue.style.opacity = p > 0.005 ? (1 - seg(p, 0, 0.1)).toFixed(3) : '';
     }
     render(progress());
-    follower(progress, render, 8);
+    follower(progress, render, 7);
   }
 
   /* the hero now sits below the opening screen: play its entrance when it comes into view */
