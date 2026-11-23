@@ -1008,14 +1008,17 @@ html:not(.js) .race__track path{stroke-dashoffset:0}
 /* fade into the hero below */
 .power__sticky::after{content:"";position:absolute;left:0;right:0;bottom:0;height:22%;background:linear-gradient(0deg,var(--bg),transparent);pointer-events:none}
 .motto{
-  position:relative;z-index:1;margin:0;
+  position:relative;z-index:1;margin:0;width:100%;
   font-family:"Archivo Black",var(--ff-block);font-weight:400;
-  font-size:clamp(3.1rem,12.5vw,11.5rem);line-height:.9;letter-spacing:-.01em;
-  text-transform:uppercase;color:var(--c-white);
-  display:flex;flex-direction:column;align-items:flex-start;will-change:transform,opacity;
+  font-size:clamp(2.2rem,12.5vw,11.5rem);line-height:.9;letter-spacing:-.01em;
+  text-transform:uppercase;color:var(--c-white);will-change:transform,opacity;
 }
-.motto__line{display:block;white-space:nowrap}
-.motto__line--in{padding-left:.62em}
+/* three columns per line: the outlined letters share the centre column, so they stack
+   exactly under each other in the middle of the screen */
+.motto__line{display:grid;grid-template-columns:1fr 1.14em 1fr;align-items:baseline;white-space:nowrap}
+.motto__a{text-align:right;padding-right:.05em}
+.motto__b{text-align:left}
+.motto em{text-align:center}
 /* outlined letters, as in the brand lockup */
 .motto em{font-style:normal;color:transparent;-webkit-text-stroke:max(1.5px,.018em) var(--c-white);paint-order:stroke fill}
 .power__cue{
@@ -1024,7 +1027,7 @@ html:not(.js) .race__track path{stroke-dashoffset:0}
   font-family:var(--ff-mono);font-size:.66rem;letter-spacing:.3em;text-transform:uppercase;color:rgb(var(--white-rgb) / .7);
 }
 .power__cue i{width:2px;height:44px;background:linear-gradient(180deg,var(--red),transparent);transform-origin:top;animation:cue 1.8s var(--ease) infinite}
-@media (max-width:720px){.motto{font-size:15vw}}
+@media (max-width:720px){.motto{font-size:13vw}}
 
 /* entrance, once the loader is done: the veil lifts, the photo settles, the lines drive in */
 .js .power__shade{opacity:1}
