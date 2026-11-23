@@ -8,8 +8,8 @@
 <meta name="theme-color" content="#08090c" />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=Russo+One&family=Saira+Condensed:wght@500;700;800;900&family=Saira:wght@400;500;600&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet" />
-<link rel="stylesheet" href="assets/css/style.css?v=38" />
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Russo+One&family=Saira+Condensed:wght@500;700;800;900&family=Saira:wght@400;500;600&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="assets/css/style.css?v=39" />
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' fill='%2308090c'/><path d='M5 24 L11 8 h5 l-6 16z M15 24 L21 8 h5 l-6 16z' fill='%23e4002b'/></svg>" />
 <script>document.documentElement.classList.add('js')</script>
 </head>
@@ -167,20 +167,16 @@
   </div>
 </section>
 
-<!-- ============ POWER: photo-filled word grows while the dark veil lifts (scroll driven) ============ -->
-<section class="power" id="power" data-sector="S1" data-name="Power" aria-label="697 horsepower">
+<!-- ============ MOTTO: stacked words over a darkened photo (scroll driven) ============ -->
+<section class="power" id="power" data-sector="S1" data-name="Built to race" aria-labelledby="motto">
   <div class="power__sticky">
-    <svg class="power__svg" id="powerSvg" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
-      <defs>
-        <!-- the veil is everything except the word: white = veil, black text = hole -->
-        <mask id="powerMask" maskUnits="userSpaceOnUse">
-          <rect id="powerMaskBg" x="0" y="0" width="100" height="100" fill="var(--c-white)"/>
-          <g id="powerGroup"><text id="powerText" text-anchor="middle" fill="var(--c-black)">697 HP</text></g>
-        </mask>
-      </defs>
-      <image id="powerImg" href="assets/img/hero-car.webp" preserveAspectRatio="xMidYMid slice"/>
-      <rect id="powerVeil" class="power__veil" x="0" y="0" width="100" height="100" mask="url(#powerMask)"/>
-    </svg>
+    <div class="power__bg" id="powerBg"><img src="assets/img/hero-car.webp" alt="" decoding="async" /></div>
+    <div class="power__shade" id="powerShade"></div>
+    <h2 class="motto" id="motto"><span class="sr-only">Built to race, to win</span>
+      <span class="motto__line" aria-hidden="true">Buil<em>t</em></span>
+      <span class="motto__line motto__line--in" aria-hidden="true">To <em>R</em>ace</span>
+      <span class="motto__line motto__line--in" aria-hidden="true">To <em>W</em>in</span>
+    </h2>
     <div class="power__caption" id="powerCap">
       <p class="kicker">Hypercar · LMDh #27</p>
       <p class="power__big">520 kW <span>/ 697 hp</span></p>
@@ -414,6 +410,6 @@
   <span aria-hidden="true">↑</span>
 </button>
 
-<script src="assets/js/main.js?v=38"></script>
+<script src="assets/js/main.js?v=39"></script>
 </body>
 </html>

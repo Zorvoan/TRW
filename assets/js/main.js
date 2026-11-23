@@ -739,55 +739,36 @@
   function initPower() {
     var sec = $('#power');
     if (!sec) return;
-    var svg = $('#powerSvg'), maskBg = $('#powerMaskBg'), veil = $('#powerVeil'), img = $('#powerImg');
-    var text = $('#powerText'), group = $('#powerGroup'), cap = $('#powerCap');
-    if (reduced) { sec.classList.add('is-static'); layoutOnly(); return; }
-    var W = 0, H = 0;
+    var img = $('#powerBg img'), shade = $('#powerShade'), motto = $('#motto'), cap = $('#powerCap');
+    var lines = $$('.motto__line', sec);
+    if (reduced) { sec.classList.add('is-static'); return; }
     var ease = function (t) { return t < .5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2; };
+    var out = function (t) { return 1 - Math.pow(1 - t, 3); };
     var seg = function (p, a, b) { return clamp((p - a) / (b - a), 0, 1); };
-
-    function layoutOnly() {
-      W = svg.clientWidth; H = svg.clientHeight;
-      svg.setAttribute('viewBox', '0 0 ' + W + ' ' + H);
-      img.setAttribute('width', W); img.setAttribute('height', H);
-      // the veil (and its mask) overhang the stage, so no edge of the photo can ever peek out
-      [maskBg, veil].forEach(function (n) {
-        n.setAttribute('x', -40); n.setAttribute('y', -40);
-        n.setAttribute('width', W + 80); n.setAttribute('height', H + 80);
-      });
-      // phones get a relatively larger word so it still reads at the start
-      var fs = Math.min(W * (W < 720 ? 0.25 : 0.2), H * 0.42);
-      text.setAttribute('font-size', fs);
-      text.setAttribute('x', W / 2);
-      text.setAttribute('y', H / 2 + fs * 0.36);
-    }
-    var kick = function () {};
-    function layout() { layoutOnly(); render(progress()); kick(); }
 
     function progress() {
       var r = sec.getBoundingClientRect(), vh = window.innerHeight;
       return clamp(-r.top / (r.height - vh), 0, 1);
     }
     function render(p) {
-      var g = ease(seg(p, 0.04, 0.86));
-      var sc = 1 + g * 2.4;
-      var cx = W / 2, cy = H / 2;
-      group.setAttribute('transform', 'translate(' + cx + ' ' + cy + ') scale(' + sc.toFixed(4) + ') translate(' + (-cx) + ' ' + (-cy) + ')');
-      // the veil stays solid for the first stretch, then lifts
-      veil.style.opacity = (1 - ease(seg(p, 0.14, 0.9))).toFixed(3);
-      img.style.transform = 'scale(' + (1.12 - 0.12 * g).toFixed(4) + ')';
-      var t = ease(seg(p, 0.8, 0.96));
+      // the solid veil lifts to a heavy tint, the photo settles from a slight zoom
+      shade.style.opacity = (1 - 0.32 * ease(seg(p, 0.02, 0.4))).toFixed(3);
+      img.style.transform = 'scale(' + (1.14 - 0.14 * ease(seg(p, 0, 1))).toFixed(4) + ')';
+      // the three lines slide in from alternating sides, one after another
+      lines.forEach(function (ln, i) {
+        var t = out(seg(p, 0.06 + i * 0.1, 0.36 + i * 0.1));
+        var dir = i % 2 ? 1 : -1;
+        ln.style.opacity = t.toFixed(3);
+        ln.style.transform = 'translate3d(' + (dir * (1 - t) * 18).toFixed(2) + 'vw,0,0)';
+      });
+      // at the end the motto steps up to make room for the caption
+      var t = ease(seg(p, 0.74, 0.94));
+      motto.style.transform = 'translate3d(0,' + (-8 * t).toFixed(2) + 'vh,0) scale(' + (1 - 0.06 * t).toFixed(4) + ')';
       cap.style.opacity = t.toFixed(3);
       cap.style.transform = 'translateY(' + ((1 - t) * 24).toFixed(1) + 'px)';
     }
-
-    layout();
-    if (document.fonts && document.fonts.ready) document.fonts.ready.then(layout);
-    // re-measure whenever the stage itself changes size: a scrollbar appearing after the
-    // loader narrows the page without firing a window resize
-    if ('ResizeObserver' in window) new ResizeObserver(function () { layout(); }).observe(svg);
-    else window.addEventListener('resize', layout);
-    kick = follower(progress, render, 6);
+    render(progress());
+    follower(progress, render, 6);
   }
 
 

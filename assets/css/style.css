@@ -999,12 +999,28 @@ html:not(.js) .race__track path{stroke-dashoffset:0}
    the rest. Scrolling grows the word and lifts the veil until
    the whole photo is visible. The stage is sticky.
    ============================================================ */
-.power{position:relative;height:260vh;background:var(--bg)}
-.power__sticky{position:sticky;top:0;height:100vh;height:100svh;overflow:hidden;overflow:clip}
-.power__svg{position:absolute;inset:0;width:100%;height:100%;display:block}
-#powerText{font-family:var(--ff-block);letter-spacing:-.01em}
-#powerImg{transform-box:view-box;transform-origin:50% 50%}
-.power__veil{fill:var(--bg)}
+.power{position:relative;height:240vh;background:var(--bg)}
+.power__sticky{position:sticky;top:0;height:100vh;height:100svh;overflow:hidden;overflow:clip;display:grid;place-items:center}
+.power__bg,.power__shade{position:absolute;inset:0}
+.power__bg img{width:100%;height:100%;object-fit:cover;object-position:60% 50%;transform:scale(1.14);will-change:transform}
+/* solid at first (continues the section above), then lifts to a heavy dark tint */
+.power__shade{background:var(--bg);will-change:opacity}
+.power__shade::after{content:"";position:absolute;inset:0;background:radial-gradient(120% 90% at 50% 50%,transparent 40%,rgb(var(--carbon-rgb) / .55))}
+.motto{
+  position:relative;z-index:1;margin:0;
+  font-family:"Archivo Black",var(--ff-block);font-weight:400;
+  font-size:clamp(3.1rem,12.5vw,11.5rem);line-height:.9;letter-spacing:-.01em;
+  text-transform:uppercase;color:var(--c-white);
+  display:flex;flex-direction:column;align-items:flex-start;
+}
+.motto__line{display:block;white-space:nowrap;will-change:transform,opacity}
+.motto__line--in{padding-left:.62em}
+/* outlined letters, as in the brand lockup */
+.motto em{
+  font-style:normal;color:transparent;
+  -webkit-text-stroke:max(1.5px,.018em) var(--c-white);
+  paint-order:stroke fill;
+}
 .power__caption{
   position:absolute;left:0;right:0;bottom:0;z-index:2;
   padding:120px max(var(--gutter),env(safe-area-inset-left,0px)) clamp(28px,6vh,64px);
@@ -1016,11 +1032,14 @@ html:not(.js) .race__track path{stroke-dashoffset:0}
 .power__big span{color:var(--red)}
 .power__note{margin:12px auto 0;color:var(--muted)}
 .power .kicker{margin-bottom:12px}
+@media (max-width:720px){.motto{font-size:15vw}.power__caption{padding-top:80px}.power__big{font-size:2.2rem}}
 /* without JS or with reduced motion: the finished frame */
 html:not(.js) .power,.power.is-static{height:auto}
-html:not(.js) .power__sticky,.power.is-static .power__sticky{position:relative;height:80vh}
-html:not(.js) .power__veil,.power.is-static .power__veil{opacity:0}
+html:not(.js) .power__sticky,.power.is-static .power__sticky{position:relative;height:90vh;height:90svh}
+html:not(.js) .power__shade,.power.is-static .power__shade{opacity:.68}
+html:not(.js) .power__bg img,.power.is-static .power__bg img{transform:none}
 html:not(.js) .power__caption,.power.is-static .power__caption{opacity:1;transform:none}
+html:not(.js) .motto,.power.is-static .motto{transform:translateY(-8vh)}
 
 /* ---------- garage photos: cut-out cars on the stage ---------- */
 .slide__car--photo{width:min(980px,100%);margin-bottom:5%}
@@ -1205,3 +1224,4 @@ html:not(.js) .loader{display:none}
 .btn.is-out::before{transform:translateX(110%) skewX(-20deg)}
 .btn.is-reset::before{transition:none}
 .btn:not(:hover):not(:focus-visible){transition:color .35s var(--ease) .14s,border-color .35s var(--ease) .14s}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}
