@@ -718,7 +718,7 @@
     var ticking = false;
     function update() {
       ticking = false;
-      var h = hero.offsetHeight, y = window.scrollY;
+      var h = hero.offsetHeight, y = Math.max(0, -hero.getBoundingClientRect().top);
       if (y > h) return;
       var p = clamp(y / h, 0, 1);
       // move the photo inside its masked frame, so the frame's soft edges never slide out of view
@@ -739,34 +739,31 @@
   function initPower() {
     var sec = $('#power');
     if (!sec) return;
-    var img = $('#powerBg img'), shade = $('#powerShade'), motto = $('#motto');
-    var lines = $$('.motto__line', sec);
+    var img = $('#powerBg img'), motto = $('#motto');
     if (reduced) { sec.classList.add('is-static'); return; }
-    var ease = function (t) { return t < .5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2; };
-    var out = function (t) { return 1 - Math.pow(1 - t, 3); };
-    var seg = function (p, a, b) { return clamp((p - a) / (b - a), 0, 1); };
-
+    // the entrance is CSS (after the loader); scrolling only carries the opening screen away
     function progress() {
-      var r = sec.getBoundingClientRect(), vh = window.innerHeight;
-      return clamp(-r.top / (r.height - vh), 0, 1);
+      var r = sec.getBoundingClientRect();
+      return clamp(-r.top / Math.max(r.height, 1), 0, 1);
     }
     function render(p) {
-      // the solid veil lifts to a heavy tint, the photo settles from a slight zoom
-      shade.style.opacity = (1 - 0.32 * ease(seg(p, 0.02, 0.4))).toFixed(3);
-      img.style.transform = 'scale(' + (1.14 - 0.14 * ease(seg(p, 0, 1))).toFixed(4) + ')';
-      // the three lines slide in from alternating sides, one after another
-      lines.forEach(function (ln, i) {
-        var t = out(seg(p, 0.06 + i * 0.1, 0.36 + i * 0.1));
-        var dir = i % 2 ? 1 : -1;
-        ln.style.opacity = t.toFixed(3);
-        ln.style.transform = 'translate3d(' + (dir * (1 - t) * 18).toFixed(2) + 'vw,0,0)';
-      });
-      // and the whole lockup grows a touch as you scroll through
-      var t = ease(seg(p, 0.3, 1));
-      motto.style.transform = 'scale(' + (0.96 + 0.08 * t).toFixed(4) + ')';
+      img.style.transform = 'translate3d(0,' + (p * 28).toFixed(2) + '%,0) scale(' + (1 + p * 0.06).toFixed(4) + ')';
+      motto.style.transform = 'translate3d(0,' + (p * 18).toFixed(2) + 'vh,0) scale(' + (1 + p * 0.12).toFixed(4) + ')';
+      motto.style.opacity = (1 - clamp(p * 1.5, 0, 1)).toFixed(3);
     }
     render(progress());
-    follower(progress, render, 6);
+    follower(progress, render, 8);
+  }
+
+  /* the hero now sits below the opening screen: play its entrance when it comes into view */
+  function initHeroSeen() {
+    var hero = $('#hero');
+    if (!hero) return;
+    if (!hasIO) { hero.classList.add('is-seen'); return; }
+    var io = new IntersectionObserver(function (es) {
+      es.forEach(function (e) { if (e.isIntersecting) { hero.classList.add('is-seen'); io.disconnect(); } });
+    }, { threshold: 0.25 });
+    io.observe(hero);
   }
 
 
@@ -851,6 +848,7 @@
     initGarage();
     initDrivers();
     initHeroPhoto();
+    initHeroSeen();
     initPower();
     initStatGlow();
     initTimeline();
