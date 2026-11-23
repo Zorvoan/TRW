@@ -999,7 +999,7 @@ html:not(.js) .race__track path{stroke-dashoffset:0}
    the rest. Scrolling grows the word and lifts the veil until
    the whole photo is visible. The stage is sticky.
    ============================================================ */
-.power{position:relative;height:240vh;background:var(--bg)}
+.power{position:relative;height:210vh;background:var(--bg)}
 .power__sticky{position:sticky;top:0;height:100vh;height:100svh;overflow:hidden;overflow:clip;display:grid;place-items:center}
 .power__bg,.power__shade{position:absolute;inset:0}
 .power__bg img{width:100%;height:100%;object-fit:cover;object-position:60% 50%;transform:scale(1.14);will-change:transform}
@@ -1039,7 +1039,7 @@ html:not(.js) .power__sticky,.power.is-static .power__sticky{position:relative;h
 html:not(.js) .power__shade,.power.is-static .power__shade{opacity:.68}
 html:not(.js) .power__bg img,.power.is-static .power__bg img{transform:none}
 html:not(.js) .power__caption,.power.is-static .power__caption{opacity:1;transform:none}
-html:not(.js) .motto,.power.is-static .motto{transform:translateY(-8vh)}
+
 
 /* ---------- garage photos: cut-out cars on the stage ---------- */
 .slide__car--photo{width:min(980px,100%);margin-bottom:5%}

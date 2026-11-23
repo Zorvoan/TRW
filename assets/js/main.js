@@ -739,7 +739,7 @@
   function initPower() {
     var sec = $('#power');
     if (!sec) return;
-    var img = $('#powerBg img'), shade = $('#powerShade'), motto = $('#motto'), cap = $('#powerCap');
+    var img = $('#powerBg img'), shade = $('#powerShade'), motto = $('#motto');
     var lines = $$('.motto__line', sec);
     if (reduced) { sec.classList.add('is-static'); return; }
     var ease = function (t) { return t < .5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2; };
@@ -761,11 +761,9 @@
         ln.style.opacity = t.toFixed(3);
         ln.style.transform = 'translate3d(' + (dir * (1 - t) * 18).toFixed(2) + 'vw,0,0)';
       });
-      // at the end the motto steps up to make room for the caption
-      var t = ease(seg(p, 0.74, 0.94));
-      motto.style.transform = 'translate3d(0,' + (-8 * t).toFixed(2) + 'vh,0) scale(' + (1 - 0.06 * t).toFixed(4) + ')';
-      cap.style.opacity = t.toFixed(3);
-      cap.style.transform = 'translateY(' + ((1 - t) * 24).toFixed(1) + 'px)';
+      // and the whole lockup grows a touch as you scroll through
+      var t = ease(seg(p, 0.3, 1));
+      motto.style.transform = 'scale(' + (0.96 + 0.08 * t).toFixed(4) + ')';
     }
     render(progress());
     follower(progress, render, 6);
