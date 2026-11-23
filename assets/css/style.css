@@ -1021,28 +1021,39 @@ html:not(.js) .race__track path{stroke-dashoffset:0}
 .motto em{text-align:center}
 /* outlined letters, as in the brand lockup */
 .motto em{font-style:normal;color:transparent;-webkit-text-stroke:max(1.5px,.018em) var(--c-white);paint-order:stroke fill}
+/* both layers sit in the same cell, so the solid words land exactly on their outlines */
+.motto{grid-area:1/1}
+.motto--ghost,.motto--ghost em{color:transparent;-webkit-text-stroke:max(1px,.012em) rgb(var(--white-rgb) / .5)}
+.motto--ghost{z-index:0;pointer-events:none}
 .power__cue{
-  position:absolute;z-index:2;left:50%;bottom:clamp(18px,4vh,40px);transform:translateX(-50%);
-  display:flex;flex-direction:column;align-items:center;gap:10px;
-  font-family:var(--ff-mono);font-size:.66rem;letter-spacing:.3em;text-transform:uppercase;color:rgb(var(--white-rgb) / .7);
+  position:absolute;z-index:2;left:50%;bottom:clamp(20px,5vh,48px);transform:translateX(-50%);
+  display:flex;flex-direction:column;align-items:center;gap:12px;
+  font-family:var(--ff-mono);font-size:.74rem;font-weight:600;letter-spacing:.28em;text-transform:uppercase;color:var(--c-white);
+  white-space:nowrap;pointer-events:none;
 }
-.power__cue i{width:2px;height:44px;background:linear-gradient(180deg,var(--red),transparent);transform-origin:top;animation:cue 1.8s var(--ease) infinite}
+.power__mouse{position:relative;width:26px;height:40px;border:2px solid rgb(var(--white-rgb) / .85);border-radius:14px}
+.power__mouse i{position:absolute;left:50%;top:7px;width:4px;height:8px;margin-left:-2px;border-radius:2px;background:var(--red);animation:wheel 1.6s var(--ease) infinite}
+@keyframes wheel{0%{transform:translateY(0);opacity:1}70%{transform:translateY(12px);opacity:0}100%{transform:translateY(0);opacity:0}}
+.power__chev{width:12px;height:12px;border-right:2px solid var(--red);border-bottom:2px solid var(--red);transform:rotate(45deg);animation:chev 1.6s var(--ease) infinite}
+@keyframes chev{0%,100%{transform:translateY(-3px) rotate(45deg);opacity:.4}50%{transform:translateY(4px) rotate(45deg);opacity:1}}
 @media (max-width:720px){.motto{font-size:13vw}}
 
 /* entrance, once the loader is done: the veil lifts, the photo settles, the lines drive in */
 .js .power__shade{opacity:1}
 .js .power__bg{transform:scale(1.14)}
-.js .motto__line{opacity:0;transform:translate3d(-18vw,0,0)}
-.js .motto__line:nth-child(3){transform:translate3d(18vw,0,0)}
+.js .motto:not(.motto--ghost) .motto__line{clip-path:inset(-15% 100% -15% 0)}
+.js .motto--ghost{opacity:0;transition:opacity 1.2s var(--ease) .35s}
+.is-ready .motto--ghost{opacity:1}
 .js .power__cue{opacity:0}
 .is-ready .power__shade{opacity:.68;transition:opacity 1.6s var(--ease) .05s}
 .is-ready .power__bg{transform:none;transition:transform 2.4s var(--ease)}
-.is-ready .power__cue{opacity:1;transition:opacity .8s var(--ease) 1.2s}
+.is-ready .power__cue{opacity:1;transition:opacity .8s var(--ease) .9s}
 .power.is-static .power__shade{opacity:.68}
 .power.is-static .power__bg{transform:none}
 .power.is-static{height:auto}
 .power.is-static .power__sticky{position:relative}
-.power.is-static .motto__line{opacity:1;transform:none}
+html .power.is-static .motto .motto__line{clip-path:none}
+.power.is-static .motto--ghost,html:not(.js) .motto--ghost{display:none}
 .power.is-static .power__cue{display:none}
 /* without JS the words are simply there */
 html:not(.js) .power{height:auto}

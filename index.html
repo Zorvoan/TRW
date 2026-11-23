@@ -9,7 +9,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Russo+One&family=Saira+Condensed:wght@500;700;800;900&family=Saira:wght@400;500;600&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet" />
-<link rel="stylesheet" href="assets/css/style.css?v=43" />
+<link rel="stylesheet" href="assets/css/style.css?v=44" />
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' fill='%2308090c'/><path d='M5 24 L11 8 h5 l-6 16z M15 24 L21 8 h5 l-6 16z' fill='%23e4002b'/></svg>" />
 <script>document.documentElement.classList.add('js')</script>
 </head>
@@ -70,12 +70,17 @@
   <div class="power__sticky">
     <div class="power__bg" id="powerBg"><img src="assets/img/hero-car.webp" alt="" fetchpriority="high" decoding="async" /></div>
     <div class="power__shade" id="powerShade"></div>
+    <div class="motto motto--ghost" aria-hidden="true">
+      <span class="motto__line"><span class="motto__a">Buil</span><em>T</em><span class="motto__b"></span></span>
+      <span class="motto__line"><span class="motto__a">To</span><em>R</em><span class="motto__b">ace</span></span>
+      <span class="motto__line"><span class="motto__a">To</span><em>W</em><span class="motto__b">in</span></span>
+    </div>
     <h2 class="motto" id="motto"><span class="sr-only">Built to race, to win</span>
       <span class="motto__line" aria-hidden="true"><span class="motto__a">Buil</span><em>T</em><span class="motto__b"></span></span>
       <span class="motto__line" aria-hidden="true"><span class="motto__a">To</span><em>R</em><span class="motto__b">ace</span></span>
       <span class="motto__line" aria-hidden="true"><span class="motto__a">To</span><em>W</em><span class="motto__b">in</span></span>
     </h2>
-    <a class="power__cue" href="#hero" aria-label="Scroll to the team intro"><i></i><span>Scroll</span></a>
+    <div class="power__cue" aria-hidden="true"><span class="power__mouse"><i></i></span><span>Scroll to reveal</span><b class="power__chev"></b></div>
   </div>
 </section>
 
@@ -406,6 +411,6 @@
   <span aria-hidden="true">↑</span>
 </button>
 
-<script src="assets/js/main.js?v=43"></script>
+<script src="assets/js/main.js?v=44"></script>
 </body>
 </html>

@@ -739,27 +739,28 @@
   function initPower() {
     var sec = $('#power');
     if (!sec) return;
-    var img = $('#powerBg img'), motto = $('#motto'), cue = $('.power__cue', sec);
-    var lines = $$('.motto__line', sec);
+    var img = $('#powerBg img'), motto = $('#motto'), ghost = $('.motto--ghost', sec), cue = $('.power__cue', sec);
+    var lines = $$('.motto__line', motto);
     if (reduced) { sec.classList.add('is-static'); return; }
     var out = function (t) { return 1 - Math.pow(1 - t, 3); };
     var seg = function (p, a, b) { return clamp((p - a) / (b - a), 0, 1); };
-    // the photo arrives on load (CSS); the words only come in as the reader scrolls
+    // the outlines are there on load; scrolling fills each line in, alternating direction
     function progress() {
       var r = sec.getBoundingClientRect();
       return clamp(-r.top / Math.max(r.height - window.innerHeight, 1), 0, 1);
     }
     function render(p) {
       lines.forEach(function (ln, i) {
-        var t = out(seg(p, 0.04 + i * 0.15, 0.36 + i * 0.15));
-        var dir = i % 2 ? 1 : -1;
-        ln.style.opacity = t.toFixed(3);
-        ln.style.transform = 'translate3d(' + (dir * (1 - t) * 18).toFixed(2) + 'vw,0,0)';
+        var t = out(seg(p, 0.03 + i * 0.16, 0.33 + i * 0.16));
+        var cut = ((1 - t) * 100).toFixed(2) + '%';
+        ln.style.clipPath = t >= 1 ? 'none' : (i % 2 ? 'inset(-15% 0 -15% ' + cut + ')' : 'inset(-15% ' + cut + ' -15% 0)');
       });
-      motto.style.transform = 'scale(' + (0.96 + 0.06 * out(p)).toFixed(4) + ')';
+      var s = 'scale(' + (0.96 + 0.06 * out(p)).toFixed(4) + ')';
+      motto.style.transform = s;
+      if (ghost) ghost.style.transform = s;
       img.style.transform = 'scale(' + (1 + 0.06 * p).toFixed(4) + ')';
-      // the scroll hint steps aside as soon as the first word starts to move
-      if (cue) cue.style.opacity = p > 0.005 ? (1 - seg(p, 0, 0.1)).toFixed(3) : '';
+      // the prompt steps aside as soon as the first line starts to fill
+      if (cue) cue.style.opacity = p > 0.005 ? (1 - seg(p, 0, 0.08)).toFixed(3) : '';
     }
     render(progress());
     follower(progress, render, 7);
